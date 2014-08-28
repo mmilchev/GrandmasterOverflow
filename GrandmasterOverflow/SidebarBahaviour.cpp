@@ -11,6 +11,7 @@
 #include <ConfigManager.h>
 #include <SpriteRenderer.h>
 
+
 SidebarBahaviour::SidebarBahaviour()
 :m_TurnsBeforeBatch(1), m_CurrentTurn(0)
 {
