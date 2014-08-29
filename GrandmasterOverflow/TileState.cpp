@@ -5,7 +5,15 @@
 std::map<TileType, std::string> TileState::sTextureTile = 
 { 
 	{ Empty, "emptyGridTile.png" }, 
-	{ Solid , "solidGridTile.png" } 
+	{ Solid , "solidGridTile.png" },
+	{ Objective, "solidGridTile.png" },
+};
+
+std::map<TileType, sf::Color> TileState::sColorTile =
+{
+	{ Empty, sf::Color::White },
+	{ Solid, sf::Color::White },
+	{ Objective, sf::Color::Cyan },
 };
 
 TileState::TileState()
@@ -15,12 +23,17 @@ TileState::TileState()
 
 void TileState::Awake()
 {
-	m_GameObject->GetComponent<SpriteRenderer>()->SetTextureByName(sTextureTile[m_TileType]);
+	SetTileType(m_TileType);
 }
 
 void TileState::SetTileType(TileType type)
 {
 	m_TileType = type;
 	if (m_GameObject != nullptr)
-		m_GameObject->GetComponent<SpriteRenderer>()->SetTextureByName(sTextureTile[m_TileType]);
+	{
+		auto renderer = m_GameObject->GetComponent<SpriteRenderer>();
+		renderer->SetTextureByName(sTextureTile[m_TileType]);
+		renderer->SetSpriteColor(sColorTile[m_TileType]);
+	}
+		
 }

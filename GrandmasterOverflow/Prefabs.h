@@ -3,6 +3,7 @@
 
 #include <SFML/System/Vector2.hpp>
 #include "GameState.h"
+#include "TileState.h"
 
 class GameObject;
 class TargetPower;
@@ -17,6 +18,10 @@ namespace prefabs
 	GameObject* CreateSidebar();
 	GameObject* CreatePower(float size, sf::Vector2f const& startPos, sf::Vector2f const& targetPos);
 	GameObject* CreateGhostPower(TargetPower* power);
+	
+	GameObject* CreateTile(sf::Vector2f const& pos, TileType type);
+	
+	GameObject* CreateFlow(sf::Vector2f const& pos);
 
 	GameObject* CreateEmptyBoard(int width, int height);
 	void		LoadLevel(std::string const& name);

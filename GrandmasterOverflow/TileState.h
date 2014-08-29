@@ -3,11 +3,13 @@
 
 #include <Component.h>
 #include <map>
+#include <SFML/Graphics/Color.hpp>
 
 enum TileType
 {
 	Empty = 0,
-	Solid
+	Solid,
+	Objective
 };
 
 class TileState
@@ -29,6 +31,7 @@ private:
 	GameObject*	m_Occupant;
 
 	static std::map<TileType, std::string> sTextureTile;
+	static std::map<TileType, sf::Color> sColorTile;
 };
 
 #endif

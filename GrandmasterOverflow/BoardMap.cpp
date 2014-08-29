@@ -3,6 +3,7 @@
 #include "TileState.h"
 #include <RigidBody.h>
 #include <BoxCollider.h>
+#include "Prefabs.h"
 
 BoardMap::BoardMap(int width, int height)
 : m_Width(width), m_Height(height), 
@@ -31,6 +32,15 @@ GameObject* BoardMap::CreateSolidTile(sf::Vector2i const& pos)
 	return tile;
 }
 
+GameObject* BoardMap::CreateObjectiveTile(sf::Vector2i const pos)
+{
+	auto tile = CreateGenericTile(pos, Objective);
+
+	GameObject::Instantiate(tile);
+
+	return tile;
+}
+
 void BoardMap::SetOccupation(GameObject* obj, sf::Vector2i const& pos)
 {
 	GetTileState(pos)->SetOccupant(obj);
@@ -53,20 +63,9 @@ GameObject* BoardMap::CreateGenericTile(sf::Vector2i const& pos, TileType type)
 {
 	RemoveTile(pos);
 
-	GameObject* tile = new GameObject();
-	tile->SetTag(TAG_TILE);
-	tile->SetLayer(Layer::Game);
-
-	auto renderer = new SpriteRenderer("emptyGridTile.png");
-	renderer->SetOrder(-100);
-	renderer->SetSpriteSize(sf::Vector2f(TILE_SIZE, TILE_SIZE));
-	tile->AddComponent(renderer);
-	auto state = new TileState();
-	state->SetTileType(type);
-	tile->AddComponent(state);
-	tile->Transform()->SetPosition(m_WorldOriginPosition + sf::Vector2f(TILE_SIZE / 2 + pos.x * TILE_SIZE, TILE_SIZE / 2 + pos.y * TILE_SIZE));
+	auto tile = prefabs::CreateTile(m_WorldOriginPosition + sf::Vector2f(TILE_SIZE / 2 + pos.x * TILE_SIZE, TILE_SIZE / 2 + pos.y * TILE_SIZE), type);
 	tile->SetParent(m_GameObject);
-	m_Tiles[pos.y * m_Width + pos.x] = tile;
+	m_Tiles[pos.y * m_Width + pos.x] = tile->GetComponent<TileState>();
 
 	return tile;
 }

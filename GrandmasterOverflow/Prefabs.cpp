@@ -21,6 +21,7 @@
 #include "pugixml.hpp"
 #include <ResourceManager.h>
 #include "CameraControl.h"
+#include "FlowTile.h"
 
 namespace prefabs
 {
@@ -117,11 +118,47 @@ namespace prefabs
 
 		auto renderer = new SpriteRenderer("solidGridTile.png");
 		renderer->SetSpriteSize(sf::Vector2f(TILE_SIZE, TILE_SIZE));
-		renderer->SetSpriteColor(sf::Color::Green);
+		renderer->SetSpriteColor(sf::Color(170, 170, 170, 255));
 		gObject->AddComponent(renderer);
 
 		auto ghost = new GhostPower(power);
 		gObject->AddComponent(ghost);
+
+		return gObject;
+	}
+
+	GameObject* CreateTile(sf::Vector2f const& pos, TileType type)
+	{
+		GameObject* tile = new GameObject();
+		tile->SetTag(TAG_TILE);
+		tile->SetLayer(Layer::Game);
+
+		auto renderer = new SpriteRenderer("emptyGridTile.png");
+		renderer->SetOrder(-100);
+		renderer->SetSpriteSize(sf::Vector2f(TILE_SIZE, TILE_SIZE));
+		tile->AddComponent(renderer);
+		auto state = new TileState();
+		state->SetTileType(type);
+		tile->AddComponent(state);
+		tile->Transform()->SetPosition(pos);
+
+		return tile;
+	}
+
+	GameObject* CreateFlow(sf::Vector2f const& pos)
+	{
+		GameObject* gObject = new GameObject();
+		gObject->SetTag(TAG_FLOW);
+		gObject->SetLayer(Layer::Game);
+
+		auto renderer = new SpriteRenderer("solidGridTile.png");
+		renderer->SetSpriteSize(sf::Vector2f(TILE_SIZE, TILE_SIZE));
+		renderer->SetSpriteColor(sf::Color::Green);
+		gObject->AddComponent(renderer);
+
+		gObject->AddComponent(new FlowTile());
+
+		gObject->Transform()->SetPosition(pos);
 
 		return gObject;
 	}
@@ -136,55 +173,12 @@ namespace prefabs
 		gObject->AddComponent(mapComp);
 
 		//Add all the tiles
-		auto startPos = -sf::Vector2f(width / 2.f, height / 2.f) * TILE_SIZE;
 		for (int i = 0; i < width; ++i)
 		{
 			for (int j = 0; j < height; ++j)
 			{
 				mapComp->CreateEmptyTile(sf::Vector2i(i, j));
 			}
-		}
-
-		//Add walls on the sideds of the board to prevent units from leaving it
-		{
-			//Left wall
-			GameObject* wall = new GameObject();
-			wall->AddComponent(new BoxCollider(GRID_WALL_WIDTH, height * TILE_SIZE));
-			auto body = new RigidBody();
-			body->SetDefBodyType(b2_staticBody);
-			wall->AddComponent(body);
-			wall->Transform()->SetPosition(sf::Vector2f(startPos.x - GRID_WALL_WIDTH / 2, 0));
-			wall->SetParent(gObject);
-		}
-		{
-			//Right wall
-			GameObject* wall = new GameObject();
-			wall->AddComponent(new BoxCollider(GRID_WALL_WIDTH, height * TILE_SIZE));
-			auto body = new RigidBody();
-			body->SetDefBodyType(b2_staticBody);
-			wall->AddComponent(body);
-			wall->Transform()->SetPosition(sf::Vector2f(startPos.x + width * TILE_SIZE + GRID_WALL_WIDTH / 2, 0));
-			wall->SetParent(gObject);
-		}
-		{
-			//Top wall
-			GameObject* wall = new GameObject();
-			wall->AddComponent(new BoxCollider(width * TILE_SIZE, GRID_WALL_WIDTH));
-			auto body = new RigidBody();
-			body->SetDefBodyType(b2_staticBody);
-			wall->AddComponent(body);
-			wall->Transform()->SetPosition(sf::Vector2f(0, startPos.y - GRID_WALL_WIDTH / 2));
-			wall->SetParent(gObject);
-		}
-		{
-			//Bottom wall
-			GameObject* wall = new GameObject();
-			wall->AddComponent(new BoxCollider(width * TILE_SIZE, GRID_WALL_WIDTH));
-			auto body = new RigidBody();
-			body->SetDefBodyType(b2_staticBody);
-			wall->AddComponent(body);
-			wall->Transform()->SetPosition(sf::Vector2f(0, startPos.y + height * TILE_SIZE + GRID_WALL_WIDTH / 2));
-			wall->SetParent(gObject);
 		}
 
 		return gObject;
@@ -236,6 +230,9 @@ namespace prefabs
 			case 0:
 				board->CreateSolidTile(sf::Vector2i(x, y));
 				break;
+			case 1:
+				board->CreateObjectiveTile(sf::Vector2i(x, y));
+				break;
 			}
 		}
 
@@ -256,16 +253,9 @@ namespace prefabs
 
 			team = unitXML.attribute("TeamN").as_int();
 
-			if (name == "Soldier")
+			if (name == "Flow")
 			{
-				/*
-				auto gObject = CreateSoldier(sf::Vector2f(x, y), team);
-				gObject->Transform()->SetRotation(angle);
-				GameObject::Instantiate(gObject);*/
-			}
-			else if (name == "Objective")
-			{
-				//gameComponents->GetChildWithName(NAME_TEAM + std::to_string(team))->GetComponent<TeamState>()->AddObjectiveSpot(sf::Vector2f(x, y));
+				GameObject::Instantiate(CreateFlow(sf::Vector2f(x, y)));
 			}
 		}
 	}
