@@ -1,9 +1,8 @@
 ﻿#include "GameState.h"
-#include "TeamState.h"
 #include "BoardMap.h"
-#include "BoardUnit.h"
 #include "Constants.h"
 #include "SidebarBahaviour.h"
+#include "ITurnClient.h"
 
 #include <SFML/System/Vector2.hpp>
 #include <GameObject.h>
@@ -13,6 +12,10 @@
 #include <SFML/Window.hpp>
 #include <SpriteRenderer.h>
 #include <Application.h>
+
+GameState::GameState()
+{
+}
 
 void GameState::Start()
 {	
@@ -32,24 +35,15 @@ void GameState::Update()
 void GameState::SetTurnTime(float turnTime)
 {
 	m_TurnTime = turnTime;
+	m_TimeToNextTurn = m_TurnTime;
 }
 
-void GameState::ConnectUnit(BoardUnit* unit)
+void GameState::ConnectClient(ITurnClient* client)
 {
-	m_TurnTimeSignal.connect(unit, &BoardUnit::OnTurnTime);
+	m_TurnTimeSignal.connect(client, &ITurnClient::OnTurnTime);
 }
 
-void GameState::ConnectSidebar(SidebarBahaviour* sidebar)
+void GameState::DisconnectClient(ITurnClient* client)
 {
-	m_TurnTimeSignal.connect(sidebar, &SidebarBahaviour::OnTurnTime);
-}
-
-void GameState::DisconnectUnit(BoardUnit* unit)
-{
-	m_TurnTimeSignal.disconnect(unit);
-}
-
-GameState::GameState(GameType type)
-:m_GameType(type), m_TimeToNextTurn(1), m_TurnTime(1)
-{
+	m_TurnTimeSignal.disconnect(client);
 }

@@ -3,35 +3,27 @@
 #include <DynamicBehaviour.h>
 #include <sigslot.h>
 
-enum GameType
-{
-	Deathmatch = 0,
-	ReachGoal
-};
 
 class SidebarBahaviour;
-class BoardUnit;
+class ITurnClient;
 
 class GameState
 	: public DynamicBehaviour
 {
 public:
-	explicit GameState(GameType);
+	GameState();
 
 	void Start() override;
 	void Update() override;
 	
 	void SetTurnTime(float turnTime);
 
-	void ConnectUnit(BoardUnit* unit);
-	void ConnectSidebar(SidebarBahaviour* sidebar);
-	void DisconnectUnit(BoardUnit* uint);
+	void ConnectClient(ITurnClient* client);
+	void DisconnectClient(ITurnClient* client);
 
-	inline GameType GetGameType() const { return m_GameType; }
 private:
 	sigslot::signal0<> m_TurnTimeSignal;
 
-	GameType m_GameType;
 	float m_TurnTime;
 	float m_TimeToNextTurn;
 };

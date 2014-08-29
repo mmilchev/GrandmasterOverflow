@@ -10,14 +10,8 @@
     <Filter Include="Configs">
       <UniqueIdentifier>{77b5f1be-0b47-4b40-9586-49a9c09c276d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header\BoardUnits">
-      <UniqueIdentifier>{b8620530-edc6-4bf2-bff0-dfe124750da8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header\Behaviors">
       <UniqueIdentifier>{0e7bb9df-034a-481b-97e0-a84af576dce7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header\ObjectiveChoosers">
-      <UniqueIdentifier>{e6c676f8-a066-4859-9da4-d57a0e44c144}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header\GUI">
       <UniqueIdentifier>{0c79a45a-34b9-498f-be1b-66084972921e}</UniqueIdentifier>
@@ -31,6 +25,9 @@
     <Filter Include="Header\XmlLib">
       <UniqueIdentifier>{3c949959-1eb3-4df9-b2ae-b509ae01390e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header\Entities">
+      <UniqueIdentifier>{99491ca2-b84f-4c69-8461-e460bb64c9d3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -38,9 +35,6 @@
     </ClInclude>
     <ClInclude Include="Prefabs.h">
       <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="BoardUnit.h">
-      <Filter>Header\BoardUnits</Filter>
     </ClInclude>
     <ClInclude Include="BoardMap.h">
       <Filter>Header</Filter>
@@ -51,29 +45,11 @@
     <ClInclude Include="Constants.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="TeamState.h">
-      <Filter>Header\Behaviors</Filter>
-    </ClInclude>
-    <ClInclude Include="IObjectiveChooser.h">
-      <Filter>Header\ObjectiveChoosers</Filter>
-    </ClInclude>
     <ClInclude Include="GameState.h">
-      <Filter>Header\Behaviors</Filter>
-    </ClInclude>
-    <ClInclude Include="NavAgent.h">
-      <Filter>Header\Behaviors</Filter>
-    </ClInclude>
-    <ClInclude Include="UnitAction.h">
       <Filter>Header\Behaviors</Filter>
     </ClInclude>
     <ClInclude Include="SidebarBahaviour.h">
       <Filter>Header\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="BulletBehaviour.h">
-      <Filter>Header\Behaviors</Filter>
-    </ClInclude>
-    <ClInclude Include="SoldierBehaviour.h">
-      <Filter>Header\BoardUnits</Filter>
     </ClInclude>
     <ClInclude Include="Power.h">
       <Filter>Header\GUI\Powers</Filter>
@@ -96,6 +72,12 @@
     <ClInclude Include="CameraControl.h">
       <Filter>Header\Behaviors</Filter>
     </ClInclude>
+    <ClInclude Include="FlowTile.h">
+      <Filter>Header\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="ITurnClient.h">
+      <Filter>Header\Behaviors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -104,37 +86,16 @@
     <ClCompile Include="Prefabs.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="BoardUnit.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="BoardMap.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="TileState.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="TeamState.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="IObjectiveChooser.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="GameState.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="NavAgent.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="UnitAction.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="SidebarBahaviour.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="SoldierBehavioUr.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="BulletBehaviour.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Power.cpp">
@@ -153,6 +114,9 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="CameraControl.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="FlowTile.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>

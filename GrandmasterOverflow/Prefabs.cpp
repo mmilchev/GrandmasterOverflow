@@ -1,12 +1,8 @@
 #include "Prefabs.h"
 #include "Constants.h"
-#include "SoldierBehaviour.h"
 #include "TileState.h"
 #include "BoardMap.h"
 #include "GameState.h"
-#include "TeamState.h"
-#include "NavAgent.h"
-#include "BulletBehaviour.h"
 #include "GhostPower.h"
 #include "PlaceTilePower.h"
 
@@ -28,7 +24,7 @@
 
 namespace prefabs
 {
-	GameObject* CreateGameComponents(GameType type, int numOfTeam)
+	GameObject* CreateGameComponents()
 	{
 
 		GameObject* gObject = new GameObject();
@@ -36,19 +32,8 @@ namespace prefabs
 			GameObject* gameStateObject = new GameObject();
 			gameStateObject->SetTag(TAG_GAME_STATE);
 			gameStateObject->SetName(NAME_GAME_STATE);
-			gameStateObject->AddComponent(new GameState(type));
+			gameStateObject->AddComponent(new GameState());
 			gameStateObject->SetParent(gObject);
-
-			for (int i = 0; i < numOfTeam; ++i)
-			{
-				GameObject* teamObject = new GameObject();
-				teamObject->SetTag(TAG_TEAM);
-				teamObject->SetName(NAME_TEAM + std::to_string(i));
-
-				teamObject->AddComponent(new TeamState(i));
-				teamObject->SetParent(gObject);
-			}
-
 		}
 		return gObject;
 	}
@@ -141,96 +126,6 @@ namespace prefabs
 		return gObject;
 	}
 
-	GameObject* CreateSoldier(const sf::Vector2f& pos, int team)
-	{
-		GameObject* gObject = new GameObject();
-		gObject->SetTag(TAG_UNIT);
-		gObject->SetLayer(Layer::Game);
-
-		//Setup renderer
-		auto renderer = new SpriteRenderer("soldier.png");
-		renderer->SetSpriteSize(sf::Vector2f(SOLDIER_SPRITE_SIZE, SOLDIER_SPRITE_SIZE));
-		gObject->AddComponent(renderer);
-
-		//Setup rigid body
-		gObject->AddComponent(new RigidBody());
-
-		//Setup collider
-		auto collider = new BoxCollider(SOLDIER_SPRITE_SIZE, SOLDIER_SPRITE_SIZE);
-		collider->SetDefFriction(0);
-		gObject->AddComponent(collider);
-
-		//Setup behvaior
-		auto behaviour = new SoldierBehaviour();
-		behaviour->SetTurnsPerActions(ConfigManager::GetInt("[Gameplay Soldier]iTurnsPerAction"));
-		behaviour->SetTeam(team);
-		gObject->AddComponent(behaviour);
-
-		auto navAgent = new NavAgent();
-		navAgent->SetSpeed(ConfigManager::GetFloat("[Gameplay Soldier]fMovSpeed"));
-		gObject->AddComponent(navAgent);
-
-		auto raySpot1 = new GameObject();
-		raySpot1->SetTag(TAG_RAYCAST_SPOT);
-		raySpot1->Transform()->SetPosition(sf::Vector2f(SOLDIER_SPRITE_SIZE * 0.4f, -SOLDIER_SPRITE_SIZE * 0.4f));
-
-		raySpot1->SetParent(gObject);
-
-		auto raySpot2 = new GameObject();
-		raySpot2->SetTag(TAG_RAYCAST_SPOT);
-		raySpot2->Transform()->SetPosition(sf::Vector2f(SOLDIER_SPRITE_SIZE * 0.4f, SOLDIER_SPRITE_SIZE * 0.4f));
-
-		raySpot2->SetParent(gObject);
-
-		GameObject* unitGlow = new GameObject();
-		unitGlow->SetLayer(Layer::Game);
-		unitGlow->SetTag(TAG_UNIT_GLOW);
-
-		auto glowRenderer = new SpriteRenderer("glow.png");
-		glowRenderer->SetSpriteSize(sf::Vector2f(SOLDIER_SPRITE_SIZE * 2, SOLDIER_SPRITE_SIZE * 2));
-		//Render below object
-		glowRenderer->SetOrder(-1);
-
-		unitGlow->AddComponent(glowRenderer);
-
-		unitGlow->SetParent(gObject);
-
-		//Set the position
-		gObject->Transform()->SetPosition(pos);
-
-
-		return gObject;
-	}
-
-	GameObject* CreateBullet(GameObject* sender, sf::Vector2f const& pos, sf::Vector2f const& dir)
-	{
-		GameObject* gObject = new GameObject();
-		gObject->SetTag(TAG_BULLET);
-		gObject->SetLayer(Layer::Game);
-
-		auto renderer = new SpriteRenderer("soldier_bullet.png");
-		renderer->SetSpriteSize(sf::Vector2f(BULLET_SIZE, BULLET_SIZE));
-		gObject->AddComponent(renderer);
-
-		//Setup rigid body
-		auto body = new RigidBody();
-		body->SetDefLinearVelocity(SfToBox(dir * ConfigManager::GetFloat("[Gameplay Soldier]fBulletSpeed")));
-		gObject->AddComponent(body);
-
-		//Setup collider
-		auto collider = new CircleCollider(BULLET_SIZE / 2);
-		collider->SetDefIsSensor(true);
-		collider->SetDefFriction(0);
-		gObject->AddComponent(collider);
-
-		gObject->AddComponent(new BulletBehaviour(sender));
-
-		gObject->Transform()->SetPosition(pos);
-
-		return gObject;
-	}
-
-
 	GameObject* CreateEmptyBoard(int width, int height)
 	{
 		GameObject* gObject = new GameObject();
@@ -312,7 +207,7 @@ namespace prefabs
 		auto guiCamera = prefabs::CreateGUICamera();
 		GameObject::Instantiate(guiCamera);
 
-		auto gameComponents = prefabs::CreateGameComponents(Deathmatch, 2);
+		auto gameComponents = prefabs::CreateGameComponents();
 		GameObject::Instantiate(gameComponents);
 
 		GameObject::Instantiate(prefabs::CreateSidebar());
@@ -363,13 +258,14 @@ namespace prefabs
 
 			if (name == "Soldier")
 			{
+				/*
 				auto gObject = CreateSoldier(sf::Vector2f(x, y), team);
 				gObject->Transform()->SetRotation(angle);
-				GameObject::Instantiate(gObject);
+				GameObject::Instantiate(gObject);*/
 			}
 			else if (name == "Objective")
 			{
-				gameComponents->GetChildWithName(NAME_TEAM + std::to_string(team))->GetComponent<TeamState>()->AddObjectiveSpot(sf::Vector2f(x, y));
+				//gameComponents->GetChildWithName(NAME_TEAM + std::to_string(team))->GetComponent<TeamState>()->AddObjectiveSpot(sf::Vector2f(x, y));
 			}
 		}
 	}

@@ -2,12 +2,12 @@
 #define SIDEBAR_BEHAVIOUR_H
 
 #include <DynamicBehaviour.h>
+#include "ITurnClient.h"
 #include <map>
-#include <sigslot.h>
 #include <SFML/System/Vector2.hpp>
 
 class SidebarBahaviour
-	: public DynamicBehaviour, public sigslot::has_slots<>
+	: public DynamicBehaviour, public ITurnClient
 {
 public:
 	SidebarBahaviour();
@@ -20,7 +20,7 @@ public:
 	void Awake() override;
 	void Update() override;
 
-	void OnTurnTime();
+	void OnTurnTime() override;
 
 	inline int GetActivePowerNum() const { return m_ActivePowerNum; }
 	inline float GetPowerSquareSize() const { return m_PowerSquareSize; }
