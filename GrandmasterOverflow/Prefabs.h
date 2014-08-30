@@ -21,7 +21,9 @@ namespace prefabs
 	
 	GameObject* CreateTile(sf::Vector2f const& pos, TileType type);
 	
-	GameObject* CreateFlow(sf::Vector2f const& pos);
+	GameObject* CreateFlow(sf::Vector2f const& pos, int group);
+
+	GameObject* CreateTileDestroyer(sf::Vector2f const & pos);
 
 	GameObject* CreateEmptyBoard(int width, int height);
 	void		LoadLevel(std::string const& name);

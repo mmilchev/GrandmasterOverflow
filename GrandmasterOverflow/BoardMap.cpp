@@ -41,7 +41,7 @@ GameObject* BoardMap::CreateObjectiveTile(sf::Vector2i const pos)
 	return tile;
 }
 
-void BoardMap::SetOccupation(GameObject* obj, sf::Vector2i const& pos)
+void BoardMap::SetOccupation(FlowTile* obj, sf::Vector2i const& pos)
 {
 	GetTileState(pos)->SetOccupant(obj);
 }

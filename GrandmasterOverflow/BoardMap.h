@@ -20,7 +20,7 @@ public:
 	GameObject* CreateSolidTile(const sf::Vector2i& pos);
 	GameObject* CreateObjectiveTile(const sf::Vector2i pos);
 
-	void SetOccupation(GameObject* obj, sf::Vector2i const& pos);
+	void SetOccupation(FlowTile* tile, sf::Vector2i const& pos);
 	bool IsOccupied(sf::Vector2i const& pos);
 
 	bool IsInBounds(sf::Vector2i const& pos);

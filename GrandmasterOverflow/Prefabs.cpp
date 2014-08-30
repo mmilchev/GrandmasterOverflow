@@ -22,6 +22,7 @@
 #include <ResourceManager.h>
 #include "CameraControl.h"
 #include "FlowTile.h"
+#include "TileDestroyer.h"
 
 namespace prefabs
 {
@@ -145,7 +146,7 @@ namespace prefabs
 		return tile;
 	}
 
-	GameObject* CreateFlow(sf::Vector2f const& pos)
+	GameObject* CreateFlow(sf::Vector2f const& pos, int group)
 	{
 		GameObject* gObject = new GameObject();
 		gObject->SetTag(TAG_FLOW);
@@ -156,7 +157,24 @@ namespace prefabs
 		renderer->SetSpriteColor(sf::Color::Green);
 		gObject->AddComponent(renderer);
 
-		gObject->AddComponent(new FlowTile());
+		gObject->AddComponent(new FlowTile(group));
+
+		gObject->Transform()->SetPosition(pos);
+
+		return gObject;
+	}
+
+	GameObject* CreateTileDestroyer(sf::Vector2f const& pos)
+	{
+		GameObject* gObject = new GameObject();
+		gObject->SetLayer(Layer::Game);
+
+		gObject->AddComponent(new TileDestroyer());
+
+		auto renderer = new SpriteRenderer("solidGridTile.png");
+		renderer->SetSpriteSize(sf::Vector2f(TILE_SIZE, TILE_SIZE));
+		renderer->SetSpriteColor(sf::Color::Red);
+		gObject->AddComponent(renderer);
 
 		gObject->Transform()->SetPosition(pos);
 
@@ -238,6 +256,8 @@ namespace prefabs
 
 		GameObject::Instantiate(grid);
 
+		int flowGroup = 0;
+
 		auto unitsXML = levelNode.child("Units");
 		for (auto& unitXML : unitsXML)
 		{
@@ -255,7 +275,8 @@ namespace prefabs
 
 			if (name == "Flow")
 			{
-				GameObject::Instantiate(CreateFlow(sf::Vector2f(x, y)));
+				GameObject::Instantiate(CreateFlow(sf::Vector2f(x, y), flowGroup));
+				flowGroup++;
 			}
 		}
 	}

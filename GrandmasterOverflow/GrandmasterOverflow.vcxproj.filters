@@ -78,6 +78,9 @@
     <ClInclude Include="ITurnClient.h">
       <Filter>Header\Behaviors</Filter>
     </ClInclude>
+    <ClInclude Include="TileDestroyer.h">
+      <Filter>Header\Behaviors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -117,6 +120,9 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="FlowTile.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="TileDestroyer.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
