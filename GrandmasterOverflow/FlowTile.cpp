@@ -5,6 +5,8 @@
 #include <GameObject.h>
 #include <ConfigManager.h>
 #include "Prefabs.h"
+#include <Utils.h>
+#include <GameTime.h>
 
 FlowTile::FlowTile()
 :m_ShouldSpread(true)
@@ -25,11 +27,16 @@ void FlowTile::Start()
 	auto boardPos = m_Board->GetGridPos(m_GameObject->Transform()->Position());
 	m_Board->SetOccupation(m_GameObject, boardPos);
 
+	float scale = ConfigManager::GetFloat("[Flow Graphics]fStartSizeCoef");
+	m_GameObject->Transform()->SetScale(sf::Vector2f(scale, scale));
+
 	ResetTurns();
 }
 
 void FlowTile::Update()
 {
+	auto scale = m_GameObject->Transform()->Scale();
+	m_GameObject->Transform()->SetScale(Lerp(scale, sf::Vector2f(1, 1), GameTime::DeltaTime() * ConfigManager::GetFloat("[Flow Graphics]fGrowSpeed")));
 	if (m_ShouldSpread && m_TurnsLeft <= 0)
 	{
 		Spread();
