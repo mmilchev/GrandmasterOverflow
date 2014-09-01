@@ -1,13 +1,11 @@
-<level width="896" height="1024" FlowTurns="5">
+<level width="896" height="1024" FlowTurns="8" SolidBlocks="1">
   <camera x="0" y="0" />
   <Tiles tileset="Main" exportMode="XML">
     <tile x="1" y="3" id="0" />
     <tile x="2" y="3" id="0" />
-    <tile x="3" y="1" id="1" />
+    <tile x="3" y="1" id="2" />
+    <tile x="3" y="6" id="1" />
     <tile x="4" y="3" id="0" />
     <tile x="5" y="3" id="0" />
   </Tiles>
-  <Units>
-    <Flow id="0" x="448" y="832" />
-  </Units>
 </level>

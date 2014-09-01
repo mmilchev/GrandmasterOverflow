@@ -26,6 +26,7 @@
   <ExportCameraPosition>true</ExportCameraPosition>
   <LevelValueDefinitions>
     <ValueDefinition xsi:type="IntValueDefinition" Name="FlowTurns" Default="10" Min="0" Max="100" ShowSlider="false" />
+    <ValueDefinition xsi:type="IntValueDefinition" Name="SolidBlocks" Default="0" Min="0" Max="100" ShowSlider="false" />
   </LevelValueDefinitions>
   <LayerDefinitions>
     <LayerDefinition xsi:type="TileLayerDefinition">
