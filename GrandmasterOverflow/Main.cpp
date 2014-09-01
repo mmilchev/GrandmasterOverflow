@@ -34,7 +34,7 @@ int main()
 	sf::ContextSettings settings;
 	Application application(mode, ConfigManager::GetString("[Window]sAppName"), style, settings);
 
-	application.Initialize();
+	application.Initialize(ConfigManager::GetBool("[Graphics]bRenderToTextures"));
 
 	ConfigModules();
 

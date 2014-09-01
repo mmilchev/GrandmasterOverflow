@@ -9,22 +9,24 @@
     <Height>1664</Height>
   </LevelDefaultSize>
   <LevelMinimumSize>
-    <Width>1664</Width>
-    <Height>1664</Height>
+    <Width>128</Width>
+    <Height>128</Height>
   </LevelMinimumSize>
   <LevelMaximumSize>
-    <Width>1664</Width>
-    <Height>1664</Height>
+    <Width>2048</Width>
+    <Height>2048</Height>
   </LevelMaximumSize>
-  <Filename>D:\!Projects\C++\GrandmasterOverflow\GrandmasterOverflow\Resources\Assets\Levels\OgmoProject.oep</Filename>
+  <Filename>D:\!Projects\C++\GrandmasterOverflow\Release\Resources\Levels\OgmoProject.oep</Filename>
   <AngleMode>Degrees</AngleMode>
-  <CameraEnabled>true</CameraEnabled>
+  <CameraEnabled>false</CameraEnabled>
   <CameraSize>
     <Width>0</Width>
     <Height>0</Height>
   </CameraSize>
   <ExportCameraPosition>true</ExportCameraPosition>
-  <LevelValueDefinitions />
+  <LevelValueDefinitions>
+    <ValueDefinition xsi:type="IntValueDefinition" Name="FlowTurns" Default="10" Min="0" Max="100" ShowSlider="false" />
+  </LevelValueDefinitions>
   <LayerDefinitions>
     <LayerDefinition xsi:type="TileLayerDefinition">
       <Name>Tiles</Name>
@@ -38,17 +40,6 @@
       </ScrollFactor>
       <ExportMode>XML</ExportMode>
     </LayerDefinition>
-    <LayerDefinition xsi:type="EntityLayerDefinition">
-      <Name>Units</Name>
-      <Grid>
-        <Width>64</Width>
-        <Height>64</Height>
-      </Grid>
-      <ScrollFactor>
-        <X>1</X>
-        <Y>1</Y>
-      </ScrollFactor>
-    </LayerDefinition>
   </LayerDefinitions>
   <Tilesets>
     <Tileset>
@@ -61,21 +52,5 @@
       <TileSep>0</TileSep>
     </Tileset>
   </Tilesets>
-  <EntityDefinitions>
-    <EntityDefinition Name="Flow" Limit="-1" ResizableX="false" ResizableY="false" Rotatable="false" RotateIncrement="90">
-      <Size>
-        <Width>128</Width>
-        <Height>128</Height>
-      </Size>
-      <Origin>
-        <X>64</X>
-        <Y>64</Y>
-      </Origin>
-      <ImageDefinition DrawMode="Rectangle" ImagePath="" Tiled="false">
-        <RectColor A="255" R="255" G="0" B="0" />
-      </ImageDefinition>
-      <ValueDefinitions />
-      <NodesDefinition Enabled="false" Limit="-1" DrawMode="None" Ghost="false" />
-    </EntityDefinition>
-  </EntityDefinitions>
+  <EntityDefinitions />
 </project>

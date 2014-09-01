@@ -236,6 +236,9 @@ namespace prefabs
 
 		//backgroundMidiTag = levelNode.attribute("BackgroundMIDI").as_string();
 		auto tilesXML = levelNode.child("Tiles");
+
+		int flowGroup = 0;
+
 		for (auto& tileXML : tilesXML)
 		{
 			int x, y, id;
@@ -249,14 +252,16 @@ namespace prefabs
 				board->CreateSolidTile(sf::Vector2i(x, y));
 				break;
 			case 1:
+				GameObject::Instantiate(CreateFlow(board->GetWorldPos(sf::Vector2i(x, y)), flowGroup));
+				flowGroup++;
+				break;
+			case 2:
 				board->CreateObjectiveTile(sf::Vector2i(x, y));
 				break;
 			}
 		}
 
 		GameObject::Instantiate(grid);
-
-		int flowGroup = 0;
 
 		auto unitsXML = levelNode.child("Units");
 		for (auto& unitXML : unitsXML)
@@ -270,14 +275,6 @@ namespace prefabs
 			y = worldTopLeft.y + unitXML.attribute("y").as_float();
 
 			angle = unitXML.attribute("angle").as_float();
-
-			team = unitXML.attribute("TeamN").as_int();
-
-			if (name == "Flow")
-			{
-				GameObject::Instantiate(CreateFlow(sf::Vector2f(x, y), flowGroup));
-				flowGroup++;
-			}
 		}
 	}
 }
