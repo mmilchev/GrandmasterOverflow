@@ -13,6 +13,7 @@
 #include <SFML/Window.hpp>
 #include <SpriteRenderer.h>
 #include <Application.h>
+#include <iostream>
 
 GameState::GameState()
 :m_TurnNum(0)
@@ -98,7 +99,7 @@ void GameState::MergeFlowGroups(int groupLhs, int groupRhs)
 	}
 }
 
-void GameState::ReportTileSpread(FlowTile* tile)
+void GameState::ReportTileActivity(FlowTile* tile)
 {
 	if (std::find(m_GroupMovedThisTurn.begin(), m_GroupMovedThisTurn.end(), tile->GetFlowGroup()) == m_GroupMovedThisTurn.end())
 		m_GroupMovedThisTurn.push_back(tile->GetFlowGroup());

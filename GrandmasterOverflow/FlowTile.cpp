@@ -32,15 +32,19 @@ m_GameState(nullptr), m_Board(nullptr)
 void FlowTile::OnDestruction()
 {
 	m_GameState->ReportFlowTileDestroyed(this);
+
+	auto boardPos = m_Board->GetGridPos(m_GameObject->Transform()->Position());
+	m_Board->CreateSolidTile(boardPos);
+	GameObject::Instantiate(prefabs::CreateTileDestroyer(m_GameObject->Transform()->Position()));
 }
 
 void FlowTile::Start()
 {
 	m_GameState = GameObject::FindByTag(TAG_GAME_STATE)->GetComponent<GameState>();
 	m_GameState->ReportFlowTileCreated(this);
-	
+
 	m_Board = GameObject::FindByTag(TAG_GAME_BOARD)->GetComponent<BoardMap>();
-	
+
 	auto boardPos = m_Board->GetGridPos(m_GameObject->Transform()->Position());
 	m_Board->SetOccupation(this, boardPos);
 
@@ -60,7 +64,7 @@ void FlowTile::Update()
 
 void FlowTile::OnTurnTime()
 {
-	m_TurnsLeft--; 
+	m_TurnsLeft--;
 	if (m_ShouldSpread && m_TurnsLeft <= 0)
 	{
 		Spread();
@@ -71,10 +75,7 @@ void FlowTile::OnTurnTime()
 
 void FlowTile::Solidify()
 {
-	auto boardPos = m_Board->GetGridPos(m_GameObject->Transform()->Position());
-	m_Board->CreateSolidTile(boardPos);
 	GameObject::Destroy(m_GameObject);
-	GameObject::Instantiate(prefabs::CreateTileDestroyer(m_GameObject->Transform()->Position()));
 }
 
 void FlowTile::ResetTurns()
@@ -93,6 +94,7 @@ void FlowTile::Spread()
 	};
 
 	auto boardPos = m_Board->GetGridPos(m_GameObject->Transform()->Position());
+	std::vector<sf::Vector2i> spawns;
 
 	for (auto const& dir : dirs)
 	{
@@ -102,16 +104,27 @@ void FlowTile::Spread()
 		{
 			if (state->IsPassable() && !state->Occupied())
 			{
-				auto gObject = prefabs::CreateFlow(m_Board->GetWorldPos(pos), kType, m_Group);
-				GameObject::Instantiate(gObject);
-				m_Board->SetOccupation(gObject->GetComponent<FlowTile>(), pos);
-				m_GameState->ReportTileSpread(this);
+				spawns.push_back(pos);
 			}
-			else if (state->Occupied() && state->GetOccupant()->GetFlowGroup() != m_Group
-				&& state->GetOccupant()->kType == kType)
+			else if (state->Occupied() && state->GetOccupant()->GetFlowGroup() != m_Group)
 			{
-				m_GameState->MergeFlowGroups(state->GetOccupant()->GetFlowGroup(), m_Group);
+				if (state->GetOccupant()->kType == kType)
+					m_GameState->MergeFlowGroups(state->GetOccupant()->GetFlowGroup(), m_Group);
+				else
+				{
+					m_GameState->Solidify(m_Group);
+					m_GameState->ReportTileActivity(this);
+					return;
+				}
 			}
 		}
+	}
+
+	for (auto const& spawn : spawns)
+	{
+		auto gObject = prefabs::CreateFlow(m_Board->GetWorldPos(spawn), kType, m_Group);
+		GameObject::Instantiate(gObject);
+		m_Board->SetOccupation(gObject->GetComponent<FlowTile>(), spawn);
+		m_GameState->ReportTileActivity(this);
 	}
 }

@@ -27,11 +27,12 @@ public:
 	void ReportFlowTileDestroyed(FlowTile* tile);
 	void MergeFlowGroups(int groupLhs, int groupRhs);
 
-	void ReportTileSpread(FlowTile* tile);
+	void ReportTileActivity(FlowTile* tile);
+
+	void Solidify(int group);
 
 private:
 	void GetTileGroups(std::vector<int>& groups);
-	void Solidify(int group);
 	void TriggerGameOver();
 
 	sigslot::signal0<> m_TurnTimeSignal;
