@@ -31,7 +31,8 @@ public:
 
 private:
 	void GetTileGroups(std::vector<int>& groups);
-	void DestroySurroundings(int group);
+	void Solidify(int group);
+	void TriggerGameOver();
 
 	sigslot::signal0<> m_TurnTimeSignal;
 

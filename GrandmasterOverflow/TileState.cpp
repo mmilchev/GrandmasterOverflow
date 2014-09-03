@@ -6,14 +6,12 @@ std::map<TileType, std::string> TileState::sTextureTile =
 { 
 	{ Empty, "emptyGridTile.png" }, 
 	{ Solid , "solidGridTile.png" },
-	{ Objective, "solidGridTile.png" },
 };
 
 std::map<TileType, sf::Color> TileState::sColorTile =
 {
 	{ Empty, sf::Color::White },
 	{ Solid, sf::Color::White },
-	{ Objective, sf::Color::Cyan },
 };
 
 TileState::TileState()

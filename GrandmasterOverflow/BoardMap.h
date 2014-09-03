@@ -1,7 +1,8 @@
 #ifndef BOARD_MAP_H
 #define BOARD_MAP_H
 
-#include <GameObject.h>
+#include <DynamicBehaviour.h>
+#include <IShaped.h>
 #include <TransformComponent.h>
 #include <vector>
 #include <SFML/System/Vector2.hpp>
@@ -11,19 +12,21 @@
 class GameObject;
 
 class BoardMap
-	: public Component
+	: public DynamicBehaviour, public IShaped
 {
 public:
 	BoardMap(int width, int height);
 
 	GameObject* CreateEmptyTile(const sf::Vector2i& pos);
 	GameObject* CreateSolidTile(const sf::Vector2i& pos);
-	GameObject* CreateObjectiveTile(const sf::Vector2i pos);
 
 	void SetOccupation(FlowTile* tile, sf::Vector2i const& pos);
 	bool IsOccupied(sf::Vector2i const& pos);
 
 	bool IsInBounds(sf::Vector2i const& pos);
+
+	bool Contains(sf::Vector2f const& pos) override;
+	void OnClicked() override;
 
 	inline TileState* GetTileState(sf::Vector2i const& pos)
 	{
@@ -47,7 +50,8 @@ public:
 	}
 	inline sf::Vector2i GetGridPos(sf::Vector2f const& pos) const
 	{
-		return sf::Vector2i(static_cast<int>(pos.x / TILE_SIZE + 0.5f * m_Width), static_cast<int>(pos.y / TILE_SIZE + 0.5f * m_Height));
+		return sf::Vector2i(static_cast<int>(floorf(pos.x / TILE_SIZE + 0.5f * m_Width)), 
+			static_cast<int>(floorf(pos.y / TILE_SIZE + 0.5f * m_Height)));
 	}
 private:
 	GameObject* CreateGenericTile(sf::Vector2i const& pos, TileType type);

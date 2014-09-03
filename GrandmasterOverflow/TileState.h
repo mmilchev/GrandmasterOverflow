@@ -9,7 +9,6 @@ enum TileType
 {
 	Empty = 0,
 	Solid,
-	Objective
 };
 
 class FlowTile;

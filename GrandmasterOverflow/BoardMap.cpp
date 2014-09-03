@@ -1,9 +1,12 @@
 #include "BoardMap.h"
-#include <SpriteRenderer.h>
 #include "TileState.h"
+#include "Prefabs.h"
+
+#include <GameObject.h>
+#include <SpriteRenderer.h>
 #include <RigidBody.h>
 #include <BoxCollider.h>
-#include "Prefabs.h"
+#include <iostream>
 
 BoardMap::BoardMap(int width, int height)
 : m_Width(width), m_Height(height), 
@@ -32,15 +35,6 @@ GameObject* BoardMap::CreateSolidTile(sf::Vector2i const& pos)
 	return tile;
 }
 
-GameObject* BoardMap::CreateObjectiveTile(sf::Vector2i const pos)
-{
-	auto tile = CreateGenericTile(pos, Objective);
-
-	GameObject::Instantiate(tile);
-
-	return tile;
-}
-
 void BoardMap::SetOccupation(FlowTile* obj, sf::Vector2i const& pos)
 {
 	GetTileState(pos)->SetOccupant(obj);
@@ -57,6 +51,15 @@ bool BoardMap::IsInBounds(sf::Vector2i const& pos)
 		pos.x < m_Width &&
 		pos.y >= 0 &&
 		pos.y < m_Height;
+}
+
+bool BoardMap::Contains(sf::Vector2f const& pos)
+{
+	return IsInBounds(GetGridPos(pos));
+}
+
+void BoardMap::OnClicked()
+{
 }
 
 GameObject* BoardMap::CreateGenericTile(sf::Vector2i const& pos, TileType type)

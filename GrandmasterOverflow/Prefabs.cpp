@@ -146,7 +146,7 @@ namespace prefabs
 		return tile;
 	}
 
-	GameObject* CreateFlow(sf::Vector2f const& pos, int group)
+	GameObject* CreateFlow(sf::Vector2f const& pos, FlowTile::FlowTileType type, int group)
 	{
 		GameObject* gObject = new GameObject();
 		gObject->SetTag(TAG_FLOW);
@@ -157,11 +157,12 @@ namespace prefabs
 		renderer->SetSpriteColor(sf::Color::Green);
 		gObject->AddComponent(renderer);
 
-		gObject->AddComponent(new FlowTile(group));
+		gObject->AddComponent(new FlowTile(type, group));
 
 		gObject->Transform()->SetPosition(pos);
 
 		return gObject;
+
 	}
 
 	GameObject* CreateTileDestroyer(sf::Vector2f const& pos)
@@ -186,6 +187,7 @@ namespace prefabs
 		GameObject* gObject = new GameObject();
 		gObject->SetName(NAME_GAME_BOARD);
 		gObject->SetTag(TAG_GAME_BOARD);
+		gObject->SetLayer(Layer::Game);
 
 		auto mapComp = new BoardMap(width, height);
 		gObject->AddComponent(mapComp);
@@ -198,6 +200,8 @@ namespace prefabs
 				mapComp->CreateEmptyTile(sf::Vector2i(i, j));
 			}
 		}
+
+		gObject->AddComponent(new InputInteractionComponent());
 
 		return gObject;
 	}
@@ -246,18 +250,15 @@ namespace prefabs
 			y = tileXML.attribute("y").as_int();
 			id = tileXML.attribute("id").as_int();
 
-			switch (id)
+			if (id == 0)
 			{
-			case 0:
 				board->CreateSolidTile(sf::Vector2i(x, y));
-				break;
-			case 1:
-				GameObject::Instantiate(CreateFlow(board->GetWorldPos(sf::Vector2i(x, y)), flowGroup));
+			}
+			else if (id <= 9)
+			{
+				GameObject::Instantiate(CreateFlow(board->GetWorldPos(sf::Vector2i(x, y)), 
+					static_cast<FlowTile::FlowTileType>(id - 1), flowGroup));
 				flowGroup++;
-				break;
-			case 2:
-				board->CreateObjectiveTile(sf::Vector2i(x, y));
-				break;
 			}
 		}
 
@@ -268,7 +269,6 @@ namespace prefabs
 		{
 			float x, y;
 			float angle;
-			int team;
 			auto name = std::string(unitXML.name());
 
 			x = worldTopLeft.x + unitXML.attribute("x").as_float();

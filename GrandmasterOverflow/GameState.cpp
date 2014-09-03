@@ -33,10 +33,17 @@ void GameState::Update()
 		m_TimeToNextTurn += m_TurnTime;
 		m_TurnTimeSignal.emit();
 
-		if (m_TurnNum % ConfigManager::GetInt("[Flow Gameplay]iDestroySurroundingsTurns") == 0)
+		if (m_TurnNum % ConfigManager::GetInt("[Flow Gameplay]iSpreadTurnTime") == 0)
 		{
 			std::vector<int> groups;
 			GetTileGroups(groups);
+
+			if (groups.size() == 0)
+			{
+				TriggerGameOver();
+				GameObject::Destroy(m_GameObject);
+				return;
+			}
 
 			std::sort(groups.begin(), groups.end());
 			std::sort(m_GroupMovedThisTurn.begin(), m_GroupMovedThisTurn.end());
@@ -46,7 +53,7 @@ void GameState::Update()
 
 			for (unsigned int i = 0; i < diff.size(); i++)
 			{
-				DestroySurroundings(diff[i]);
+				Solidify(diff[i]);
 			}
 
 			m_GroupMovedThisTurn.clear();
@@ -108,11 +115,16 @@ void GameState::GetTileGroups(std::vector<int>& groups)
 	}
 }
 
-void GameState::DestroySurroundings(int group)
+void GameState::Solidify(int group)
 {
 	for (auto tile : m_FlowTiles)
 	{
 		if (tile->GetFlowGroup() == group)
-			tile->DestroySurroundings();
+			tile->Solidify();
 	}
+}
+
+void GameState::TriggerGameOver()
+{
+
 }

@@ -4,6 +4,7 @@
 #include <SFML/System/Vector2.hpp>
 #include "GameState.h"
 #include "TileState.h"
+#include "FlowTile.h"
 
 class GameObject;
 class TargetPower;
@@ -21,7 +22,7 @@ namespace prefabs
 	
 	GameObject* CreateTile(sf::Vector2f const& pos, TileType type);
 	
-	GameObject* CreateFlow(sf::Vector2f const& pos, int group);
+	GameObject* CreateFlow(sf::Vector2f const& pos, FlowTile::FlowTileType type, int group);
 
 	GameObject* CreateTileDestroyer(sf::Vector2f const & pos);
 
