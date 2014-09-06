@@ -51,15 +51,21 @@ void FlowTile::Start()
 	m_GameObject->GetComponent<SpriteRenderer>()->SetSpriteColor(sTileColours[kType]);
 
 	float scale = ConfigManager::GetFloat("[Flow Graphics]fStartSizeCoef");
-	m_GameObject->Transform()->SetScale(sf::Vector2f(scale, scale));
+	sf::Vector2f scaleVec = sf::Vector2f(scale, scale);
+	m_GameObject->Transform()->SetScale(scaleVec);
+
+	m_ScaleTween.Set(scaleVec, sf::Vector2f(1, 1), ConfigManager::GetFloat("[Flow Graphics]fGrowSpeed"), Tween::TweenType::Logaritmic);
 
 	ResetTurns();
 }
 
 void FlowTile::Update()
 {
-	auto scale = m_GameObject->Transform()->Scale();
-	m_GameObject->Transform()->SetScale(Lerp(scale, sf::Vector2f(1, 1), GameTime::DeltaTime() * ConfigManager::GetFloat("[Flow Graphics]fGrowSpeed")));
+	if (!m_ScaleTween.Done())
+	{
+		m_ScaleTween.Update(GameTime::DeltaTime());
+		m_GameObject->Transform()->SetScale(m_ScaleTween.GetValue());
+	}
 }
 
 void FlowTile::OnTurnTime()

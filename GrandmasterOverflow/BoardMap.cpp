@@ -3,10 +3,7 @@
 #include "Prefabs.h"
 
 #include <GameObject.h>
-#include <SpriteRenderer.h>
-#include <RigidBody.h>
-#include <BoxCollider.h>
-#include <iostream>
+
 
 BoardMap::BoardMap(int width, int height)
 : m_Width(width), m_Height(height), 

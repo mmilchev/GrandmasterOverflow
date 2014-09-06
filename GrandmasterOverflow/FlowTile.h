@@ -5,6 +5,7 @@
 #include "ITurnClient.h"
 #include <SFML/Graphics/Color.hpp>
 #include <map>
+#include <Tween2.h>
 
 class GameState;
 class BoardMap;
@@ -50,6 +51,8 @@ private:
 	int	m_TurnsLeft;
 	int m_Group;
 	bool m_ShouldSpread;
+
+	Tween2 m_ScaleTween;
 
 	static std::map<FlowTileType, sf::Color> sTileColours;
 };
