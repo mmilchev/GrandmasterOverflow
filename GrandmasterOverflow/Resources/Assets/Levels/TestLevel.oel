@@ -1,0 +1,19 @@
+<level width="1664" height="1664" FlowTurns="10" SolidBlocks="0">
+  <camera x="0" y="0" />
+  <Tiles tileset="Main" exportMode="XML">
+    <tile x="4" y="3" id="1" />
+  </Tiles>
+  <Sources exportMode="Bitstring">0000000000000
+0000100000000
+0000100000000
+0000100000000
+0000100000000
+0000111100000
+0000000000000
+0000000000000
+0000000000000
+0000000000000
+0000000000000
+0000000000000
+0000000000000</Sources>
+</level>

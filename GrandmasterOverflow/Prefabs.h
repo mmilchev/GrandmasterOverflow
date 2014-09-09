@@ -22,7 +22,7 @@ namespace prefabs
 	
 	GameObject* CreateTile(sf::Vector2f const& pos, TileType type);
 	
-	GameObject* CreateFlow(sf::Vector2f const& pos, FlowTile::FlowTileType type, int group);
+	GameObject* CreateFlow(sf::Vector2f const& pos, FlowTile::FlowTileType type, int group, int turns);
 
 	GameObject* CreateTileDestroyer(sf::Vector2f const & pos);
 

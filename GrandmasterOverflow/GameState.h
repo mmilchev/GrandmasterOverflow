@@ -20,12 +20,8 @@ public:
 
 	void SetTurnTime(float turnTime);
 
-	void ConnectClient(ITurnClient* client);
-	void DisconnectClient(ITurnClient* client);
-
 	void ReportFlowTileCreated(FlowTile* tile);
 	void ReportFlowTileDestroyed(FlowTile* tile);
-	void MergeFlowGroups(int groupLhs, int groupRhs);
 
 	void ReportTileActivity(FlowTile* tile);
 
@@ -35,7 +31,8 @@ private:
 	void GetTileGroups(std::vector<int>& groups);
 	void TriggerGameOver();
 
-	sigslot::signal0<> m_TurnTimeSignal;
+	void CheckTilesForCollisions();
+	void ExecuteTurn();
 
 	std::vector<int> m_GroupMovedThisTurn;
 

@@ -53,8 +53,6 @@ void SidebarBahaviour::Awake()
 	m_TargetPos = sf::Vector2f((sSize.x + m_Width) / 2 - m_LeftBorder, 0);
 	m_GameObject->Transform()->SetPosition(m_TargetPos);
 
-	GameObject::FindByTag(TAG_GAME_STATE)->GetComponent<GameState>()->ConnectClient(this);
-
 	for (int i = 0; i < m_ActivePowerNum; ++i)
 	{
 		m_AvailablePowers[i] = nullptr;

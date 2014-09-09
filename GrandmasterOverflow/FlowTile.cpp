@@ -1,14 +1,15 @@
 ﻿#include "FlowTile.h"
 #include "BoardMap.h"
 #include "Constants.h"
+#include "Prefabs.h"
 
 #include <GameObject.h>
 #include <ConfigManager.h>
-#include "Prefabs.h"
 #include <Utils.h>
 #include <GameTime.h>
 #include <iostream>
 #include <SpriteRenderer.h>
+#include <TextRenderer.h>
 
 std::map<FlowTile::FlowTileType, sf::Color> FlowTile::sTileColours =
 {
@@ -23,9 +24,15 @@ std::map<FlowTile::FlowTileType, sf::Color> FlowTile::sTileColours =
 	{ LightBlue, sf::Color(125, 190, 241) },
 };
 
-FlowTile::FlowTile(FlowTileType type, int group)
-:m_Group(group), kType(type), m_ShouldSpread(true),
-m_GameState(nullptr), m_Board(nullptr)
+std::vector<sf::Vector2i> const FlowTile::skSpreadDirections = {
+	sf::Vector2i(1, 0),
+	sf::Vector2i(-1, 0),
+	sf::Vector2i(0, 1),
+	sf::Vector2i(0, -1)
+};
+
+FlowTile::FlowTile(FlowTileType type, int group, int turns) :m_Group(group), kType(type), m_ShouldSpread(true),
+m_GameState(nullptr), m_Board(nullptr), m_SpreadTurnsLeft(turns)
 {
 }
 
@@ -76,6 +83,11 @@ void FlowTile::OnTurnTime()
 		Spread();
 		ResetTurns();
 		m_ShouldSpread = true;
+
+		if (m_SpreadTurnsLeft == 0)
+		{
+			m_GameState->Solidify(m_Group);
+		}
 	}
 }
 
@@ -91,18 +103,8 @@ void FlowTile::ResetTurns()
 
 void FlowTile::Spread()
 {
-	const sf::Vector2i dirs[] =
-	{
-		sf::Vector2i(1, 0),
-		sf::Vector2i(-1, 0),
-		sf::Vector2i(0, 1),
-		sf::Vector2i(0, -1)
-	};
-
 	auto boardPos = m_Board->GetGridPos(m_GameObject->Transform()->Position());
-	std::vector<sf::Vector2i> spawns;
-
-	for (auto const& dir : dirs)
+	for (auto const& dir : skSpreadDirections)
 	{
 		auto pos = boardPos + dir;
 		auto state = m_Board->GetTileState(pos);
@@ -110,27 +112,38 @@ void FlowTile::Spread()
 		{
 			if (state->IsPassable() && !state->Occupied())
 			{
-				spawns.push_back(pos);
-			}
-			else if (state->Occupied() && state->GetOccupant()->GetFlowGroup() != m_Group)
-			{
-				if (state->GetOccupant()->kType == kType)
-					m_GameState->MergeFlowGroups(state->GetOccupant()->GetFlowGroup(), m_Group);
-				else
-				{
-					m_GameState->Solidify(m_Group);
-					m_GameState->ReportTileActivity(this);
-					return;
-				}
+				auto gObject = prefabs::CreateFlow(m_Board->GetWorldPos(pos), kType, m_Group, -1);
+				GameObject::Instantiate(gObject);
+				m_Board->SetOccupation(gObject->GetComponent<FlowTile>(), pos);
+				m_GameState->ReportTileActivity(this);
 			}
 		}
 	}
 
-	for (auto const& spawn : spawns)
+	if (m_SpreadTurnsLeft > 0)
+		m_SpreadTurnsLeft--;
+	if (m_SpreadTurnsLeft != -1)
 	{
-		auto gObject = prefabs::CreateFlow(m_Board->GetWorldPos(spawn), kType, m_Group);
-		GameObject::Instantiate(gObject);
-		m_Board->SetOccupation(gObject->GetComponent<FlowTile>(), spawn);
-		m_GameState->ReportTileActivity(this);
+		m_GameObject->GetComponent<TextRenderer>()->Text().setString(std::to_string(m_SpreadTurnsLeft));
 	}
+}
+
+bool FlowTile::CheckCollision()
+{
+	auto boardPos = m_Board->GetGridPos(m_GameObject->Transform()->Position());
+	std::vector<sf::Vector2i> spawns;
+
+	for (auto const& dir : skSpreadDirections)
+	{
+		auto pos = boardPos + dir;
+		auto state = m_Board->GetTileState(pos);
+		if (state != nullptr)
+		{
+			if (state->IsPassable() && state->Occupied() && 
+				state->GetOccupant()->kType != kType && state->GetOccupant()->m_Group != m_Group)
+				return true;
+		}
+	}
+
+	return false;
 }

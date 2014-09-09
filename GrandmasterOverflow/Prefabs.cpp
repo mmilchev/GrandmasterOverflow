@@ -5,6 +5,11 @@
 #include "GameState.h"
 #include "GhostPower.h"
 #include "PlaceTilePower.h"
+#include "SidebarBahaviour.h"
+#include "pugixml.hpp"
+#include "CameraControl.h"
+#include "FlowTile.h"
+#include "TileDestroyer.h"
 
 #include <GameObject.h>
 #include <SpriteRenderer.h>
@@ -16,13 +21,9 @@
 #include <ConfigManager.h>
 #include <CameraComponent.h>
 #include <InputInteractionComponent.h>
-#include "SidebarBahaviour.h"
 #include <iostream>
-#include "pugixml.hpp"
 #include <ResourceManager.h>
-#include "CameraControl.h"
-#include "FlowTile.h"
-#include "TileDestroyer.h"
+#include <TextRenderer.h>
 
 namespace prefabs
 {
@@ -146,8 +147,8 @@ namespace prefabs
 		return tile;
 	}
 
-	GameObject* CreateFlow(sf::Vector2f const& pos, FlowTile::FlowTileType type, int group)
-	{
+	GameObject* CreateFlow(sf::Vector2f const& pos, FlowTile::FlowTileType type, int group, int turns)
+{
 		GameObject* gObject = new GameObject();
 		gObject->SetTag(TAG_FLOW);
 		gObject->SetLayer(Layer::Game);
@@ -157,7 +158,19 @@ namespace prefabs
 		renderer->SetSpriteColor(sf::Color::Green);
 		gObject->AddComponent(renderer);
 
-		gObject->AddComponent(new FlowTile(type, group));
+		gObject->AddComponent(new FlowTile(type, group, turns));
+
+		if (turns != -1)
+		{
+			auto text = new TextRenderer();
+			text->Text().setFont(ResourceManager::GetFont("font.ttf"));
+			text->Text().setColor(sf::Color::Black);
+			text->Text().setString(std::to_string(turns));
+			text->Text().setCharacterSize(TILE_SIZE / 2);
+			text->SetAlignment(TextRenderer::TextAlign::Center);
+
+			gObject->AddComponent(text);
+		}
 
 		gObject->Transform()->SetPosition(pos);
 
@@ -240,9 +253,6 @@ namespace prefabs
 
 		//backgroundMidiTag = levelNode.attribute("BackgroundMIDI").as_string();
 		auto tilesXML = levelNode.child("Tiles");
-
-		int flowGroup = 0;
-
 		for (auto& tileXML : tilesXML)
 		{
 			int x, y, id;
@@ -256,15 +266,13 @@ namespace prefabs
 			}
 			else if (id <= 9)
 			{
-				GameObject::Instantiate(CreateFlow(board->GetWorldPos(sf::Vector2i(x, y)), 
-					static_cast<FlowTile::FlowTileType>(id - 1), flowGroup));
-				flowGroup++;
 			}
 		}
 
 		GameObject::Instantiate(grid);
 
-		auto unitsXML = levelNode.child("Units");
+		int flowGroup = 0;
+		auto unitsXML = levelNode.child("Entities");
 		for (auto& unitXML : unitsXML)
 		{
 			float x, y;
@@ -275,6 +283,14 @@ namespace prefabs
 			y = worldTopLeft.y + unitXML.attribute("y").as_float();
 
 			angle = unitXML.attribute("angle").as_float();
+
+			if (name == "Flow")
+			{
+				int type = unitXML.attribute("Type").as_int();
+				int turns = unitXML.attribute("Turns").as_int();
+				GameObject::Instantiate(CreateFlow(sf::Vector2f(x, y), static_cast<FlowTile::FlowTileType>(type), flowGroup, turns));
+				flowGroup++;
+			}
 		}
 	}
 }

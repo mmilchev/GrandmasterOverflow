@@ -32,7 +32,9 @@ void GameState::Update()
 	{
 		m_TurnNum++;
 		m_TimeToNextTurn += m_TurnTime;
-		m_TurnTimeSignal.emit();
+
+		CheckTilesForCollisions();
+		ExecuteTurn();
 
 		if (m_TurnNum % ConfigManager::GetInt("[Flow Gameplay]iSpreadTurnTime") == 0)
 		{
@@ -68,35 +70,14 @@ void GameState::SetTurnTime(float turnTime)
 	m_TimeToNextTurn = m_TurnTime;
 }
 
-void GameState::ConnectClient(ITurnClient* client)
-{
-	m_TurnTimeSignal.connect(client, &ITurnClient::OnTurnTime);
-}
-
-void GameState::DisconnectClient(ITurnClient* client)
-{
-	m_TurnTimeSignal.disconnect(client);
-}
-
 void GameState::ReportFlowTileCreated(FlowTile* tile)
 {
 	m_FlowTiles.push_back(tile);
-	ConnectClient(tile);
 }
 
 void GameState::ReportFlowTileDestroyed(FlowTile* tile)
 {
 	m_FlowTiles.erase(std::find(m_FlowTiles.begin(), m_FlowTiles.end(), tile));
-	DisconnectClient(tile);
-}
-
-void GameState::MergeFlowGroups(int groupLhs, int groupRhs)
-{
-	for (auto tile : m_FlowTiles)
-	{
-		if (tile->GetFlowGroup() == groupRhs)
-			tile->SetFlowGroup(groupLhs);
-	}
 }
 
 void GameState::ReportTileActivity(FlowTile* tile)
@@ -128,4 +109,24 @@ void GameState::Solidify(int group)
 void GameState::TriggerGameOver()
 {
 
+}
+
+void GameState::CheckTilesForCollisions()
+{
+	for (auto tile : m_FlowTiles)
+	{
+		if (tile->CheckCollision())
+		{
+			Solidify(tile->GetFlowGroup());
+		}
+	}
+}
+
+void GameState::ExecuteTurn()
+{
+	for (auto tile : m_FlowTiles)
+	{
+		if (!tile->GetGameObject()->IsDestroyed())
+			tile->OnTurnTime();
+	}
 }

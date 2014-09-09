@@ -6,6 +6,7 @@
 #include <SFML/Graphics/Color.hpp>
 #include <map>
 #include <Tween2.h>
+#include <vector>
 
 class GameState;
 class BoardMap;
@@ -26,7 +27,7 @@ public:
 		Gray,
 		LightBlue
 	};
-	FlowTile(FlowTileType type, int group);
+	FlowTile(FlowTileType type, int group, int turns);
 
 	void OnDestruction() override;
 
@@ -34,6 +35,8 @@ public:
 	void Update() override;
 
 	void OnTurnTime() override;
+
+	bool CheckCollision();
 
 	void Solidify();
 
@@ -48,6 +51,8 @@ private:
 
 	FlowTileType const kType;
 
+	int m_SpreadTurnsLeft;
+
 	int	m_TurnsLeft;
 	int m_Group;
 	bool m_ShouldSpread;
@@ -55,6 +60,7 @@ private:
 	Tween2 m_ScaleTween;
 
 	static std::map<FlowTileType, sf::Color> sTileColours;
+	static const std::vector<sf::Vector2i> skSpreadDirections;
 };
 
 #endif

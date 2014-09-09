@@ -25,8 +25,7 @@
   </CameraSize>
   <ExportCameraPosition>true</ExportCameraPosition>
   <LevelValueDefinitions>
-    <ValueDefinition xsi:type="IntValueDefinition" Name="FlowTurns" Default="10" Min="0" Max="100" ShowSlider="false" />
-    <ValueDefinition xsi:type="IntValueDefinition" Name="SolidBlocks" Default="0" Min="0" Max="100" ShowSlider="false" />
+    <ValueDefinition xsi:type="IntValueDefinition" Name="SolidBlocks" Default="0" Min="0" Max="10" ShowSlider="false" />
   </LevelValueDefinitions>
   <LayerDefinitions>
     <LayerDefinition xsi:type="TileLayerDefinition">
@@ -41,6 +40,17 @@
       </ScrollFactor>
       <ExportMode>XML</ExportMode>
     </LayerDefinition>
+    <LayerDefinition xsi:type="EntityLayerDefinition">
+      <Name>Entities</Name>
+      <Grid>
+        <Width>64</Width>
+        <Height>64</Height>
+      </Grid>
+      <ScrollFactor>
+        <X>1</X>
+        <Y>1</Y>
+      </ScrollFactor>
+    </LayerDefinition>
   </LayerDefinitions>
   <Tilesets>
     <Tileset>
@@ -53,5 +63,24 @@
       <TileSep>0</TileSep>
     </Tileset>
   </Tilesets>
-  <EntityDefinitions />
+  <EntityDefinitions>
+    <EntityDefinition Name="Flow" Limit="-1" ResizableX="false" ResizableY="false" Rotatable="false" RotateIncrement="15">
+      <Size>
+        <Width>128</Width>
+        <Height>128</Height>
+      </Size>
+      <Origin>
+        <X>64</X>
+        <Y>64</Y>
+      </Origin>
+      <ImageDefinition DrawMode="Rectangle" ImagePath="" Tiled="false">
+        <RectColor A="255" R="255" G="2" B="2" />
+      </ImageDefinition>
+      <ValueDefinitions>
+        <ValueDefinition xsi:type="IntValueDefinition" Name="Type" Default="0" Min="0" Max="7" ShowSlider="false" />
+        <ValueDefinition xsi:type="IntValueDefinition" Name="Turns" Default="-1" Min="-1" Max="100" ShowSlider="false" />
+      </ValueDefinitions>
+      <NodesDefinition Enabled="false" Limit="-1" DrawMode="None" Ghost="false" />
+    </EntityDefinition>
+  </EntityDefinitions>
 </project>
