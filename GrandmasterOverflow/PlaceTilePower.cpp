@@ -50,6 +50,8 @@ void PlaceTilePower::PopulateGhostPower()
 		auto renderer = new SpriteRenderer("solidGridTile.png");
 		renderer->SetSpriteSize(sf::Vector2f(TILE_SIZE, TILE_SIZE));
 		renderer->SetSpriteColor(sf::Color(170, 170, 170, 255));
+		//Set order higher than anything
+		renderer->SetOrder(5);
 		gObject->AddComponent(renderer);
 
 		gObject->SetParent(gGhostObject);

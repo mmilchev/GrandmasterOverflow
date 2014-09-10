@@ -1,4 +1,4 @@
-<level width="1664" height="1664" SolidBlocks="0">
+<level width="1664" height="1664" Single="4" SingleDestroy="1" OShape="0" TShape="0" IShapeSmall="2" IShapeBig="0" CornerSmall="1" CornerBig="0">
   <camera x="0" y="0" />
   <Tiles tileset="Main" exportMode="XML">
     <tile x="0" y="5" id="0" />

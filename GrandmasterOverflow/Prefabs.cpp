@@ -40,6 +40,18 @@ namespace prefabs
 		{ PlaceTilePower::Type::OShape, "powerOShape.png" },
 	};
 
+	std::map<std::string, PlaceTilePower::Type> kPowerNames =
+	{
+		{ "Single", PlaceTilePower::Type::Single },
+		{ "SingleDestroy", PlaceTilePower::Type::SingleDestroy},
+		{ "CornerSmall", PlaceTilePower::Type::CornerSmall },
+		{ "CornerBig", PlaceTilePower::Type::CornerBig },
+		{ "IShapeSmall", PlaceTilePower::Type::IShapeSmall },
+		{ "IShapeBig", PlaceTilePower::Type::IShapeBig },
+		{ "TShape", PlaceTilePower::Type::TShape },
+		{ "OShape", PlaceTilePower::Type::OShape },
+	};
+
 	GameObject* CreateGameComponents()
 	{
 
@@ -141,7 +153,7 @@ namespace prefabs
 
 		auto ghost = new GhostPower(power);
 		gObject->AddComponent(ghost);
-
+		
 		return gObject;
 	}
 
@@ -255,30 +267,27 @@ namespace prefabs
 		auto gameComponents = prefabs::CreateGameComponents();
 		GameObject::Instantiate(gameComponents);
 
+		pugi::xml_node levelNode = doc.child("level");
+
 		float size = 32.f;
 		sf::Vector2u windowSize = Application::GetWindow().getSize();
 		float offset = 20;
 		float curHeight = -(windowSize.y - 2 * size) / 2;
 		float x = windowSize.x / 2 - 3 * size / 2;
-		
-		GameObject::Instantiate(CreatePower(size, sf::Vector2f(x, curHeight), PlaceTilePower::Type::Single, 3));
-		curHeight += size + offset;
-		GameObject::Instantiate(CreatePower(size, sf::Vector2f(x, curHeight), PlaceTilePower::Type::SingleDestroy, 3));
-		curHeight += size + offset;
-		GameObject::Instantiate(CreatePower(size, sf::Vector2f(x, curHeight), PlaceTilePower::Type::CornerSmall, 3));
-		curHeight += size + offset;
-		GameObject::Instantiate(CreatePower(size, sf::Vector2f(x, curHeight), PlaceTilePower::Type::CornerBig, 3));
-		curHeight += size + offset;
-		GameObject::Instantiate(CreatePower(size, sf::Vector2f(x, curHeight), PlaceTilePower::Type::IShapeSmall, 3));
-		curHeight += size + offset;
-		GameObject::Instantiate(CreatePower(size, sf::Vector2f(x, curHeight), PlaceTilePower::Type::IShapeBig, 3));
-		curHeight += size + offset;
-		GameObject::Instantiate(CreatePower(size, sf::Vector2f(x, curHeight), PlaceTilePower::Type::OShape, 3));
-		curHeight += size + offset;
-		GameObject::Instantiate(CreatePower(size, sf::Vector2f(x, curHeight), PlaceTilePower::Type::TShape, 3));
-		curHeight += size + offset;
 
-		pugi::xml_node levelNode = doc.child("level");
+		for (auto& attribute : levelNode.attributes())
+		{
+			auto name = attribute.name();
+			if (kPowerNames.find(name) != kPowerNames.end())
+			{
+				int value = attribute.as_int();
+				if (value != 0)
+				{
+					GameObject::Instantiate(CreatePower(size, sf::Vector2f(x, curHeight), kPowerNames[name], value));
+					curHeight += size + offset;
+				}
+			}
+		}
 
 		int lWidth = static_cast<int>(levelNode.attribute("width").as_float() / TILE_SIZE);
 		int lHeight = static_cast<int>(levelNode.attribute("height").as_float() / TILE_SIZE);

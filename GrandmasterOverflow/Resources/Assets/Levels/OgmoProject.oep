@@ -25,7 +25,14 @@
   </CameraSize>
   <ExportCameraPosition>true</ExportCameraPosition>
   <LevelValueDefinitions>
-    <ValueDefinition xsi:type="IntValueDefinition" Name="SolidBlocks" Default="0" Min="0" Max="10" ShowSlider="false" />
+    <ValueDefinition xsi:type="IntValueDefinition" Name="Single" Default="0" Min="0" Max="10" ShowSlider="false" />
+    <ValueDefinition xsi:type="IntValueDefinition" Name="SingleDestroy" Default="0" Min="0" Max="10" ShowSlider="false" />
+    <ValueDefinition xsi:type="IntValueDefinition" Name="OShape" Default="0" Min="0" Max="10" ShowSlider="false" />
+    <ValueDefinition xsi:type="IntValueDefinition" Name="TShape" Default="0" Min="0" Max="10" ShowSlider="false" />
+    <ValueDefinition xsi:type="IntValueDefinition" Name="IShapeSmall" Default="0" Min="0" Max="10" ShowSlider="false" />
+    <ValueDefinition xsi:type="IntValueDefinition" Name="IShapeBig" Default="0" Min="0" Max="10" ShowSlider="false" />
+    <ValueDefinition xsi:type="IntValueDefinition" Name="CornerSmall" Default="0" Min="0" Max="10" ShowSlider="false" />
+    <ValueDefinition xsi:type="IntValueDefinition" Name="CornerBig" Default="0" Min="0" Max="10" ShowSlider="false" />
   </LevelValueDefinitions>
   <LayerDefinitions>
     <LayerDefinition xsi:type="TileLayerDefinition">
