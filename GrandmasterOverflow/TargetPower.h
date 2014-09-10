@@ -24,6 +24,7 @@ public:
 	virtual bool CanBePlaced(sf::Vector2i const& pos) = 0;
 	virtual void PopulateGhostPower() = 0;
 protected:
+	void TriggerPower();
 	virtual void UsePower(sf::Vector2i const& pos) = 0;
 
 	GhostPower* m_GhostPower;

@@ -23,6 +23,11 @@ void TargetPower::Awake()
 
 void TargetPower::OnClicked()
 {
+	TriggerPower();
+}
+
+void TargetPower::TriggerPower()
+{
 	m_GameState->OnPowerSelected(this);
 
 	if (m_GhostPower != nullptr)
@@ -55,4 +60,6 @@ void TargetPower::OnPowerPlaced(sf::Vector2i const& pos)
 	
 	CancelTarget();
 	OnPowerUsed();
+
+	TriggerPower();
 }
