@@ -5,7 +5,6 @@
 #include "GameState.h"
 #include "GhostPower.h"
 #include "PlaceTilePower.h"
-#include "SidebarBahaviour.h"
 #include "pugixml.hpp"
 #include "CameraControl.h"
 #include "FlowTile.h"
@@ -24,9 +23,23 @@
 #include <iostream>
 #include <ResourceManager.h>
 #include <TextRenderer.h>
+#include <Application.h>
+#include <BoxInteractionComponent.h>
 
 namespace prefabs
 {
+	std::map<PlaceTilePower::Type, std::string> kPowerTextures =
+	{
+		{ PlaceTilePower::Type::Single, "powerSingle.png" },
+		{ PlaceTilePower::Type::SingleDestroy, "powerSingleDestroy.png" },
+		{ PlaceTilePower::Type::CornerSmall, "powerCornerSmall.png" },
+		{ PlaceTilePower::Type::CornerBig, "powerCornerBig.png" },
+		{ PlaceTilePower::Type::IShapeSmall, "powerIshapeSmall.png" },
+		{ PlaceTilePower::Type::IShapeBig, "powerIShapeBig.png" },
+		{ PlaceTilePower::Type::TShape, "powerTShape.png" },
+		{ PlaceTilePower::Type::OShape, "powerOShape.png" },
+	};
+
 	GameObject* CreateGameComponents()
 	{
 
@@ -73,41 +86,49 @@ namespace prefabs
 		return cameraObject;
 	}
 
-	GameObject* CreateSidebar()
-	{
-		auto gObject = new GameObject();
-		gObject->SetTag(TAG_SIDEBAR);
-		gObject->SetLayer(Layer::GUI);
-
-		auto renderer = new SpriteRenderer("sidebarBackground.png");
-		renderer->SetOrder(-1);
-		gObject->AddComponent(renderer);
-
-		auto sidebar = new SidebarBahaviour();
-		sidebar->SetupParams();
-		gObject->AddComponent(sidebar);
-
-		gObject->AddComponent(new InputInteractionComponent());
-
-		return gObject;
-	}
-
-	GameObject* CreatePower(float size, sf::Vector2f const& startPos, sf::Vector2f const& targetPos)
-	{
+	GameObject* CreatePower(float size, sf::Vector2f const& pos, PlaceTilePower::Type type, int uses)
+{
 		GameObject* gObject = new GameObject();
 		gObject->SetTag(TAG_SLOT);
 		gObject->SetLayer(Layer::GUI);
 
-		auto renderer = new SpriteRenderer("solidGridTile.png");
+		auto innerIcon = new GameObject();
+		innerIcon->SetName(NAME_ICON_POWER);
+		innerIcon->SetTag(TAG_SLOT);
+		innerIcon->SetLayer(Layer::GUI);
+
+		auto renderer = new SpriteRenderer(kPowerTextures[type]);
 		renderer->SetSpriteSize(sf::Vector2f(size, size));
-		gObject->AddComponent(renderer);
+		innerIcon->AddComponent(renderer);
+
+		innerIcon->SetParent(gObject);
+		innerIcon->Transform()->SetLocalPosition(sf::Vector2f(-size/2, 0));
+
+		auto innerText = new GameObject();
+		innerText->SetName(NAME_TEXT_POWER);
+		innerText->SetTag(TAG_SLOT);
+		innerText->SetLayer(Layer::GUI);
+
+		auto textRenderer = new TextRenderer();
+		textRenderer->Text().setFont(ResourceManager::GetFont("font.ttf"));
+		textRenderer->Text().setCharacterSize(static_cast<int>(3*size / 5));
+		textRenderer->Text().setColor(sf::Color::White);
+		textRenderer->Text().setString("x" + std::to_string(uses));
+		textRenderer->SetAlignment(TextRenderer::Center);
+		innerText->AddComponent(textRenderer);
+
+		innerText->SetParent(gObject);
+		innerText->Transform()->SetLocalPosition(sf::Vector2f(size / 2, 0));
+
+		int intSize = static_cast<int>(size);
+		gObject->AddComponent(new BoxInteractionComponent(2 * intSize, intSize));
 
 		gObject->AddComponent(new InputInteractionComponent());
 
-		auto power = new PlaceTilePower(targetPos);
+		auto power = new PlaceTilePower(type, uses);
 		gObject->AddComponent(power);
 
-		gObject->Transform()->SetPosition(startPos);
+		gObject->Transform()->SetPosition(pos);
 
 		return gObject;
 	}
@@ -117,11 +138,6 @@ namespace prefabs
 		GameObject* gObject = new GameObject();
 		gObject->SetTag(TAG_GHOST_POWER);
 		gObject->SetLayer(Layer::Game);
-
-		auto renderer = new SpriteRenderer("solidGridTile.png");
-		renderer->SetSpriteSize(sf::Vector2f(TILE_SIZE, TILE_SIZE));
-		renderer->SetSpriteColor(sf::Color(170, 170, 170, 255));
-		gObject->AddComponent(renderer);
 
 		auto ghost = new GhostPower(power);
 		gObject->AddComponent(ghost);
@@ -166,7 +182,7 @@ namespace prefabs
 			text->Text().setFont(ResourceManager::GetFont("font.ttf"));
 			text->Text().setColor(sf::Color::Black);
 			text->Text().setString(std::to_string(turns));
-			text->Text().setCharacterSize(TILE_SIZE / 2);
+			text->Text().setCharacterSize(static_cast<unsigned int>(TILE_SIZE / 2));
 			text->SetAlignment(TextRenderer::TextAlign::Center);
 
 			gObject->AddComponent(text);
@@ -239,7 +255,28 @@ namespace prefabs
 		auto gameComponents = prefabs::CreateGameComponents();
 		GameObject::Instantiate(gameComponents);
 
-		GameObject::Instantiate(prefabs::CreateSidebar());
+		float size = 32.f;
+		sf::Vector2u windowSize = Application::GetWindow().getSize();
+		float offset = 20;
+		float curHeight = -(windowSize.y - 2 * size) / 2;
+		float x = windowSize.x / 2 - 3 * size / 2;
+		
+		GameObject::Instantiate(CreatePower(size, sf::Vector2f(x, curHeight), PlaceTilePower::Type::Single, 3));
+		curHeight += size + offset;
+		GameObject::Instantiate(CreatePower(size, sf::Vector2f(x, curHeight), PlaceTilePower::Type::SingleDestroy, 3));
+		curHeight += size + offset;
+		GameObject::Instantiate(CreatePower(size, sf::Vector2f(x, curHeight), PlaceTilePower::Type::CornerSmall, 3));
+		curHeight += size + offset;
+		GameObject::Instantiate(CreatePower(size, sf::Vector2f(x, curHeight), PlaceTilePower::Type::CornerBig, 3));
+		curHeight += size + offset;
+		GameObject::Instantiate(CreatePower(size, sf::Vector2f(x, curHeight), PlaceTilePower::Type::IShapeSmall, 3));
+		curHeight += size + offset;
+		GameObject::Instantiate(CreatePower(size, sf::Vector2f(x, curHeight), PlaceTilePower::Type::IShapeBig, 3));
+		curHeight += size + offset;
+		GameObject::Instantiate(CreatePower(size, sf::Vector2f(x, curHeight), PlaceTilePower::Type::OShape, 3));
+		curHeight += size + offset;
+		GameObject::Instantiate(CreatePower(size, sf::Vector2f(x, curHeight), PlaceTilePower::Type::TShape, 3));
+		curHeight += size + offset;
 
 		pugi::xml_node levelNode = doc.child("level");
 

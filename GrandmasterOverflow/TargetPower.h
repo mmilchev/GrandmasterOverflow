@@ -5,17 +5,17 @@
 
 class GhostPower;
 class BoardMap;
+class GameState;
 
 class TargetPower
 	: public Power
 {
 public:
-	explicit TargetPower(sf::Vector2f const& targetPos);
+	explicit TargetPower(int uses);
 
 	void Awake() override;
-	void OnClicked() override;
 
-	void Update() override;
+	void OnClicked() override;
 
 	void CancelTarget();
 
@@ -28,6 +28,7 @@ protected:
 
 	GhostPower* m_GhostPower;
 	BoardMap* m_Board;
+	GameState* m_GameState;
 };
 
 #endif

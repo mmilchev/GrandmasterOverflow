@@ -5,6 +5,7 @@
 #include "GameState.h"
 #include "TileState.h"
 #include "FlowTile.h"
+#include "PlaceTilePower.h"
 
 class GameObject;
 class TargetPower;
@@ -16,8 +17,7 @@ namespace prefabs
 	GameObject* CreateGameCamera(sf::Vector2f const& pos);
 	GameObject* CreateGUICamera();
 	
-	GameObject* CreateSidebar();
-	GameObject* CreatePower(float size, sf::Vector2f const& startPos, sf::Vector2f const& targetPos);
+	GameObject* CreatePower(float size, sf::Vector2f const& pos, PlaceTilePower::Type type, int uses);
 	GameObject* CreateGhostPower(TargetPower* power);
 	
 	GameObject* CreateTile(sf::Vector2f const& pos, TileType type);

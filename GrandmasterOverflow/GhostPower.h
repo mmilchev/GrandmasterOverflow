@@ -15,7 +15,11 @@ public:
 
 	void Awake() override;
 	void Update() override;
+
+	inline void SetOrigin(sf::Vector2f const& origin) { m_Origin = origin; }
 private:
+
+	sf::Vector2f m_Origin;
 
 	TargetPower* m_Power;
 	BoardMap* m_Board;

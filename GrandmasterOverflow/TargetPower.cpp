@@ -3,46 +3,50 @@
 #include "GhostPower.h"
 #include "Constants.h"
 #include "BoardMap.h"
+#include "GameState.h"
 
 #include <iostream>
 #include <GameObject.h>
 #include <assert.h>
 
-TargetPower::TargetPower(sf::Vector2f const& targetPos)
-: Power(targetPos), m_GhostPower(nullptr)
+TargetPower::TargetPower( int uses ) 
+	: Power(uses), m_GhostPower(nullptr), m_GameState(nullptr)
 {
 }
 
 void TargetPower::Awake()
 {
 	m_Board = GameObject::FindByTag(TAG_GAME_BOARD)->GetComponent<BoardMap>();
+	m_GameState = GameObject::FindByTag(TAG_GAME_STATE)->GetComponent<GameState>();
+	m_GameState->ReportPowerCreated(this);
 }
 
 void TargetPower::OnClicked()
 {
+	m_GameState->OnPowerSelected(this);
+
 	if (m_GhostPower != nullptr)
 	{
 		CancelTarget();
 		return;
 	}
 
-	auto ghost = prefabs::CreateGhostPower(this);
-	m_GhostPower = ghost->GetComponent<GhostPower>();
-	PopulateGhostPower();
-	GameObject::Instantiate(ghost);
-}
-
-void TargetPower::Update()
-{
-	Power::Update();
+	if (CanUsePower())
+	{
+		auto ghost = prefabs::CreateGhostPower(this);
+		m_GhostPower = ghost->GetComponent<GhostPower>();
+		PopulateGhostPower();
+		GameObject::Instantiate(ghost);
+	}
 }
 
 void TargetPower::CancelTarget()
 {
-	assert(m_GhostPower != nullptr);
-
-	GameObject::Destroy(m_GhostPower->GetGameObject());
-	m_GhostPower = nullptr;
+	if (m_GhostPower != nullptr)
+	{
+		GameObject::Destroy(m_GhostPower->GetGameObject());
+		m_GhostPower = nullptr;
+	}
 }
 
 void TargetPower::OnPowerPlaced(sf::Vector2i const& pos)
@@ -50,5 +54,5 @@ void TargetPower::OnPowerPlaced(sf::Vector2i const& pos)
 	UsePower(pos);
 	
 	CancelTarget();
-	GameObject::Destroy(m_GameObject);
+	OnPowerUsed();
 }

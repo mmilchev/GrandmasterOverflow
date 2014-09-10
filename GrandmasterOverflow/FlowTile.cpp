@@ -86,7 +86,7 @@ void FlowTile::OnTurnTime()
 
 		if (m_SpreadTurnsLeft == 0)
 		{
-			m_GameState->Solidify(m_Group);
+			m_GameState->SolidifyTileGroup(m_Group);
 		}
 	}
 }

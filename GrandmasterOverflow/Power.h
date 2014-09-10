@@ -4,19 +4,25 @@
 #include <SFML/Window.hpp>
 #include <DynamicBehaviour.h>
 #include <sigslot.h>
+#include <Tween.h>
 
 class Power
 	: public DynamicBehaviour
 {
 public:
-	explicit Power(sf::Vector2f const& targetPos);
+	explicit Power(int uses);
 
 	void OnMouseEnter() override;
 	void OnMouseLeave() override;
 
 	void Update() override;
-private:
-	sf::Vector2f m_TargetPos;
+
+protected:
+	void OnPowerUsed();
+	bool CanUsePower();
+
+	int m_Uses;
+	Tween m_ScaleTween;
 };
 
 #endif

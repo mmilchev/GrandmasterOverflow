@@ -8,6 +8,7 @@
 class SidebarBahaviour;
 class ITurnClient;
 class FlowTile;
+class TargetPower;
 
 class GameState
 	: public DynamicBehaviour
@@ -23,9 +24,13 @@ public:
 	void ReportFlowTileCreated(FlowTile* tile);
 	void ReportFlowTileDestroyed(FlowTile* tile);
 
+	void ReportPowerCreated(TargetPower* power);
+
 	void ReportTileActivity(FlowTile* tile);
 
-	void Solidify(int group);
+	void SolidifyTileGroup(int group);
+	
+	void OnPowerSelected(TargetPower* power);
 
 private:
 	void GetTileGroups(std::vector<int>& groups);
@@ -37,6 +42,7 @@ private:
 	std::vector<int> m_GroupMovedThisTurn;
 
 	std::vector<FlowTile*> m_FlowTiles;
+	std::vector<TargetPower*> m_TargetPowers;
 
 	int	m_TurnNum;
 	float m_TurnTime;

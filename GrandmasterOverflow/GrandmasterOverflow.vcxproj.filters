@@ -48,9 +48,6 @@
     <ClInclude Include="GameState.h">
       <Filter>Header\Behaviors</Filter>
     </ClInclude>
-    <ClInclude Include="SidebarBahaviour.h">
-      <Filter>Header\GUI</Filter>
-    </ClInclude>
     <ClInclude Include="Power.h">
       <Filter>Header\GUI\Powers</Filter>
     </ClInclude>
@@ -96,9 +93,6 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="GameState.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="SidebarBahaviour.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Power.cpp">

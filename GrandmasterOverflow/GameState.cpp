@@ -1,9 +1,9 @@
 ﻿#include "GameState.h"
 #include "BoardMap.h"
 #include "Constants.h"
-#include "SidebarBahaviour.h"
 #include "ITurnClient.h"
 #include "FlowTile.h"
+#include "TargetPower.h"
 
 #include <SFML/System/Vector2.hpp>
 #include <GameObject.h>
@@ -44,7 +44,6 @@ void GameState::Update()
 			if (groups.size() == 0)
 			{
 				TriggerGameOver();
-				GameObject::Destroy(m_GameObject);
 				return;
 			}
 
@@ -56,7 +55,7 @@ void GameState::Update()
 
 			for (unsigned int i = 0; i < diff.size(); i++)
 			{
-				Solidify(diff[i]);
+				SolidifyTileGroup(diff[i]);
 			}
 
 			m_GroupMovedThisTurn.clear();
@@ -97,7 +96,7 @@ void GameState::GetTileGroups(std::vector<int>& groups)
 	}
 }
 
-void GameState::Solidify(int group)
+void GameState::SolidifyTileGroup(int group)
 {
 	for (auto tile : m_FlowTiles)
 	{
@@ -117,7 +116,7 @@ void GameState::CheckTilesForCollisions()
 	{
 		if (tile->CheckCollision())
 		{
-			Solidify(tile->GetFlowGroup());
+			SolidifyTileGroup(tile->GetFlowGroup());
 		}
 	}
 }
@@ -128,5 +127,19 @@ void GameState::ExecuteTurn()
 	{
 		if (!tile->GetGameObject()->IsDestroyed())
 			tile->OnTurnTime();
+	}
+}
+
+void GameState::ReportPowerCreated(TargetPower* power)
+{
+	m_TargetPowers.push_back(power);
+}
+
+void GameState::OnPowerSelected(TargetPower* power)
+{
+	for (auto innerPower : m_TargetPowers)
+	{
+		if (innerPower != power)
+			innerPower->CancelTarget();
 	}
 }
