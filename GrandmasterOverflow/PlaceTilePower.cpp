@@ -47,9 +47,10 @@ void PlaceTilePower::PopulateGhostPower()
 		NAME_POWER_TILE_CREATE : NAME_POWER_TILE_DESTROY);
 		gObject->SetTag(TAG_POWER_TILE);
 
-		auto renderer = new SpriteRenderer("solidGridTile.png");
+		auto renderer = new SpriteRenderer("targetSquare.png");
 		renderer->SetSpriteSize(sf::Vector2f(TILE_SIZE, TILE_SIZE));
-		renderer->SetSpriteColor(sf::Color(170, 170, 170, 255));
+		renderer->SetSpriteColor((tile.m_Type == Tiles::TileType::Create) ? 
+			sf::Color(170, 170, 170, 255) : sf::Color(170, 90, 90, 255));
 		//Set order higher than anything
 		renderer->SetOrder(5);
 		gObject->AddComponent(renderer);
