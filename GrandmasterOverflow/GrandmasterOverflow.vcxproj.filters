@@ -16,9 +16,6 @@
     <Filter Include="Header\GUI">
       <UniqueIdentifier>{0c79a45a-34b9-498f-be1b-66084972921e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header\Tiles">
-      <UniqueIdentifier>{b45023df-a0a5-4c89-8295-927fbc2b9f13}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header\GUI\Powers">
       <UniqueIdentifier>{cb887b06-1382-401a-aefb-dc4d82b3bf94}</UniqueIdentifier>
     </Filter>
@@ -78,6 +75,15 @@
     <ClInclude Include="TileDestroyer.h">
       <Filter>Header\Behaviors</Filter>
     </ClInclude>
+    <ClInclude Include="PauseIndicator.h">
+      <Filter>Header\Behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalPower.h">
+      <Filter>Header\GUI\Powers</Filter>
+    </ClInclude>
+    <ClInclude Include="PausePower.h">
+      <Filter>Header\GUI\Powers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -117,6 +123,15 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="TileDestroyer.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PauseIndicator.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalPower.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PausePower.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>

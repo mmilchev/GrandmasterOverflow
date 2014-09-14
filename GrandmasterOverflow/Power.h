@@ -19,7 +19,7 @@ public:
 
 protected:
 	void OnPowerUsed();
-	bool CanUsePower();
+	virtual bool CanUsePower();
 
 	int m_Uses;
 	Tween m_ScaleTween;

@@ -17,12 +17,16 @@ namespace prefabs
 	GameObject* CreateGameCamera(sf::Vector2f const& pos);
 	GameObject* CreateGUICamera();
 	
-	GameObject* CreatePower(float size, sf::Vector2f const& pos, PlaceTilePower::Type type, int uses);
+	GameObject* CreatePower(float size, sf::Vector2f const& pos, std::string const& textureName, int uses);
+	GameObject* CreatePlaceTilePower(float size, sf::Vector2f const& pos, PlaceTilePower::Type type, int uses);
+	GameObject* CreatePausePower(float size, sf::Vector2f const& pos, int uses);
 	GameObject* CreateGhostPower(TargetPower* power);
 	
 	GameObject* CreateTile(sf::Vector2f const& pos, TileType type);
 	
 	GameObject* CreateFlow(sf::Vector2f const& pos, FlowTile::FlowTileType type, int group, int turns);
+
+	GameObject* CreatePauseHandler();
 
 	GameObject* CreateTileDestroyer(sf::Vector2f const & pos);
 

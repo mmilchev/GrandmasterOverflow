@@ -32,7 +32,7 @@ std::vector<sf::Vector2i> const FlowTile::skSpreadDirections = {
 };
 
 FlowTile::FlowTile(FlowTileType type, int group, int turns) :m_Group(group), kType(type), m_ShouldSpread(true),
-m_GameState(nullptr), m_Board(nullptr), m_SpreadTurnsLeft(turns)
+m_GameState(nullptr), m_Board(nullptr), m_SpreadTurnsLeft(turns), m_ShoudScale(true)
 {
 }
 
@@ -57,11 +57,18 @@ void FlowTile::Start()
 
 	m_GameObject->GetComponent<SpriteRenderer>()->SetSpriteColor(sTileColours[kType]);
 
-	float scale = ConfigManager::GetFloat("[Flow Graphics]fStartSizeCoef");
-	sf::Vector2f scaleVec = sf::Vector2f(scale, scale);
-	m_GameObject->Transform()->SetScale(scaleVec);
+	if (m_ShoudScale)
+	{
+		float scale = ConfigManager::GetFloat("[Flow Graphics]fStartSizeCoef");
+		sf::Vector2f scaleVec = sf::Vector2f(scale, scale);
+		m_GameObject->Transform()->SetScale(scaleVec);
 
-	m_ScaleTween.Set(scaleVec, sf::Vector2f(1, 1), ConfigManager::GetFloat("[Flow Graphics]fGrowSpeed"), Tween::TweenType::Logaritmic);
+		m_ScaleTween.Set(scaleVec, sf::Vector2f(1, 1), ConfigManager::GetFloat("[Flow Graphics]fGrowSpeed"), Tween::TweenType::Logaritmic);
+	}
+	else
+	{
+		m_ScaleTween.Set(sf::Vector2f(1, 1), sf::Vector2f(1, 1), 0.1f, Tween::TweenType::Logaritmic);
+	}
 
 	ResetTurns();
 }

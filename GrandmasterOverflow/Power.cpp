@@ -29,7 +29,7 @@ void Power::Update()
 {
 	if (!m_ScaleTween.Done())
 	{
-		m_ScaleTween.Update(GameTime::DeltaTime());
+		m_ScaleTween.Update(GameTime::DeltaTimeUnscaled());
 		auto value = m_ScaleTween.GetValue();
 		m_GameObject->Transform()->SetScale(sf::Vector2f(value, value));
 	}

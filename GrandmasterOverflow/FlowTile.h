@@ -42,6 +42,8 @@ public:
 
 	inline int GetFlowGroup() const { return m_Group; }
 	inline void SetFlowGroup(int newGroup) { m_Group = newGroup; }
+	inline void SetShouldScale(bool shouldScale) { m_ShoudScale = shouldScale; }
+
 private:
 	void ResetTurns();
 	void Spread();
@@ -56,6 +58,7 @@ private:
 	int	m_TurnsLeft;
 	int m_Group;
 	bool m_ShouldSpread;
+	bool m_ShoudScale;
 
 	Tween2 m_ScaleTween;
 

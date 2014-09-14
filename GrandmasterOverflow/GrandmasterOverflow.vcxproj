@@ -15,6 +15,9 @@
     <ClCompile Include="CameraControl.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GhostPower.cpp" />
+    <ClCompile Include="GlobalPower.cpp" />
+    <ClCompile Include="PauseIndicator.cpp" />
+    <ClCompile Include="PausePower.cpp" />
     <ClCompile Include="PlaceTilePower.cpp" />
     <ClCompile Include="FlowTile.cpp" />
     <ClCompile Include="Power.cpp" />
@@ -30,7 +33,10 @@
     <ClInclude Include="CameraControl.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GhostPower.h" />
+    <ClInclude Include="GlobalPower.h" />
     <ClInclude Include="ITurnClient.h" />
+    <ClInclude Include="PauseIndicator.h" />
+    <ClInclude Include="PausePower.h" />
     <ClInclude Include="PlaceTilePower.h" />
     <ClInclude Include="FlowTile.h" />
     <ClInclude Include="Power.h" />

@@ -9,6 +9,7 @@
 #include "CameraControl.h"
 #include "FlowTile.h"
 #include "TileDestroyer.h"
+#include "PauseIndicator.h"
 
 #include <GameObject.h>
 #include <SpriteRenderer.h>
@@ -25,6 +26,7 @@
 #include <TextRenderer.h>
 #include <Application.h>
 #include <BoxInteractionComponent.h>
+#include "PausePower.h"
 
 namespace prefabs
 {
@@ -98,8 +100,8 @@ namespace prefabs
 		return cameraObject;
 	}
 
-	GameObject* CreatePower(float size, sf::Vector2f const& pos, PlaceTilePower::Type type, int uses)
-{
+	GameObject* CreatePower(float size, sf::Vector2f const& pos, std::string const& textureName, int uses)
+	{
 		GameObject* gObject = new GameObject();
 		gObject->SetTag(TAG_SLOT);
 		gObject->SetLayer(Layer::GUI);
@@ -109,12 +111,12 @@ namespace prefabs
 		innerIcon->SetTag(TAG_SLOT);
 		innerIcon->SetLayer(Layer::GUI);
 
-		auto renderer = new SpriteRenderer(kPowerTextures[type]);
+		auto renderer = new SpriteRenderer(textureName);
 		renderer->SetSpriteSize(sf::Vector2f(size, size));
 		innerIcon->AddComponent(renderer);
 
 		innerIcon->SetParent(gObject);
-		innerIcon->Transform()->SetLocalPosition(sf::Vector2f(-size/2, 0));
+		innerIcon->Transform()->SetLocalPosition(sf::Vector2f(-size / 2, 0));
 
 		auto innerText = new GameObject();
 		innerText->SetName(NAME_TEXT_POWER);
@@ -123,7 +125,7 @@ namespace prefabs
 
 		auto textRenderer = new TextRenderer();
 		textRenderer->Text().setFont(ResourceManager::GetFont("font.ttf"));
-		textRenderer->Text().setCharacterSize(static_cast<int>(3*size / 5));
+		textRenderer->Text().setCharacterSize(static_cast<int>(3 * size / 5));
 		textRenderer->Text().setColor(sf::Color::White);
 		textRenderer->Text().setString("x" + std::to_string(uses));
 		textRenderer->SetAlignment(TextRenderer::Center);
@@ -137,10 +139,28 @@ namespace prefabs
 
 		gObject->AddComponent(new InputInteractionComponent());
 
+		gObject->Transform()->SetPosition(pos);
+
+		return gObject;
+	}
+
+	GameObject* CreatePlaceTilePower(float size, sf::Vector2f const& pos, PlaceTilePower::Type type, int uses)
+	{
+		auto gObject = CreatePower(size, pos, kPowerTextures[type], uses);
+
 		auto power = new PlaceTilePower(type, uses);
 		gObject->AddComponent(power);
 
-		gObject->Transform()->SetPosition(pos);
+		return gObject;
+	}
+
+
+	GameObject* CreatePausePower(float size, sf::Vector2f const& pos, int uses)
+	{
+		auto gObject = CreatePower(size, pos, "pauseIcon.png", uses);
+
+		auto power = new PausePower(uses);
+		gObject->AddComponent(power);
 
 		return gObject;
 	}
@@ -275,6 +295,14 @@ namespace prefabs
 		float curHeight = -(windowSize.y - 2 * size) / 2;
 		float x = windowSize.x / 2 - 3 * size / 2;
 
+		int pauses = levelNode.attribute("PauseAllows").as_int();
+		
+		if (pauses != 0)
+		{
+			GameObject::Instantiate(CreatePausePower(size, sf::Vector2f(x, curHeight), pauses));
+			curHeight += size + offset;
+		}
+
 		for (auto& attribute : levelNode.attributes())
 		{
 			auto name = attribute.name();
@@ -283,7 +311,7 @@ namespace prefabs
 				int value = attribute.as_int();
 				if (value != 0)
 				{
-					GameObject::Instantiate(CreatePower(size, sf::Vector2f(x, curHeight), kPowerNames[name], value));
+					GameObject::Instantiate(CreatePlaceTilePower(size, sf::Vector2f(x, curHeight), kPowerNames[name], value));
 					curHeight += size + offset;
 				}
 			}
@@ -334,9 +362,35 @@ namespace prefabs
 			{
 				int type = unitXML.attribute("Type").as_int();
 				int turns = unitXML.attribute("Turns").as_int();
-				GameObject::Instantiate(CreateFlow(sf::Vector2f(x, y), static_cast<FlowTile::FlowTileType>(type), flowGroup, turns));
+
+				auto flow = CreateFlow(sf::Vector2f(x, y), static_cast<FlowTile::FlowTileType>(type), flowGroup, turns);
+				flow->GetComponent<FlowTile>()->SetShouldScale(false);
+				GameObject::Instantiate(flow);
+
 				flowGroup++;
 			}
 		}
+
+		GameObject::Instantiate(CreatePauseHandler());
+	}
+
+	GameObject* CreatePauseHandler()
+	{
+		auto gObject = new GameObject();
+		gObject->SetTag(TAG_PAUSE_HANDLER);
+		gObject->SetLayer(Layer::GUI);
+
+		auto wSize = Application::GetWindow().getSize();
+		gObject->AddComponent(new BoxInteractionComponent(wSize.x, wSize.y));
+
+		auto renderer = new SpriteRenderer("pauseIcon.png");
+		renderer->SetSpriteColor(sf::Color(170, 170, 170, 255));
+		gObject->AddComponent(renderer);
+
+		gObject->AddComponent(new PauseIndicator());
+
+		gObject->AddComponent(new InputInteractionComponent());
+
+		return gObject;
 	}
 }
