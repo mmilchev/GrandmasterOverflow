@@ -36,7 +36,7 @@ public:
 
 	void OnTurnTime() override;
 
-	bool CheckCollision();
+	FlowTile const* CheckCollision();
 
 	void Solidify();
 

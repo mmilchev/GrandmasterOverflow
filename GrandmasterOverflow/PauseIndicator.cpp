@@ -1,6 +1,7 @@
 #include "PauseIndicator.h"
 #include "ConfigManager.h"
 #include "GameTime.h"
+#include "Utils.h"
 
 #include <GameObject.h>
 #include <TransformComponent.h>
@@ -8,7 +9,7 @@
 
 void PauseIndicator::Awake()
 {
-	m_FadeTween.Set(0, 1, ConfigManager::GetFloat("[GUI]fPauseIconTime"), Tween::Logaritmic);
+	m_FadeTween.Set(0, 3, ConfigManager::GetFloat("[GUI]fPauseIconTime"), Tween::Linear);
 	m_Renderer = m_GameObject->GetComponent<SpriteRenderer>();
 	
 	//Pause the game time
@@ -21,10 +22,22 @@ void PauseIndicator::Update()
 
 	if (!m_FadeTween.Done())
 	{
-		auto scaleFactor = 1 + m_FadeTween.GetValue() * ConfigManager::GetFloat("[GUI]fPauseIconScale");
+		auto value = m_FadeTween.GetValue();
+		auto scaleValue = Clamp(value - 2, 0, 1);
+		auto scaleFactor = 1 + (scaleValue)* ConfigManager::GetFloat("[GUI]fPauseIconScale");
 		m_GameObject->Transform()->SetScale(sf::Vector2f(scaleFactor, scaleFactor));
 		auto color = m_Renderer->GetSprite().getColor();
-		color.a = static_cast<sf::Uint8>((1 - m_FadeTween.GetValue()) * 255);
+		
+		float fadeValue;
+		if (value < 0.5)
+			fadeValue = 2*value;
+		else if (value > 2)
+			fadeValue = 3 - m_FadeTween.GetValue();
+		else
+			fadeValue = 1;
+
+		color.a = static_cast<sf::Uint8>(fadeValue * 255);
+		
 		m_Renderer->SetSpriteColor(color);
 	}
 }

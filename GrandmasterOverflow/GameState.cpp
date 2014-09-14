@@ -114,7 +114,8 @@ void GameState::CheckTilesForCollisions()
 {
 	for (auto tile : m_FlowTiles)
 	{
-		if (tile->CheckCollision())
+		auto collision = tile->CheckCollision();
+		if (collision != nullptr)
 		{
 			SolidifyTileGroup(tile->GetFlowGroup());
 		}

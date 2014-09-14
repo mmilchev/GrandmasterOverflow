@@ -303,6 +303,9 @@ namespace prefabs
 			curHeight += size + offset;
 		}
 
+		//Separate global from tile placing powers
+		curHeight += 2*offset;
+
 		for (auto& attribute : levelNode.attributes())
 		{
 			auto name = attribute.name();

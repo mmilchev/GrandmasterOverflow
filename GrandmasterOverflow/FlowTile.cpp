@@ -135,7 +135,7 @@ void FlowTile::Spread()
 	}
 }
 
-bool FlowTile::CheckCollision()
+FlowTile const* FlowTile::CheckCollision()
 {
 	auto boardPos = m_Board->GetGridPos(m_GameObject->Transform()->Position());
 	std::vector<sf::Vector2i> spawns;
@@ -148,9 +148,9 @@ bool FlowTile::CheckCollision()
 		{
 			if (state->IsPassable() && state->Occupied() && 
 				state->GetOccupant()->kType != kType && state->GetOccupant()->m_Group != m_Group)
-				return true;
+				return state->GetOccupant();
 		}
 	}
 
-	return false;
+	return nullptr;
 }
