@@ -360,8 +360,8 @@ namespace prefabs
 		}
 	}
 
-	GameObject* CreateIconAnimation(std::string const& textureName)
-	{
+	GameObject* CreateIconAnimation(std::string const& textureName, float spriteSize)
+{
 		auto gObject = new GameObject();
 		gObject->SetLayer(Layer::GUI);
 
@@ -370,11 +370,17 @@ namespace prefabs
 
 		auto renderer = new SpriteRenderer(textureName);
 		renderer->SetSpriteColor(sf::Color(170, 170, 170, 255));
+		renderer->SetSpriteSize(sf::Vector2f(spriteSize, spriteSize));
 		gObject->AddComponent(renderer);
 
 		gObject->AddComponent(new ScreenIconAnimation());
 
 		return gObject;
+	}
+
+	GameObject* CreateIconAnimation(std::string const& textureName)
+	{
+		return CreateIconAnimation(textureName, static_cast<float>(ResourceManager::GetTexture(textureName).getSize().x));
 	}
 
 	GameObject* CreateTimeMenu(float height)

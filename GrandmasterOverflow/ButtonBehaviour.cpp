@@ -43,17 +43,17 @@ void ButtonBehaviour::TriggerButton()
 void PauseButtonBehaviour::TriggerButton()
 {
 	GameTime::SetScale(0);
-	GameObject::Instantiate(prefabs::CreateIconAnimation("pauseIcon.png"));
+	GameObject::Instantiate(prefabs::CreateIconAnimation("pauseIcon.png", 256));
 }
 
 void NormalSpeedButtonBehaviour::TriggerButton()
 {
 	GameTime::SetScale(1);
-	GameObject::Instantiate(prefabs::CreateIconAnimation("normalSpeedIcon.png"));
+	GameObject::Instantiate(prefabs::CreateIconAnimation("normalSpeedIcon.png", 256));
 }
 
 void FastforwardButtonBehaviour::TriggerButton()
 {
 	GameTime::SetScale(ConfigManager::GetFloat("[Gameplay]fFastForwardSpeed"));
-	GameObject::Instantiate(prefabs::CreateIconAnimation("fastForwardIcon.png"));
+	GameObject::Instantiate(prefabs::CreateIconAnimation("fastForwardIcon.png", 256));
 }

@@ -9,7 +9,7 @@
 
 void ScreenIconAnimation::Awake()
 {
-	m_FadeTween.Set(0, 3, ConfigManager::GetFloat("[GUI]fPauseIconTime"), Tween::Linear);
+	m_FadeTween.Set(0, 1, ConfigManager::GetFloat("[GUI]fPauseIconTime"), Tween::Expo3);
 	m_Renderer = m_GameObject->GetComponent<SpriteRenderer>();
 }
 
@@ -20,21 +20,13 @@ void ScreenIconAnimation::Update()
 	if (!m_FadeTween.Done())
 	{
 		auto value = m_FadeTween.GetValue();
-		auto scaleValue = Clamp(value - 2, 0, 1);
-		auto scaleFactor = 1 + (scaleValue)* ConfigManager::GetFloat("[GUI]fPauseIconScale");
-		m_GameObject->Transform()->SetScale(sf::Vector2f(scaleFactor, scaleFactor));
-		auto color = m_Renderer->GetSprite().getColor();
-		
-		float fadeValue;
-		if (value < 0.5)
-			fadeValue = 2*value;
-		else if (value > 2)
-			fadeValue = 3 - m_FadeTween.GetValue();
-		else
-			fadeValue = 1;
+		auto scaleValue = Clamp(value, 0, 1);
+		m_GameObject->Transform()->SetScale(sf::Vector2f(scaleValue, scaleValue));
 
-		color.a = static_cast<sf::Uint8>(fadeValue * 255);
-		
+		auto color = m_Renderer->GetSprite().getColor();
+		float alpha = Clamp(2 - 2 * value, 0, 1);
+		color.a = static_cast<sf::Uint8>(alpha  * 255);
+
 		m_Renderer->SetSpriteColor(color);
 	}
 	else
