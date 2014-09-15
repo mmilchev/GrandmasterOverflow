@@ -13,7 +13,7 @@
 #define TAG_SLOT				"Slot"
 #define TAG_GHOST_POWER			"GhostPower"
 #define TAG_POWER_TILE			"PowerTile"
-#define TAG_PAUSE_HANDLER		"PauseHandler"
+#define TAG_TIME_MENU			"TimeMenu"
 
 #define NAME_GAME_BOARD			"GameBoard"
 #define NAME_GAME_STATE			"GameState"

@@ -75,14 +75,14 @@
     <ClInclude Include="TileDestroyer.h">
       <Filter>Header\Behaviors</Filter>
     </ClInclude>
-    <ClInclude Include="PauseIndicator.h">
-      <Filter>Header\Behaviors</Filter>
-    </ClInclude>
     <ClInclude Include="GlobalPower.h">
       <Filter>Header\GUI\Powers</Filter>
     </ClInclude>
-    <ClInclude Include="PausePower.h">
-      <Filter>Header\GUI\Powers</Filter>
+    <ClInclude Include="ButtonBehaviour.h">
+      <Filter>Header\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenIconAnimation.h">
+      <Filter>Header\Behaviors</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -125,13 +125,13 @@
     <ClCompile Include="TileDestroyer.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="PauseIndicator.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="GlobalPower.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="PausePower.cpp">
+    <ClCompile Include="ButtonBehaviour.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenIconAnimation.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>

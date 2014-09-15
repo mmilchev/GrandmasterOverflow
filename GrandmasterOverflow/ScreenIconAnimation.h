@@ -1,17 +1,15 @@
-#ifndef PAUSE_INDICATOR_H
-#define PAUSE_INDICATOR_H
+#ifndef SCREEN_ICON_ANIMATION_H
+#define SCREEN_ICON_ANIMATION_H
 
 #include <DynamicBehaviour.h>
 #include <Tween.h>
 
 class SpriteRenderer;
 
-class PauseIndicator
+class ScreenIconAnimation
 	: public DynamicBehaviour
 {
 public:
-
-	void OnClicked() override;
 	void Awake() override;
 
 	void Update() override;

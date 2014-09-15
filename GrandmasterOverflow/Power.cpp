@@ -12,27 +12,6 @@
 Power::Power(int uses)
 	:m_Uses(uses)
 {
-	m_ScaleTween.Set(1, 1, 1, Tween::TweenType::Logaritmic);
-}
-
-void Power::OnMouseEnter()
-{
-	m_ScaleTween.Set(m_GameObject->Transform()->Scale().x, 1.3f, 0.3f, Tween::TweenType::Logaritmic);
-}
-
-void Power::OnMouseLeave()
-{
-	m_ScaleTween.Set(m_GameObject->Transform()->Scale().x, 1, 0.1f, Tween::TweenType::Logaritmic);
-}
-
-void Power::Update()
-{
-	if (!m_ScaleTween.Done())
-	{
-		m_ScaleTween.Update(GameTime::DeltaTimeUnscaled());
-		auto value = m_ScaleTween.GetValue();
-		m_GameObject->Transform()->SetScale(sf::Vector2f(value, value));
-	}
 }
 
 void Power::OnPowerUsed()

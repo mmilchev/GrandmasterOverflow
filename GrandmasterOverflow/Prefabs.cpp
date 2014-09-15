@@ -8,8 +8,9 @@
 #include "pugixml.hpp"
 #include "CameraControl.h"
 #include "FlowTile.h"
+#include "ButtonBehaviour.h"
+#include "ScreenIconAnimation.h"
 #include "TileDestroyer.h"
-#include "PauseIndicator.h"
 
 #include <GameObject.h>
 #include <SpriteRenderer.h>
@@ -26,7 +27,7 @@
 #include <TextRenderer.h>
 #include <Application.h>
 #include <BoxInteractionComponent.h>
-#include "PausePower.h"
+#include <sigslot.h>
 
 namespace prefabs
 {
@@ -45,7 +46,7 @@ namespace prefabs
 	std::map<std::string, PlaceTilePower::Type> kPowerNames =
 	{
 		{ "Single", PlaceTilePower::Type::Single },
-		{ "SingleDestroy", PlaceTilePower::Type::SingleDestroy},
+		{ "SingleDestroy", PlaceTilePower::Type::SingleDestroy },
 		{ "CornerSmall", PlaceTilePower::Type::CornerSmall },
 		{ "CornerBig", PlaceTilePower::Type::CornerBig },
 		{ "IShapeSmall", PlaceTilePower::Type::IShapeSmall },
@@ -138,6 +139,7 @@ namespace prefabs
 		gObject->AddComponent(new BoxInteractionComponent(2 * intSize, intSize));
 
 		gObject->AddComponent(new InputInteractionComponent());
+		gObject->AddComponent(new ButtonBehaviour());
 
 		gObject->Transform()->SetPosition(pos);
 
@@ -154,17 +156,6 @@ namespace prefabs
 		return gObject;
 	}
 
-
-	GameObject* CreatePausePower(float size, sf::Vector2f const& pos, int uses)
-	{
-		auto gObject = CreatePower(size, pos, "pauseIcon.png", uses);
-
-		auto power = new PausePower(uses);
-		gObject->AddComponent(power);
-
-		return gObject;
-	}
-
 	GameObject* CreateGhostPower(TargetPower* power)
 	{
 		GameObject* gObject = new GameObject();
@@ -173,7 +164,7 @@ namespace prefabs
 
 		auto ghost = new GhostPower(power);
 		gObject->AddComponent(ghost);
-		
+
 		return gObject;
 	}
 
@@ -196,7 +187,7 @@ namespace prefabs
 	}
 
 	GameObject* CreateFlow(sf::Vector2f const& pos, FlowTile::FlowTileType type, int group, int turns)
-{
+	{
 		GameObject* gObject = new GameObject();
 		gObject->SetTag(TAG_FLOW);
 		gObject->SetLayer(Layer::Game);
@@ -292,19 +283,13 @@ namespace prefabs
 		float size = 32.f;
 		sf::Vector2u windowSize = Application::GetWindow().getSize();
 		float offset = 20;
-		float curHeight = -(windowSize.y - 2 * size) / 2;
+		float curHeight = -(windowSize.y - 2 * size) / 2 + 2 * offset;
 		float x = windowSize.x / 2 - 3 * size / 2;
 
-		int pauses = levelNode.attribute("PauseAllows").as_int();
-		
-		if (pauses != 0)
-		{
-			GameObject::Instantiate(CreatePausePower(size, sf::Vector2f(x, curHeight), pauses));
-			curHeight += size + offset;
-		}
+		GameObject::Instantiate(CreateTimeMenu(size));
 
 		//Separate global from tile placing powers
-		curHeight += 2*offset;
+		curHeight += 2 * offset;
 
 		for (auto& attribute : levelNode.attributes())
 		{
@@ -373,27 +358,90 @@ namespace prefabs
 				flowGroup++;
 			}
 		}
-
-		GameObject::Instantiate(CreatePauseHandler());
 	}
 
-	GameObject* CreatePauseHandler()
+	GameObject* CreateIconAnimation(std::string const& textureName)
 	{
 		auto gObject = new GameObject();
-		gObject->SetTag(TAG_PAUSE_HANDLER);
 		gObject->SetLayer(Layer::GUI);
 
 		auto wSize = Application::GetWindow().getSize();
 		gObject->AddComponent(new BoxInteractionComponent(wSize.x, wSize.y));
 
-		auto renderer = new SpriteRenderer("pauseIcon.png");
+		auto renderer = new SpriteRenderer(textureName);
 		renderer->SetSpriteColor(sf::Color(170, 170, 170, 255));
 		gObject->AddComponent(renderer);
 
-		gObject->AddComponent(new PauseIndicator());
-
-		gObject->AddComponent(new InputInteractionComponent());
+		gObject->AddComponent(new ScreenIconAnimation());
 
 		return gObject;
 	}
+
+	GameObject* CreateTimeMenu(float height)
+	{
+		auto gObject = new GameObject();
+		gObject->SetTag(TAG_TIME_MENU);
+		gObject->SetLayer(Layer::GUI);
+
+		const int numElements = 3;
+		auto wSize = Application::GetWindow().getSize();
+		float border = height / 4;
+		gObject->Transform()->SetPosition(sf::Vector2f(wSize.x/2 - numElements * (border + height) / 2 , -(wSize.y/2 - border - height / 2)));
+
+		float offset = (wSize.x/2 - border - height/2) - gObject->Transform()->Position().x;
+
+		{
+			auto fastForwardObject = new GameObject();
+			fastForwardObject->SetLayer(Layer::GUI);
+
+			auto renderer = new SpriteRenderer("fastForwardIcon.png");
+			renderer->SetSpriteSize(sf::Vector2f(height, height));
+			fastForwardObject->AddComponent(renderer);
+
+			fastForwardObject->AddComponent(new InputInteractionComponent());
+			fastForwardObject->AddComponent(new FastforwardButtonBehaviour());
+
+			fastForwardObject->SetParent(gObject);
+
+			fastForwardObject->Transform()->SetLocalPosition(sf::Vector2f(offset, 0));
+			offset -= height + border;
+		}
+		
+		{
+			auto normalSpeedObject = new GameObject();
+			normalSpeedObject->SetLayer(Layer::GUI);
+
+			auto renderer = new SpriteRenderer("normalSpeedIcon.png");
+			renderer->SetSpriteSize(sf::Vector2f(height, height));
+			normalSpeedObject->AddComponent(renderer);
+
+			normalSpeedObject->AddComponent(new InputInteractionComponent());
+			normalSpeedObject->AddComponent(new NormalSpeedButtonBehaviour());
+
+			normalSpeedObject->SetParent(gObject);
+
+			normalSpeedObject->Transform()->SetLocalPosition(sf::Vector2f(offset, 0));
+			offset -= height + border;
+		}
+
+		{
+			auto pauseGameObject = new GameObject();
+			pauseGameObject->SetLayer(Layer::GUI);
+
+			auto renderer = new SpriteRenderer("pauseIcon.png");
+			renderer->SetSpriteSize(sf::Vector2f(height, height));
+			pauseGameObject->AddComponent(renderer);
+
+			pauseGameObject->AddComponent(new InputInteractionComponent());
+			pauseGameObject->AddComponent(new PauseButtonBehaviour());
+
+			pauseGameObject->SetParent(gObject);
+
+			pauseGameObject->Transform()->SetLocalPosition(sf::Vector2f(offset, 0));
+			offset -= height + border;
+		}
+
+		return gObject;
+	}
+
 }

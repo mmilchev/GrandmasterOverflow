@@ -12,17 +12,11 @@ class Power
 public:
 	explicit Power(int uses);
 
-	void OnMouseEnter() override;
-	void OnMouseLeave() override;
-
-	void Update() override;
-
 protected:
 	void OnPowerUsed();
 	virtual bool CanUsePower();
 
 	int m_Uses;
-	Tween m_ScaleTween;
 };
 
 #endif

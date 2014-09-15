@@ -1,4 +1,4 @@
-#include "PauseIndicator.h"
+#include "ScreenIconAnimation.h"
 #include "ConfigManager.h"
 #include "GameTime.h"
 #include "Utils.h"
@@ -7,16 +7,13 @@
 #include <TransformComponent.h>
 #include <SpriteRenderer.h>
 
-void PauseIndicator::Awake()
+void ScreenIconAnimation::Awake()
 {
 	m_FadeTween.Set(0, 3, ConfigManager::GetFloat("[GUI]fPauseIconTime"), Tween::Linear);
 	m_Renderer = m_GameObject->GetComponent<SpriteRenderer>();
-	
-	//Pause the game time
-	GameTime::SetScale(0);
 }
 
-void PauseIndicator::Update()
+void ScreenIconAnimation::Update()
 {
 	m_FadeTween.Update(GameTime::DeltaTimeUnscaled());
 
@@ -40,12 +37,8 @@ void PauseIndicator::Update()
 		
 		m_Renderer->SetSpriteColor(color);
 	}
-}
-
-void PauseIndicator::OnClicked()
-{
-	GameObject::Destroy(m_GameObject);
-	
-	//Resume game time
-	GameTime::SetScale(1);
+	else
+	{
+		GameObject::Destroy(m_GameObject);
+	}
 }
