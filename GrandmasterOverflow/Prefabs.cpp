@@ -268,7 +268,9 @@ namespace prefabs
 			std::cout << "XML [" << name << "] parsed with errors";
 			return;
 		}
-
+		
+		Application::ClearScene();
+		
 		//GameScene init
 		auto gameCamera = prefabs::CreateGameCamera(sf::Vector2f(0, 0));
 		GameObject::Instantiate(gameCamera);
@@ -358,6 +360,8 @@ namespace prefabs
 				flowGroup++;
 			}
 		}
+
+		Application::OnNewLevelLoaded();
 	}
 
 	GameObject* CreateIconAnimation(std::string const& textureName, float spriteSize)

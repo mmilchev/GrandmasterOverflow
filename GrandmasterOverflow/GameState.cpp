@@ -14,6 +14,7 @@
 #include <SpriteRenderer.h>
 #include <Application.h>
 #include <iostream>
+#include "Prefabs.h"
 
 GameState::GameState()
 :m_TurnNum(0)
@@ -107,7 +108,7 @@ void GameState::SolidifyTileGroup(int group)
 
 void GameState::TriggerGameOver()
 {
-
+	prefabs::LoadLevel("Level-1.oel");
 }
 
 void GameState::CheckTilesForCollisions()
