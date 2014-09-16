@@ -9,7 +9,7 @@
 #include "CameraControl.h"
 #include "FlowTile.h"
 #include "ButtonBehaviour.h"
-#include "ScreenIconAnimation.h"
+#include "ScreenScaleAnimation.h"
 #include "TileDestroyer.h"
 
 #include <GameObject.h>
@@ -28,6 +28,7 @@
 #include <Application.h>
 #include <BoxInteractionComponent.h>
 #include <sigslot.h>
+#include "ScreenPositionAnimation.h"
 
 namespace prefabs
 {
@@ -268,9 +269,9 @@ namespace prefabs
 			std::cout << "XML [" << name << "] parsed with errors";
 			return;
 		}
-		
+
 		Application::ClearScene();
-		
+
 		//GameScene init
 		auto gameCamera = prefabs::CreateGameCamera(sf::Vector2f(0, 0));
 		GameObject::Instantiate(gameCamera);
@@ -361,11 +362,13 @@ namespace prefabs
 			}
 		}
 
+		GameObject::Instantiate(CreateLevelCompleteAnimation());
+
 		Application::OnNewLevelLoaded();
 	}
 
 	GameObject* CreateIconAnimation(std::string const& textureName, float spriteSize)
-{
+	{
 		auto gObject = new GameObject();
 		gObject->SetLayer(Layer::GUI);
 
@@ -377,7 +380,7 @@ namespace prefabs
 		renderer->SetSpriteSize(sf::Vector2f(spriteSize, spriteSize));
 		gObject->AddComponent(renderer);
 
-		gObject->AddComponent(new ScreenIconAnimation());
+		gObject->AddComponent(new ScreenScaleAnimation());
 
 		return gObject;
 	}
@@ -396,9 +399,9 @@ namespace prefabs
 		const int numElements = 3;
 		auto wSize = Application::GetWindow().getSize();
 		float border = height / 4;
-		gObject->Transform()->SetPosition(sf::Vector2f(wSize.x/2 - numElements * (border + height) / 2 , -(wSize.y/2 - border - height / 2)));
+		gObject->Transform()->SetPosition(sf::Vector2f(wSize.x / 2 - numElements * (border + height) / 2, -(wSize.y / 2 - border - height / 2)));
 
-		float offset = (wSize.x/2 - border - height/2) - gObject->Transform()->Position().x;
+		float offset = (wSize.x / 2 - border - height / 2) - gObject->Transform()->Position().x;
 
 		{
 			auto fastForwardObject = new GameObject();
@@ -416,7 +419,7 @@ namespace prefabs
 			fastForwardObject->Transform()->SetLocalPosition(sf::Vector2f(offset, 0));
 			offset -= height + border;
 		}
-		
+
 		{
 			auto normalSpeedObject = new GameObject();
 			normalSpeedObject->SetLayer(Layer::GUI);
@@ -450,6 +453,31 @@ namespace prefabs
 			pauseGameObject->Transform()->SetLocalPosition(sf::Vector2f(offset, 0));
 			offset -= height + border;
 		}
+
+		return gObject;
+	}
+
+	GameObject* CreateLevelCompleteAnimation()
+	{
+		GameObject* gObject = new GameObject();
+		gObject->SetLayer(Layer::GUI);
+
+		{
+			auto text = new TextRenderer();
+			text->SetShadowSize(3);
+			text->SetShadowColor(sf::Color(10, 10, 10, 240));
+			text->Text().setFont(ResourceManager::GetFont("8-bit_wonder.ttf"));
+			text->Text().setColor(sf::Color(200, 200, 200, 255));
+			text->Text().setString("Level Complete");
+			text->Text().setCharacterSize(static_cast<unsigned int>(TILE_SIZE / 4));
+			text->SetAlignment(TextRenderer::TextAlign::Center);
+
+			gObject->AddComponent(text);
+		}
+
+		auto wSize = ToVecf(Application::GetWindow().getSize());
+		auto animation = new ScreenPositionAnimation(sf::Vector2f(-wSize.x, 0), sf::Vector2f(wSize.x, 0));
+		gObject->AddComponent(animation);
 
 		return gObject;
 	}

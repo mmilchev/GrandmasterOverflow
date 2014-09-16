@@ -1,12 +1,12 @@
-#ifndef SCREEN_ICON_ANIMATION_H
-#define SCREEN_ICON_ANIMATION_H
+#ifndef SCREEN_SCALE_ANIMATION_H
+#define SCREEN_SCALE_ANIMATION_H
 
 #include <DynamicBehaviour.h>
 #include <Tween.h>
 
 class SpriteRenderer;
 
-class ScreenIconAnimation
+class ScreenScaleAnimation
 	: public DynamicBehaviour
 {
 public:

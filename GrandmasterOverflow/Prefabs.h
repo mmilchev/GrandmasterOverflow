@@ -30,6 +30,8 @@ namespace prefabs
 	GameObject* CreateIconAnimation(std::string const& textureName);
 	GameObject* CreateIconAnimation(std::string const& textureName, float spriteSize);
 
+	GameObject* CreateLevelCompleteAnimation();
+
 	GameObject* CreateTileDestroyer(sf::Vector2f const & pos);
 
 	GameObject* CreateEmptyBoard(int width, int height);

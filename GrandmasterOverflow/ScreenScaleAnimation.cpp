@@ -1,4 +1,4 @@
-#include "ScreenIconAnimation.h"
+#include "ScreenScaleAnimation.h"
 #include "ConfigManager.h"
 #include "GameTime.h"
 #include "Utils.h"
@@ -7,13 +7,13 @@
 #include <TransformComponent.h>
 #include <SpriteRenderer.h>
 
-void ScreenIconAnimation::Awake()
+void ScreenScaleAnimation::Awake()
 {
-	m_FadeTween.Set(0, 1, ConfigManager::GetFloat("[GUI]fPauseIconTime"), Tween::Expo3);
+	m_FadeTween.Set(0, 1, ConfigManager::GetFloat("[GUI]fPauseIconTime"), Tween::Expo5);
 	m_Renderer = m_GameObject->GetComponent<SpriteRenderer>();
 }
 
-void ScreenIconAnimation::Update()
+void ScreenScaleAnimation::Update()
 {
 	m_FadeTween.Update(GameTime::DeltaTimeUnscaled());
 

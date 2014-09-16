@@ -47,6 +47,8 @@ private:
 	int	m_TurnNum;
 	float m_TurnTime;
 	float m_TimeToNextTurn;
+
+	bool m_GameOver;
 };
 
 #endif

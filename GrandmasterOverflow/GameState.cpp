@@ -17,7 +17,7 @@
 #include "Prefabs.h"
 
 GameState::GameState()
-:m_TurnNum(0)
+	:m_TurnNum(0), m_GameOver(false)
 {
 }
 
@@ -28,6 +28,9 @@ void GameState::Start()
 
 void GameState::Update()
 {
+	if (m_GameOver)
+		return;
+
 	m_TimeToNextTurn -= GameTime::DeltaTime();
 	if (m_TimeToNextTurn <= 0)
 	{
@@ -108,7 +111,8 @@ void GameState::SolidifyTileGroup(int group)
 
 void GameState::TriggerGameOver()
 {
-	prefabs::LoadLevel("Level-1.oel");
+	GameObject::Instantiate(prefabs::CreateLevelCompleteAnimation());
+	m_GameOver = true;
 }
 
 void GameState::CheckTilesForCollisions()

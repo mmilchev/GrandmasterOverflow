@@ -17,7 +17,8 @@
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GhostPower.cpp" />
     <ClCompile Include="GlobalPower.cpp" />
-    <ClCompile Include="ScreenIconAnimation.cpp" />
+    <ClCompile Include="ScreenPositionAnimation.cpp" />
+    <ClCompile Include="ScreenScaleAnimation.cpp" />
     <ClCompile Include="PlaceTilePower.cpp" />
     <ClCompile Include="FlowTile.cpp" />
     <ClCompile Include="Power.cpp" />
@@ -36,7 +37,8 @@
     <ClInclude Include="GhostPower.h" />
     <ClInclude Include="GlobalPower.h" />
     <ClInclude Include="ITurnClient.h" />
-    <ClInclude Include="ScreenIconAnimation.h" />
+    <ClInclude Include="ScreenPositionAnimation.h" />
+    <ClInclude Include="ScreenScaleAnimation.h" />
     <ClInclude Include="PlaceTilePower.h" />
     <ClInclude Include="FlowTile.h" />
     <ClInclude Include="Power.h" />

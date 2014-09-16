@@ -81,7 +81,10 @@
     <ClInclude Include="ButtonBehaviour.h">
       <Filter>Header\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="ScreenIconAnimation.h">
+    <ClInclude Include="ScreenScaleAnimation.h">
+      <Filter>Header\Behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenPositionAnimation.h">
       <Filter>Header\Behaviors</Filter>
     </ClInclude>
   </ItemGroup>
@@ -131,7 +134,10 @@
     <ClCompile Include="ButtonBehaviour.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="ScreenIconAnimation.cpp">
+    <ClCompile Include="ScreenScaleAnimation.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenPositionAnimation.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
