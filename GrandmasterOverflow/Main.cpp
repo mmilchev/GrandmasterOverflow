@@ -38,7 +38,7 @@ int main()
 
 	ConfigModules();
 
-	LevelManager::LoadNextLevel();
+	LevelManager::LoadLevel(ConfigManager::GetInt("[Level Progression]iStartLevel"));
 
 	application.Run();
 

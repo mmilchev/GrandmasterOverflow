@@ -6,7 +6,7 @@ int LevelManager::sCurrentLevelNum = 0;
 
 void LevelManager::LoadNextLevel()
 {
-	if (LastLevel())
+	if (IsFinalLevel())
 		return;
 
 	sCurrentLevelNum++;
@@ -21,7 +21,13 @@ void LevelManager::ReloadCurrentLevel()
 	prefabs::LoadLevel("Level-" + std::to_string(sCurrentLevelNum) + ".oel");
 }
 
-bool LevelManager::LastLevel()
+bool LevelManager::IsFinalLevel()
 {
 	return sCurrentLevelNum >= ConfigManager::GetInt("[Level Progression]iNumLevels");
+}
+
+void LevelManager::LoadLevel(int levelNum)
+{
+	sCurrentLevelNum = levelNum;
+	ReloadCurrentLevel();
 }

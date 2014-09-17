@@ -19,7 +19,7 @@ void ScreenPositionAnimation::Update()
 		GameObject::Destroy(m_GameObject);
 
 		//Temp solution
-		if (!LevelManager::LastLevel())
+		if (!LevelManager::IsFinalLevel())
 		{
 			LevelManager::LoadNextLevel();
 		}
