@@ -30,6 +30,9 @@ public:
 	bool Contains(sf::Vector2f const& pos) override;
 	void OnClicked() override;
 
+	inline int GetWidth() const { return m_Width; }
+	inline int GetHeight() const { return m_Height; }
+
 	inline TileState* GetTileState(sf::Vector2i const& pos)
 	{
 		if (!IsInBounds(pos))

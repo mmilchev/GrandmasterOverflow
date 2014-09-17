@@ -16,7 +16,7 @@
     <Width>2048</Width>
     <Height>2048</Height>
   </LevelMaximumSize>
-  <Filename>D:\!Projects\C++\GrandmasterOverflow\GrandmasterOverflow\Resources\Assets\Levels\OgmoProject.oep</Filename>
+  <Filename>D:\!Projects\C++\GrandmasterOverflow\Debug\Resources\Levels\OgmoProject.oep</Filename>
   <AngleMode>Degrees</AngleMode>
   <CameraEnabled>false</CameraEnabled>
   <CameraSize>
@@ -33,7 +33,6 @@
     <ValueDefinition xsi:type="IntValueDefinition" Name="IShapeBig" Default="0" Min="0" Max="10" ShowSlider="false" />
     <ValueDefinition xsi:type="IntValueDefinition" Name="CornerSmall" Default="0" Min="0" Max="10" ShowSlider="false" />
     <ValueDefinition xsi:type="IntValueDefinition" Name="CornerBig" Default="0" Min="0" Max="10" ShowSlider="false" />
-    <ValueDefinition xsi:type="IntValueDefinition" Name="PauseAllows" Default="0" Min="0" Max="10" ShowSlider="false" />
   </LevelValueDefinitions>
   <LayerDefinitions>
     <LayerDefinition xsi:type="TileLayerDefinition">
