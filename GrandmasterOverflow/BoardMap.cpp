@@ -6,8 +6,8 @@
 
 
 BoardMap::BoardMap(int width, int height)
-: m_Width(width), m_Height(height), 
-m_WorldOriginPosition(-sf::Vector2f(width / 2.f, height / 2.f) * TILE_SIZE)
+	: m_Width(width), m_Height(height),
+	m_WorldOriginPosition(-sf::Vector2f(width / 2.f, height / 2.f) * TILE_SIZE)
 {
 	//Init empty board
 	for (int i = 0; i < width * height; ++i)
@@ -75,4 +75,16 @@ void BoardMap::RemoveTile(sf::Vector2i const& pos)
 	auto tile = GetTileObject(pos);
 	if (tile != nullptr)
 		GameObject::Destroy(tile);
+}
+
+float BoardMap::GetPercentFilled() const
+{
+	float filled = 0;
+	for (unsigned int i = 0; i < m_Tiles.size(); ++i)
+	{
+		if (m_Tiles[i]->GetTileType() == Solid)
+			filled += 1;
+	}
+
+	return (filled / m_Tiles.size()) * 100;
 }

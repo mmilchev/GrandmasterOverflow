@@ -12,6 +12,7 @@ class SidebarBahaviour;
 class ITurnClient;
 class FlowTile;
 class TargetPower;
+class BoardMap;
 
 class GameState
 	: public DynamicBehaviour
@@ -43,6 +44,8 @@ private:
 	void ExecuteTurn();
 
 	std::vector<int> m_GroupMovedThisTurn;
+
+	BoardMap* m_Board;
 
 	QueuedVector<FlowTile*> m_FlowTiles;
 	std::vector<TargetPower*> m_TargetPowers;

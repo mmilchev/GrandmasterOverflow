@@ -19,7 +19,10 @@ void ScreenPositionAnimation::Update()
 		GameObject::Destroy(m_GameObject);
 
 		//Temp solution
-		LevelManager::LoadNextLevel();
+		if (!LevelManager::LastLevel())
+		{
+			LevelManager::LoadNextLevel();
+		}
 	}
 
 	m_GameObject->Transform()->SetPosition(m_PosTween.GetValue());

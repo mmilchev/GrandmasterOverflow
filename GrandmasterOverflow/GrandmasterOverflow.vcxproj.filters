@@ -90,6 +90,9 @@
     <ClInclude Include="LevelManager.h">
       <Filter>Header\Behaviors</Filter>
     </ClInclude>
+    <ClInclude Include="TimeControl.h">
+      <Filter>Header\Behaviors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -144,6 +147,9 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="LevelManager.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeControl.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>

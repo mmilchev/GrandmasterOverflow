@@ -11,6 +11,8 @@
 #include "ButtonBehaviour.h"
 #include "ScreenScaleAnimation.h"
 #include "TileDestroyer.h"
+#include "ScreenPositionAnimation.h"
+#include "TimeControl.h"
 
 #include <GameObject.h>
 #include <SpriteRenderer.h>
@@ -28,7 +30,6 @@
 #include <Application.h>
 #include <BoxInteractionComponent.h>
 #include <sigslot.h>
-#include "ScreenPositionAnimation.h"
 
 namespace prefabs
 {
@@ -394,6 +395,8 @@ namespace prefabs
 		gObject->SetTag(TAG_TIME_MENU);
 		gObject->SetLayer(Layer::GUI);
 
+		gObject->AddComponent(new TimeControl());
+
 		const int numElements = 4;
 		auto wSize = Application::GetWindow().getSize();
 		float border = height / 4;
@@ -404,6 +407,7 @@ namespace prefabs
 		{
 			auto fastForwardObject = new GameObject();
 			fastForwardObject->SetLayer(Layer::GUI);
+			fastForwardObject->SetTag(TAG_FAST_FORWARD_BUTTON);
 
 			auto renderer = new SpriteRenderer("fastForwardIcon.png");
 			renderer->SetSpriteSize(sf::Vector2f(height, height));
@@ -421,6 +425,7 @@ namespace prefabs
 		{
 			auto normalSpeedObject = new GameObject();
 			normalSpeedObject->SetLayer(Layer::GUI);
+			normalSpeedObject->SetTag(TAG_NORMAL_SPEED_BUTTON);
 
 			auto renderer = new SpriteRenderer("normalSpeedIcon.png");
 			renderer->SetSpriteSize(sf::Vector2f(height, height));
@@ -438,6 +443,7 @@ namespace prefabs
 		{
 			auto pauseGameObject = new GameObject();
 			pauseGameObject->SetLayer(Layer::GUI);
+			pauseGameObject->SetTag(TAG_PAUSE_BUTTON);
 
 			auto renderer = new SpriteRenderer("pauseIcon.png");
 			renderer->SetSpriteSize(sf::Vector2f(height, height));
@@ -472,8 +478,8 @@ namespace prefabs
 		return gObject;
 	}
 
-	GameObject* CreateLevelCompleteAnimation()
-	{
+	GameObject* CreateLevelCompleteAnimation( int percentComplete )
+{
 		GameObject* gObject = new GameObject();
 		gObject->SetLayer(Layer::GUI);
 
@@ -483,7 +489,7 @@ namespace prefabs
 			text->SetShadowColor(sf::Color(10, 10, 10, 240));
 			text->Text().setFont(ResourceManager::GetFont("8-bit_wonder.ttf"));
 			text->Text().setColor(sf::Color(200, 200, 200, 255));
-			text->Text().setString("Level Complete");
+			text->Text().setString("Level Complete\n       " + std::to_string(percentComplete) + " of 100");
 			text->Text().setCharacterSize(static_cast<unsigned int>(TILE_SIZE / 4));
 			text->SetAlignment(TextRenderer::TextAlign::Center);
 

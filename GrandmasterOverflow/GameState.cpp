@@ -4,6 +4,9 @@
 #include "ITurnClient.h"
 #include "FlowTile.h"
 #include "TargetPower.h"
+#include "Prefabs.h"
+#include "ButtonBehaviour.h"
+#include "BoardMap.h"
 
 #include <SFML/System/Vector2.hpp>
 #include <GameObject.h>
@@ -13,8 +16,6 @@
 #include <SFML/Window.hpp>
 #include <SpriteRenderer.h>
 #include <Application.h>
-#include <iostream>
-#include "Prefabs.h"
 
 GameState::GameState()
 	:m_TurnNum(0), m_GameOver(false)
@@ -22,7 +23,9 @@ GameState::GameState()
 }
 
 void GameState::Start()
-{	
+{
+	m_Board = GameObject::FindByTag(TAG_GAME_BOARD)->GetComponent<BoardMap>();
+
 	SetTurnTime(ConfigManager::GetFloat("[Gameplay]fTurnTime"));
 }
 
@@ -115,7 +118,7 @@ void GameState::SolidifyTileGroup(int group)
 
 void GameState::TriggerGameOver()
 {
-	GameObject::Instantiate(prefabs::CreateLevelCompleteAnimation());
+	GameObject::Instantiate(prefabs::CreateLevelCompleteAnimation(static_cast<int>(m_Board->GetPercentFilled())));
 	m_GameOver = true;
 }
 

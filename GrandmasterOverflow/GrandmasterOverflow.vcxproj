@@ -29,6 +29,7 @@
     <ClCompile Include="TargetPower.cpp" />
     <ClCompile Include="TileDestroyer.cpp" />
     <ClCompile Include="TileState.cpp" />
+    <ClCompile Include="TimeControl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BoardMap.h" />
@@ -52,6 +53,7 @@
     <ClInclude Include="TargetPower.h" />
     <ClInclude Include="TileDestroyer.h" />
     <ClInclude Include="TileState.h" />
+    <ClInclude Include="TimeControl.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources\Configs\MainConfig.ini">

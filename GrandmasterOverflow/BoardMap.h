@@ -25,6 +25,8 @@ public:
 
 	bool IsInBounds(sf::Vector2i const& pos);
 
+	float GetPercentFilled() const;
+
 	bool Contains(sf::Vector2f const& pos) override;
 	void OnClicked() override;
 

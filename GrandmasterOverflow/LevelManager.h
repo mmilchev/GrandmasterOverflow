@@ -7,6 +7,8 @@ public:
 	static void ReloadCurrentLevel();
 	static void LoadNextLevel();
 
+	static bool LastLevel();
+
 private:
 	static int sCurrentLevelNum;
 };
