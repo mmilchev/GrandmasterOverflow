@@ -37,7 +37,9 @@ void GameState::Update()
 		m_TurnNum++;
 		m_TimeToNextTurn += m_TurnTime;
 
-		CheckTilesForCollisions();
+		m_FlowTiles.ProcessQueued();
+
+		CheckAndSolidifyTiles();
 		ExecuteTurn();
 
 		if (m_TurnNum % ConfigManager::GetInt("[Flow Gameplay]iSpreadTurnTime") == 0)
@@ -61,6 +63,7 @@ void GameState::Update()
 			{
 				SolidifyTileGroup(diff[i]);
 			}
+			m_FlowTiles.ProcessQueued();
 
 			m_GroupMovedThisTurn.clear();
 		}
@@ -75,12 +78,12 @@ void GameState::SetTurnTime(float turnTime)
 
 void GameState::ReportFlowTileCreated(FlowTile* tile)
 {
-	m_FlowTiles.push_back(tile);
+	m_FlowTiles.Add(tile);
 }
 
 void GameState::ReportFlowTileDestroyed(FlowTile* tile)
 {
-	m_FlowTiles.erase(std::find(m_FlowTiles.begin(), m_FlowTiles.end(), tile));
+	m_FlowTiles.Remove(tile);
 }
 
 void GameState::ReportTileActivity(FlowTile* tile)
@@ -92,9 +95,9 @@ void GameState::ReportTileActivity(FlowTile* tile)
 void GameState::GetTileGroups(std::vector<int>& groups)
 {
 	int group;
-	for (auto tile : m_FlowTiles)
+	for (int i = 0; i < m_FlowTiles.Size(); ++i)
 	{
-		group = tile->GetFlowGroup();
+		group = m_FlowTiles[i]->GetFlowGroup();
 		if (std::find(groups.begin(), groups.end(), group) == groups.end())
 			groups.push_back(group);
 	}
@@ -102,8 +105,9 @@ void GameState::GetTileGroups(std::vector<int>& groups)
 
 void GameState::SolidifyTileGroup(int group)
 {
-	for (auto tile : m_FlowTiles)
+	for (int i = 0; i < m_FlowTiles.Size(); ++i)
 	{
+		auto tile = m_FlowTiles[i];
 		if (tile->GetFlowGroup() == group)
 			tile->Solidify();
 	}
@@ -115,25 +119,35 @@ void GameState::TriggerGameOver()
 	m_GameOver = true;
 }
 
-void GameState::CheckTilesForCollisions()
+void GameState::CheckAndSolidifyTiles()
 {
-	for (auto tile : m_FlowTiles)
+	std::vector<int> groupsForSolidifying;
+
+	for (int i = 0; i < m_FlowTiles.Size(); ++i)
 	{
-		auto collision = tile->CheckCollision();
-		if (collision != nullptr)
+		auto tile = m_FlowTiles[i];
+		if (tile->CheckCollision() != nullptr || tile->IsOutOfMoves())
 		{
-			SolidifyTileGroup(tile->GetFlowGroup());
+			groupsForSolidifying.push_back(tile->GetFlowGroup());
 		}
 	}
+
+	for (auto group : groupsForSolidifying)
+	{
+		SolidifyTileGroup(group);
+	}
+
+	m_FlowTiles.ProcessQueued();
 }
 
 void GameState::ExecuteTurn()
 {
-	for (auto tile : m_FlowTiles)
+	for (int i = 0; i < m_FlowTiles.Size(); ++i)
 	{
-		if (!tile->GetGameObject()->IsDestroyed())
-			tile->OnTurnTime();
+		m_FlowTiles[i]->OnTurnTime();
 	}
+
+	m_FlowTiles.ProcessQueued();
 }
 
 void GameState::ReportPowerCreated(TargetPower* power)

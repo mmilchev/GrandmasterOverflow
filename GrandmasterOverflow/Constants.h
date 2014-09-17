@@ -14,6 +14,7 @@
 #define TAG_GHOST_POWER			"GhostPower"
 #define TAG_POWER_TILE			"PowerTile"
 #define TAG_TIME_MENU			"TimeMenu"
+#define TAG_LEVEL_MANGER		"LevelManager"
 
 #define NAME_GAME_BOARD			"GameBoard"
 #define NAME_GAME_STATE			"GameState"

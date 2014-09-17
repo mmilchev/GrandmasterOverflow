@@ -40,6 +40,8 @@ public:
 
 	void Solidify();
 
+	bool IsOutOfMoves() const;
+
 	inline int GetFlowGroup() const { return m_Group; }
 	inline void SetFlowGroup(int newGroup) { m_Group = newGroup; }
 	inline void SetShouldScale(bool shouldScale) { m_ShoudScale = shouldScale; }

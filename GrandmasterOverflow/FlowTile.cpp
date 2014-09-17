@@ -38,11 +38,6 @@ m_GameState(nullptr), m_Board(nullptr), m_SpreadTurnsLeft(turns), m_ShoudScale(t
 
 void FlowTile::OnDestruction()
 {
-	m_GameState->ReportFlowTileDestroyed(this);
-
-	auto boardPos = m_Board->GetGridPos(m_GameObject->Transform()->Position());
-	m_Board->CreateSolidTile(boardPos);
-	GameObject::Instantiate(prefabs::CreateTileDestroyer(m_GameObject->Transform()->Position()));
 }
 
 void FlowTile::Start()
@@ -90,16 +85,17 @@ void FlowTile::OnTurnTime()
 		Spread();
 		ResetTurns();
 		m_ShouldSpread = true;
-
-		if (m_SpreadTurnsLeft == 0)
-		{
-			m_GameState->SolidifyTileGroup(m_Group);
-		}
 	}
 }
 
 void FlowTile::Solidify()
 {
+	m_GameState->ReportFlowTileDestroyed(this);
+
+	auto boardPos = m_Board->GetGridPos(m_GameObject->Transform()->Position());
+	m_Board->CreateSolidTile(boardPos);
+	GameObject::Instantiate(prefabs::CreateTileDestroyer(m_GameObject->Transform()->Position()));
+
 	GameObject::Destroy(m_GameObject);
 }
 
@@ -153,4 +149,9 @@ FlowTile const* FlowTile::CheckCollision()
 	}
 
 	return nullptr;
+}
+
+bool FlowTile::IsOutOfMoves() const
+{
+	return m_SpreadTurnsLeft == 0;
 }

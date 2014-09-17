@@ -362,8 +362,6 @@ namespace prefabs
 			}
 		}
 
-		GameObject::Instantiate(CreateLevelCompleteAnimation());
-
 		Application::OnNewLevelLoaded();
 	}
 
@@ -396,7 +394,7 @@ namespace prefabs
 		gObject->SetTag(TAG_TIME_MENU);
 		gObject->SetLayer(Layer::GUI);
 
-		const int numElements = 3;
+		const int numElements = 4;
 		auto wSize = Application::GetWindow().getSize();
 		float border = height / 4;
 		gObject->Transform()->SetPosition(sf::Vector2f(wSize.x / 2 - numElements * (border + height) / 2, -(wSize.y / 2 - border - height / 2)));
@@ -451,6 +449,23 @@ namespace prefabs
 			pauseGameObject->SetParent(gObject);
 
 			pauseGameObject->Transform()->SetLocalPosition(sf::Vector2f(offset, 0));
+			offset -= height + border;
+		}
+
+		{
+			auto restartGameObject = new GameObject();
+			restartGameObject->SetLayer(Layer::GUI);
+
+			auto renderer = new SpriteRenderer("restartIcon.png");
+			renderer->SetSpriteSize(sf::Vector2f(height, height));
+			restartGameObject->AddComponent(renderer);
+
+			restartGameObject->AddComponent(new InputInteractionComponent());
+			restartGameObject->AddComponent(new RestartButtonBehaviour());
+
+			restartGameObject->SetParent(gObject);
+
+			restartGameObject->Transform()->SetLocalPosition(sf::Vector2f(offset, 0));
 			offset -= height + border;
 		}
 

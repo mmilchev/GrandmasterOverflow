@@ -1,4 +1,4 @@
-#include "Prefabs.h"
+#include "LevelManager.h"
 
 #include <Application.h>
 #include <ConfigManager.h>
@@ -38,7 +38,7 @@ int main()
 
 	ConfigModules();
 
-	prefabs::LoadLevel("Level1.oel");
+	LevelManager::LoadNextLevel();
 
 	application.Run();
 

@@ -5,6 +5,7 @@
 #include <GameObject.h>
 #include <TransformComponent.h>
 #include <ConfigManager.h>
+#include "LevelManager.h"
 
 ButtonBehaviour::ButtonBehaviour()
 {
@@ -56,4 +57,9 @@ void FastforwardButtonBehaviour::TriggerButton()
 {
 	GameTime::SetScale(ConfigManager::GetFloat("[Gameplay]fFastForwardSpeed"));
 	GameObject::Instantiate(prefabs::CreateIconAnimation("fastForwardIcon.png", 256));
+}
+
+void RestartButtonBehaviour::TriggerButton()
+{
+	LevelManager::ReloadCurrentLevel();
 }
