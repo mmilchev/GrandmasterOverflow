@@ -3,6 +3,7 @@
 #include "Constants.h"
 #include "Input.h"
 #include "GameTime.h"
+#include "LevelManager.h"
 
 #include <GameObject.h>
 
@@ -25,11 +26,15 @@ void TimeControl::Update()
 		else
 			m_PauseButton->TriggerButton();
 	}
-	if (Input::GetKeyDown(sf::Keyboard::LShift))
+	else if (Input::GetKeyDown(sf::Keyboard::LShift))
 	{
 		if (GameTime::GetScale() > 1.01)
 			m_NormalSpeedButton->TriggerButton();
 		else
 			m_FastForwardButton->TriggerButton();
+	}
+	else if (Input::GetKeyDown(sf::Keyboard::R))
+	{
+		LevelManager::ReloadCurrentLevel();
 	}
 }

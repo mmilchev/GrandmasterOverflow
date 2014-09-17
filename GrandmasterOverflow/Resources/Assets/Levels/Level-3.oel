@@ -1,0 +1,52 @@
+<level width="1664" height="1664" Single="2" SingleDestroy="0" OShape="0" TShape="0" IShapeSmall="2" IShapeBig="1" CornerSmall="0" CornerBig="0">
+  <camera x="0" y="0" />
+  <Tiles tileset="Main" exportMode="XML">
+    <tile x="0" y="5" id="0" />
+    <tile x="1" y="3" id="0" />
+    <tile x="1" y="5" id="0" />
+    <tile x="1" y="10" id="0" />
+    <tile x="2" y="3" id="0" />
+    <tile x="2" y="5" id="0" />
+    <tile x="2" y="10" id="0" />
+    <tile x="3" y="0" id="0" />
+    <tile x="3" y="1" id="0" />
+    <tile x="3" y="2" id="0" />
+    <tile x="3" y="3" id="0" />
+    <tile x="3" y="5" id="0" />
+    <tile x="3" y="7" id="0" />
+    <tile x="3" y="8" id="0" />
+    <tile x="3" y="10" id="0" />
+    <tile x="4" y="5" id="0" />
+    <tile x="4" y="8" id="0" />
+    <tile x="4" y="9" id="0" />
+    <tile x="4" y="10" id="0" />
+    <tile x="5" y="5" id="0" />
+    <tile x="7" y="5" id="0" />
+    <tile x="8" y="5" id="0" />
+    <tile x="8" y="8" id="0" />
+    <tile x="8" y="9" id="0" />
+    <tile x="8" y="10" id="0" />
+    <tile x="9" y="0" id="0" />
+    <tile x="9" y="1" id="0" />
+    <tile x="9" y="2" id="0" />
+    <tile x="9" y="3" id="0" />
+    <tile x="9" y="5" id="0" />
+    <tile x="9" y="7" id="0" />
+    <tile x="9" y="8" id="0" />
+    <tile x="9" y="10" id="0" />
+    <tile x="10" y="3" id="0" />
+    <tile x="10" y="5" id="0" />
+    <tile x="10" y="10" id="0" />
+    <tile x="11" y="3" id="0" />
+    <tile x="11" y="5" id="0" />
+    <tile x="11" y="10" id="0" />
+    <tile x="12" y="5" id="0" />
+  </Tiles>
+  <Entities>
+    <Flow id="0" x="448" y="1216" Type="3" Turns="-1" />
+    <Flow id="1" x="320" y="64" Type="6" Turns="-1" />
+    <Flow id="2" x="1344" y="64" Type="5" Turns="-1" />
+    <Flow id="3" x="1216" y="1216" Type="4" Turns="-1" />
+    <Flow id="4" x="832" y="1472" Type="2" Turns="-1" />
+  </Entities>
+</level>
