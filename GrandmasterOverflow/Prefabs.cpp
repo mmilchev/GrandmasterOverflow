@@ -475,6 +475,40 @@ namespace prefabs
 			offset -= height + border;
 		}
 
+		{
+			auto nextLevelGameObject = new GameObject();
+			nextLevelGameObject->SetLayer(Layer::GUI);
+
+			auto renderer = new SpriteRenderer("nextLevelIcon.png");
+			renderer->SetSpriteSize(sf::Vector2f(height, height));
+			nextLevelGameObject->AddComponent(renderer);
+
+			nextLevelGameObject->AddComponent(new InputInteractionComponent());
+			nextLevelGameObject->AddComponent(new NextLevelButtonBehaviour());
+
+			nextLevelGameObject->SetParent(gObject);
+
+			nextLevelGameObject->Transform()->SetLocalPosition(sf::Vector2f(offset, 0));
+			offset -= height + border;
+		}
+
+		{
+			auto prevLevelGameObject = new GameObject();
+			prevLevelGameObject->SetLayer(Layer::GUI);
+
+			auto renderer = new SpriteRenderer("prevLevelIcon.png");
+			renderer->SetSpriteSize(sf::Vector2f(height, height));
+			prevLevelGameObject->AddComponent(renderer);
+
+			prevLevelGameObject->AddComponent(new InputInteractionComponent());
+			prevLevelGameObject->AddComponent(new PreviousLevelButtonBehaviour());
+
+			prevLevelGameObject->SetParent(gObject);
+
+			prevLevelGameObject->Transform()->SetLocalPosition(sf::Vector2f(offset, 0));
+			offset -= height + border;
+		}
+
 		return gObject;
 	}
 
@@ -484,12 +518,32 @@ namespace prefabs
 		gObject->SetLayer(Layer::GUI);
 
 		{
+			auto renderer = new SpriteRenderer("levelCompleteBg.png");
+			renderer->SetSpriteSize(LEVEL_COMPLETE_LABEL_SIZE);
+			gObject->AddComponent(renderer);
+		}
+
+		{
 			auto text = new TextRenderer();
 			text->SetShadowSize(3);
-			text->SetShadowColor(sf::Color(10, 10, 10, 240));
-			text->Text().setFont(ResourceManager::GetFont("8-bit_wonder.ttf"));
-			text->Text().setColor(sf::Color(200, 200, 200, 255));
-			text->Text().setString("Level Complete\n       " + std::to_string(percentComplete) + " of 100");
+			text->SetShadowColor(sf::Color(100, 100, 100, 255));
+			text->Text().setFont(ResourceManager::GetFont("kongtext.ttf"));
+			text->Text().setColor(sf::Color(255, 255, 255, 255));
+			
+			std::string label = "";
+			if (percentComplete < 70)
+				label += "You failed!";
+			else if (percentComplete < 80)
+				label += "Barely made it.";
+			else if (percentComplete < 90)
+				label += "Try harder.";
+			else if (percentComplete < 100)
+				label += "Too hard?";
+			else
+				label += "Stop cheating!";
+			label += "\nOverflow:" + std::to_string(percentComplete) + "%";
+			text->Text().setString(label);
+			
 			text->Text().setCharacterSize(static_cast<unsigned int>(TILE_SIZE / 4));
 			text->SetAlignment(TextRenderer::TextAlign::Center);
 

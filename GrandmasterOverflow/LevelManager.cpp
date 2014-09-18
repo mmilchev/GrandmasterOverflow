@@ -7,9 +7,10 @@ int LevelManager::sCurrentLevelNum = 0;
 void LevelManager::LoadNextLevel()
 {
 	if (IsFinalLevel())
-		return;
+		sCurrentLevelNum = 1;
+	else
+		sCurrentLevelNum++;
 
-	sCurrentLevelNum++;
 	ReloadCurrentLevel();
 }
 
@@ -29,5 +30,13 @@ bool LevelManager::IsFinalLevel()
 void LevelManager::LoadLevel(int levelNum)
 {
 	sCurrentLevelNum = levelNum;
+	ReloadCurrentLevel();
+}
+
+void LevelManager::LoadPreviousLevel()
+{
+	sCurrentLevelNum--;
+	if (sCurrentLevelNum < 1)
+		sCurrentLevelNum = 1;
 	ReloadCurrentLevel();
 }

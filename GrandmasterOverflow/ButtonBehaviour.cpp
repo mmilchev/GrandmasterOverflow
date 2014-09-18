@@ -63,3 +63,13 @@ void RestartButtonBehaviour::TriggerButton()
 {
 	LevelManager::ReloadCurrentLevel();
 }
+
+void NextLevelButtonBehaviour::TriggerButton()
+{
+	LevelManager::LoadNextLevel();
+}
+
+void PreviousLevelButtonBehaviour::TriggerButton()
+{
+	LevelManager::LoadPreviousLevel();
+}

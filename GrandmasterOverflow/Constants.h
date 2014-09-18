@@ -3,6 +3,8 @@
 
 #define TILE_SIZE 128.f
 
+#define LEVEL_COMPLETE_LABEL_SIZE sf::Vector2f(512, 128)
+
 #define TAG_TILE				"Terrain"
 #define TAG_FLOW				"Flow"
 #define TAG_GAME_BOARD			"GameBoard"

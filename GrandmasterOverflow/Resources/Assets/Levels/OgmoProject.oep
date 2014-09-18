@@ -16,7 +16,7 @@
     <Width>2048</Width>
     <Height>2048</Height>
   </LevelMaximumSize>
-  <Filename>D:\!Projects\C++\GrandmasterOverflow\Debug\Resources\Levels\OgmoProject.oep</Filename>
+  <Filename>D:\!Projects\C++\GrandmasterOverflow\GrandmasterOverflow\Resources\Assets\Levels\OgmoProject.oep</Filename>
   <AngleMode>Degrees</AngleMode>
   <CameraEnabled>false</CameraEnabled>
   <CameraSize>
@@ -84,7 +84,7 @@
         <RectColor A="255" R="255" G="2" B="2" />
       </ImageDefinition>
       <ValueDefinitions>
-        <ValueDefinition xsi:type="IntValueDefinition" Name="Type" Default="0" Min="0" Max="7" ShowSlider="false" />
+        <ValueDefinition xsi:type="IntValueDefinition" Name="Type" Default="0" Min="0" Max="8" ShowSlider="true" />
         <ValueDefinition xsi:type="IntValueDefinition" Name="Turns" Default="-1" Min="-1" Max="100" ShowSlider="false" />
       </ValueDefinitions>
       <NodesDefinition Enabled="false" Limit="-1" DrawMode="None" Ghost="false" />

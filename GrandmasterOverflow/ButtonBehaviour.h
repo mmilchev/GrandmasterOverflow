@@ -23,13 +23,6 @@ private:
 	Tween m_ScaleTween;
 };
 
-class RestartButtonBehaviour
-	: public ButtonBehaviour
-{
-public:
-	void TriggerButton() override;
-};
-
 class PauseButtonBehaviour
 	: public ButtonBehaviour
 {
@@ -45,6 +38,27 @@ public:
 };
 
 class FastforwardButtonBehaviour
+	: public ButtonBehaviour
+{
+public:
+	void TriggerButton() override;
+};
+
+class RestartButtonBehaviour
+	: public ButtonBehaviour
+{
+public:
+	void TriggerButton() override;
+};
+
+class NextLevelButtonBehaviour
+	: public ButtonBehaviour
+{
+public:
+	void TriggerButton() override;
+};
+
+class PreviousLevelButtonBehaviour
 	: public ButtonBehaviour
 {
 public:

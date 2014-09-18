@@ -6,6 +6,7 @@ class LevelManager
 public:
 	static void ReloadCurrentLevel();
 	static void LoadNextLevel();
+	static void LoadPreviousLevel();
 	static void LoadLevel(int levelNum);
 
 	static bool IsFinalLevel();
