@@ -13,6 +13,7 @@
 #include "TileDestroyer.h"
 #include "ScreenPositionAnimation.h"
 #include "TimeControl.h"
+#include "LevelManager.h"
 
 #include <GameObject.h>
 #include <SpriteRenderer.h>
@@ -513,13 +514,36 @@ namespace prefabs
 	}
 
 	GameObject* CreateLevelCompleteAnimation( int percentComplete )
-{
+	{
+		std::string label = "";
+		if (percentComplete < 70)
+			label += "You failed!";
+		else if (percentComplete < 80)
+			label += "Barely made it.";
+		else if (percentComplete < 90)
+			label += "Try harder.";
+		else if (percentComplete < 100)
+			label += "Too hard?";
+		else
+			label += "Stop cheating!";
+		label += "\nOverflow:" + std::to_string(percentComplete) + "%";
+
+		return CreateMessageAnimation(label, LEVEL_COMPLETE_LABEL_SIZE, [percentComplete]() {
+			if (percentComplete >= 70)
+				LevelManager::LoadNextLevel();
+			else
+				LevelManager::ReloadCurrentLevel();
+		});
+	}
+
+	GameObject* CreateMessageAnimation(std::string const& message, sf::Vector2f const& boxSize, std::function<void()> msgEndPred)
+	{
 		GameObject* gObject = new GameObject();
 		gObject->SetLayer(Layer::GUI);
 
 		{
-			auto renderer = new SpriteRenderer("levelCompleteBg.png");
-			renderer->SetSpriteSize(LEVEL_COMPLETE_LABEL_SIZE);
+			auto renderer = new SpriteRenderer("messageBg.png");
+			renderer->SetSpriteSize(boxSize);
 			gObject->AddComponent(renderer);
 		}
 
@@ -529,21 +553,9 @@ namespace prefabs
 			text->SetShadowColor(sf::Color(100, 100, 100, 255));
 			text->Text().setFont(ResourceManager::GetFont("kongtext.ttf"));
 			text->Text().setColor(sf::Color(255, 255, 255, 255));
-			
-			std::string label = "";
-			if (percentComplete < 70)
-				label += "You failed!";
-			else if (percentComplete < 80)
-				label += "Barely made it.";
-			else if (percentComplete < 90)
-				label += "Try harder.";
-			else if (percentComplete < 100)
-				label += "Too hard?";
-			else
-				label += "Stop cheating!";
-			label += "\nOverflow:" + std::to_string(percentComplete) + "%";
-			text->Text().setString(label);
-			
+
+			text->Text().setString(message);
+
 			text->Text().setCharacterSize(static_cast<unsigned int>(TILE_SIZE / 4));
 			text->SetAlignment(TextRenderer::TextAlign::Center);
 
@@ -552,7 +564,10 @@ namespace prefabs
 
 		auto wSize = ToVecf(Application::GetWindow().getSize());
 		auto animation = new ScreenPositionAnimation(sf::Vector2f(-wSize.x, 0), sf::Vector2f(wSize.x, 0));
+		animation->SetOnAnimationFinishedAction(msgEndPred);
 		gObject->AddComponent(animation);
+
+		gObject->AddComponent(new InputInteractionComponent());
 
 		return gObject;
 	}

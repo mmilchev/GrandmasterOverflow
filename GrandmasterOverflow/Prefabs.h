@@ -2,6 +2,7 @@
 #define PREFABS_H
 
 #include <SFML/System/Vector2.hpp>
+#include <functional>
 #include "GameState.h"
 #include "TileState.h"
 #include "FlowTile.h"
@@ -31,6 +32,7 @@ namespace prefabs
 	GameObject* CreateIconAnimation(std::string const& textureName, float spriteSize);
 
 	GameObject* CreateLevelCompleteAnimation(int percentComplete);
+	GameObject* CreateMessageAnimation(std::string const& message, sf::Vector2f const& boxSize, std::function<void()> msgEndPred);
 
 	GameObject* CreateTileDestroyer(sf::Vector2f const & pos);
 

@@ -3,6 +3,7 @@
 
 #include <DynamicBehaviour.h>
 #include <Tween2.h>
+#include <functional>
 
 class ScreenPositionAnimation
 	: public DynamicBehaviour
@@ -10,9 +11,19 @@ class ScreenPositionAnimation
 public:
 	ScreenPositionAnimation(sf::Vector2f const& startPos, sf::Vector2f const& endPos);
 
+	void SetOnAnimationFinishedAction(std::function<void()> action);
+
 	void Update() override;
+
+	void OnClicked() override;
+
 private:
-	Tween2 m_PosTween;
+	bool m_Clicked;
+	
+	Tween2 m_EaseOutPosition;
+	Tween2 m_EaseInPosition;
+
+	std::function<void()> m_OnAnimationFinished;
 };
 
 #endif
