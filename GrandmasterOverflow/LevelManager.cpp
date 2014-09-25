@@ -3,6 +3,7 @@
 #include "ConfigManager.h"
 
 int LevelManager::sCurrentLevelNum = 0;
+std::vector<int> LevelManager::sMessagesShown;
 
 void LevelManager::LoadNextLevel()
 {
@@ -39,4 +40,15 @@ void LevelManager::LoadPreviousLevel()
 	if (sCurrentLevelNum < 1)
 		sCurrentLevelNum = 1;
 	ReloadCurrentLevel();
+}
+
+void LevelManager::SignalMessagesViewed()
+{
+	sMessagesShown.push_back(sCurrentLevelNum);
+}
+
+bool LevelManager::ShouldShowMessages()
+{
+	auto found = std::find(sMessagesShown.begin(), sMessagesShown.end(), sCurrentLevelNum);
+	return found == sMessagesShown.end();
 }

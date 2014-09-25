@@ -3,7 +3,8 @@
 
 #define TILE_SIZE 128.f
 
-#define LEVEL_COMPLETE_LABEL_SIZE sf::Vector2f(512, 128)
+#define MIN_MESSAGE_LABEL sf::Vector2f(512, 128)
+#define MESSAGE_BORDER 32.f
 
 #define TAG_TILE				"Terrain"
 #define TAG_FLOW				"Flow"

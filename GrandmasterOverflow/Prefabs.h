@@ -32,7 +32,7 @@ namespace prefabs
 	GameObject* CreateIconAnimation(std::string const& textureName, float spriteSize);
 
 	GameObject* CreateLevelCompleteAnimation(int percentComplete);
-	GameObject* CreateMessageAnimation(std::string const& message, sf::Vector2f const& boxSize, std::function<void()> msgEndPred);
+	GameObject* CreateMessageAnimation(std::string const& message, std::function<void()> msgEndPred);
 
 	GameObject* CreateTileDestroyer(sf::Vector2f const & pos);
 

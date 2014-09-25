@@ -1,6 +1,8 @@
 #ifndef LEVEL_MANAGER_H
 #define LEVEL_MANAGER_H
 
+#include <vector>
+
 class LevelManager
 {
 public:
@@ -9,10 +11,14 @@ public:
 	static void LoadPreviousLevel();
 	static void LoadLevel(int levelNum);
 
+	static void SignalMessagesViewed();
+	static bool ShouldShowMessages();
+
 	static bool IsFinalLevel();
 
 private:
 	static int sCurrentLevelNum;
+	static std::vector<int> sMessagesShown;
 };
 
 #endif

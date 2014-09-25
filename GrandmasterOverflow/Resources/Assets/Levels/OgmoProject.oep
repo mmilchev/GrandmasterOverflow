@@ -33,6 +33,7 @@
     <ValueDefinition xsi:type="IntValueDefinition" Name="IShapeBig" Default="0" Min="0" Max="10" ShowSlider="false" />
     <ValueDefinition xsi:type="IntValueDefinition" Name="CornerSmall" Default="0" Min="0" Max="10" ShowSlider="false" />
     <ValueDefinition xsi:type="IntValueDefinition" Name="CornerBig" Default="0" Min="0" Max="10" ShowSlider="false" />
+    <ValueDefinition xsi:type="StringValueDefinition" Name="Messages" Default="" MaxChars="-1" MultiLine="true" />
   </LevelValueDefinitions>
   <LayerDefinitions>
     <LayerDefinition xsi:type="TileLayerDefinition">

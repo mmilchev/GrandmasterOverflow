@@ -261,6 +261,18 @@ namespace prefabs
 		return gObject;
 	}
 
+	void CreateMessageChain(std::vector<std::string> const& msgs, unsigned int current)
+	{
+		auto msg = CreateMessageAnimation(msgs[current], [msgs, current](){
+			if (current < msgs.size() - 1)
+				CreateMessageChain(msgs, current + 1);
+			else
+				LevelManager::SignalMessagesViewed();
+		});
+
+		GameObject::Instantiate(msg);
+	}
+
 	void LoadLevel(std::string const& name)
 	{
 		pugi::xml_document doc;
@@ -285,6 +297,7 @@ namespace prefabs
 
 		pugi::xml_node levelNode = doc.child("level");
 
+		//Set up correct spacing
 		float size = 32.f;
 		sf::Vector2u windowSize = Application::GetWindow().getSize();
 		float offset = 20;
@@ -296,6 +309,7 @@ namespace prefabs
 		//Separate global from tile placing powers
 		curHeight += 2 * offset;
 
+		//Get powers for the level
 		for (auto& attribute : levelNode.attributes())
 		{
 			auto name = attribute.name();
@@ -310,6 +324,7 @@ namespace prefabs
 			}
 		}
 
+		//Create Game board
 		int lWidth = static_cast<int>(levelNode.attribute("width").as_float() / TILE_SIZE);
 		int lHeight = static_cast<int>(levelNode.attribute("height").as_float() / TILE_SIZE);
 
@@ -318,7 +333,6 @@ namespace prefabs
 		auto grid = prefabs::CreateEmptyBoard(lWidth, lHeight);
 		auto board = grid->GetComponent<BoardMap>();
 
-		//backgroundMidiTag = levelNode.attribute("BackgroundMIDI").as_string();
 		auto tilesXML = levelNode.child("Tiles");
 		for (auto& tileXML : tilesXML)
 		{
@@ -338,6 +352,7 @@ namespace prefabs
 
 		GameObject::Instantiate(grid);
 
+		//Load level flows
 		int flowGroup = 0;
 		auto unitsXML = levelNode.child("Entities");
 		for (auto& unitXML : unitsXML)
@@ -361,6 +376,25 @@ namespace prefabs
 				GameObject::Instantiate(flow);
 
 				flowGroup++;
+			}
+		}
+
+		if (LevelManager::ShouldShowMessages())
+		{
+			//Setup level messages
+			auto messagesRaw = std::string(levelNode.attribute("Messages").as_string());
+			if (messagesRaw.length() > 0)
+			{
+				auto messagesBunched = ReplaceAll(messagesRaw, "\r\n", "\n");
+
+				std::vector<std::string> messages;
+				SplitString(messagesBunched, "\n;\n", messages);
+
+				if (messages.size() > 0)
+				{
+					CreateMessageChain(messages, 0);
+				}
+
 			}
 		}
 
@@ -513,7 +547,7 @@ namespace prefabs
 		return gObject;
 	}
 
-	GameObject* CreateLevelCompleteAnimation( int percentComplete )
+	GameObject* CreateLevelCompleteAnimation(int percentComplete)
 	{
 		std::string label = "";
 		if (percentComplete < 70)
@@ -528,7 +562,7 @@ namespace prefabs
 			label += "Stop cheating!";
 		label += "\nOverflow:" + std::to_string(percentComplete) + "%";
 
-		return CreateMessageAnimation(label, LEVEL_COMPLETE_LABEL_SIZE, [percentComplete]() {
+		return CreateMessageAnimation(label, [percentComplete]() {
 			if (percentComplete >= 70)
 				LevelManager::LoadNextLevel();
 			else
@@ -536,31 +570,32 @@ namespace prefabs
 		});
 	}
 
-	GameObject* CreateMessageAnimation(std::string const& message, sf::Vector2f const& boxSize, std::function<void()> msgEndPred)
+	GameObject* CreateMessageAnimation(std::string const& message, std::function<void()> msgEndPred)
 	{
 		GameObject* gObject = new GameObject();
 		gObject->SetLayer(Layer::GUI);
 
-		{
-			auto renderer = new SpriteRenderer("messageBg.png");
-			renderer->SetSpriteSize(boxSize);
-			gObject->AddComponent(renderer);
-		}
+		auto text = new TextRenderer();
+		text->SetShadowSize(3);
+		text->SetShadowColor(sf::Color(100, 100, 100, 255));
+		text->Text().setFont(ResourceManager::GetFont("kongtext.ttf"));
+		text->Text().setColor(sf::Color(255, 255, 255, 255));
 
-		{
-			auto text = new TextRenderer();
-			text->SetShadowSize(3);
-			text->SetShadowColor(sf::Color(100, 100, 100, 255));
-			text->Text().setFont(ResourceManager::GetFont("kongtext.ttf"));
-			text->Text().setColor(sf::Color(255, 255, 255, 255));
+		text->Text().setString(message);
 
-			text->Text().setString(message);
+		text->Text().setCharacterSize(static_cast<unsigned int>(TILE_SIZE / 4));
+		text->SetAlignment(TextRenderer::TextAlign::Center);
 
-			text->Text().setCharacterSize(static_cast<unsigned int>(TILE_SIZE / 4));
-			text->SetAlignment(TextRenderer::TextAlign::Center);
+		auto localTextRect = text->Text().getLocalBounds();
+		sf::Vector2f bgSize = sf::Vector2f(max(MESSAGE_BORDER + localTextRect.width, MIN_MESSAGE_LABEL.x),
+										max(MESSAGE_BORDER + localTextRect.height, MIN_MESSAGE_LABEL.y));
 
-			gObject->AddComponent(text);
-		}
+		auto bgRenderer = new SpriteRenderer("messageBg.png");
+		bgRenderer->SetSpriteSize(bgSize);
+		gObject->AddComponent(bgRenderer);
+
+		gObject->AddComponent(text);
+
 
 		auto wSize = ToVecf(Application::GetWindow().getSize());
 		auto animation = new ScreenPositionAnimation(sf::Vector2f(-wSize.x, 0), sf::Vector2f(wSize.x, 0));

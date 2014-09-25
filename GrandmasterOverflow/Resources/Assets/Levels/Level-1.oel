@@ -1,4 +1,4 @@
-<level width="768" height="640" Single="0" SingleDestroy="1" OShape="0" TShape="0" IShapeSmall="0" IShapeBig="0" CornerSmall="0" CornerBig="0">
+<level width="768" height="640" Single="0" SingleDestroy="1" OShape="0" TShape="0" IShapeSmall="0" IShapeBig="0" CornerSmall="0" CornerBig="0" Messages="       Welcome to&#xD;&#xA; Grandmaster Overflow!&#xD;&#xA;&lt;Click here to continue&gt;&#xD;&#xA;;&#xD;&#xA;The premise of the game&#xD;&#xA;is quite simple - Fill over&#xD;&#xA;   70% of the board&#xD;&#xA;;&#xD;&#xA;The game is currently&#xD;&#xA;paused. Manage your&#xD;&#xA;time from the buttons&#xD;&#xA;   on the top right&#xD;&#xA;;&#xD;&#xA;You can also modify&#xD;&#xA;the level with the &#xD;&#xA;tools on your right&#xD;&#xA;   Good luck!">
   <camera x="0" y="0" />
   <Tiles tileset="Main" exportMode="XML">
     <tile x="0" y="1" id="0" />
