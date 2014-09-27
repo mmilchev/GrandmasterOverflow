@@ -31,12 +31,8 @@ std::vector<sf::Vector2i> const FlowTile::skSpreadDirections = {
 	sf::Vector2i(0, -1)
 };
 
-FlowTile::FlowTile(FlowTileType type, int group, int turns) :m_Group(group), kType(type), m_ShouldSpread(true),
+FlowTile::FlowTile(FlowTileType type, int turns) : kType(type), m_ShouldSpread(true),
 m_GameState(nullptr), m_Board(nullptr), m_SpreadTurnsLeft(turns), m_ShoudScale(true)
-{
-}
-
-void FlowTile::OnDestruction()
 {
 }
 
@@ -115,7 +111,7 @@ void FlowTile::Spread()
 		{
 			if (state->IsPassable() && !state->Occupied())
 			{
-				auto gObject = prefabs::CreateFlow(m_Board->GetWorldPos(pos), kType, m_Group, -1);
+				auto gObject = prefabs::CreateFlow(m_Board->GetWorldPos(pos), kType, -1);
 				GameObject::Instantiate(gObject);
 				m_Board->SetOccupation(gObject->GetComponent<FlowTile>(), pos);
 				m_GameState->ReportTileActivity(this);
@@ -143,7 +139,7 @@ FlowTile const* FlowTile::CheckCollision()
 		if (state != nullptr)
 		{
 			if (state->IsPassable() && state->Occupied() && 
-				state->GetOccupant()->kType != kType && state->GetOccupant()->m_Group != m_Group)
+				state->GetOccupant()->kType != kType)
 				return state->GetOccupant();
 		}
 	}

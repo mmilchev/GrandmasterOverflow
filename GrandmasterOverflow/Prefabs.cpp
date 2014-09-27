@@ -189,7 +189,7 @@ namespace prefabs
 		return tile;
 	}
 
-	GameObject* CreateFlow(sf::Vector2f const& pos, FlowTile::FlowTileType type, int group, int turns)
+	GameObject* CreateFlow(sf::Vector2f const& pos, FlowTile::FlowTileType type, int turns)
 	{
 		GameObject* gObject = new GameObject();
 		gObject->SetTag(TAG_FLOW);
@@ -200,7 +200,7 @@ namespace prefabs
 		renderer->SetSpriteColor(sf::Color::Green);
 		gObject->AddComponent(renderer);
 
-		gObject->AddComponent(new FlowTile(type, group, turns));
+		gObject->AddComponent(new FlowTile(type, turns));
 
 		if (turns != -1)
 		{
@@ -353,7 +353,7 @@ namespace prefabs
 		GameObject::Instantiate(grid);
 
 		//Load level flows
-		int flowGroup = 0;
+		int flowType = 0;
 		auto unitsXML = levelNode.child("Entities");
 		for (auto& unitXML : unitsXML)
 		{
@@ -368,14 +368,13 @@ namespace prefabs
 
 			if (name == "Flow")
 			{
-				int type = unitXML.attribute("Type").as_int();
 				int turns = unitXML.attribute("Turns").as_int();
 
-				auto flow = CreateFlow(sf::Vector2f(x, y), static_cast<FlowTile::FlowTileType>(type), flowGroup, turns);
+				auto flow = CreateFlow(sf::Vector2f(x, y), static_cast<FlowTile::FlowTileType>(flowType), turns);
 				flow->GetComponent<FlowTile>()->SetShouldScale(false);
 				GameObject::Instantiate(flow);
 
-				flowGroup++;
+				flowType++;
 			}
 		}
 

@@ -1,0 +1,21 @@
+<level width="1280" height="768" Single="0" SingleDestroy="0" OShape="0" TShape="0" IShapeSmall="1" IShapeBig="0" CornerSmall="1" CornerBig="0" Messages="">
+  <camera x="0" y="0" />
+  <Tiles tileset="Main" exportMode="XML">
+    <tile x="0" y="4" id="0" />
+    <tile x="0" y="5" id="4" />
+    <tile x="1" y="4" id="0" />
+    <tile x="2" y="1" id="0" />
+    <tile x="2" y="2" id="0" />
+    <tile x="2" y="3" id="4" />
+    <tile x="2" y="4" id="0" />
+    <tile x="7" y="0" id="0" />
+    <tile x="7" y="3" id="4" />
+    <tile x="7" y="4" id="0" />
+    <tile x="8" y="2" id="0" />
+    <tile x="8" y="3" id="0" />
+    <tile x="8" y="4" id="0" />
+    <tile x="9" y="2" id="0" />
+    <tile x="9" y="3" id="4" />
+  </Tiles>
+  <Entities />
+</level>

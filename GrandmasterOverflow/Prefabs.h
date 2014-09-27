@@ -26,7 +26,7 @@ namespace prefabs
 	
 	GameObject* CreateTile(sf::Vector2f const& pos, TileType type);
 	
-	GameObject* CreateFlow(sf::Vector2f const& pos, FlowTile::FlowTileType type, int group, int turns);
+	GameObject* CreateFlow(sf::Vector2f const& pos, FlowTile::FlowTileType type, int turns);
 
 	GameObject* CreateIconAnimation(std::string const& textureName);
 	GameObject* CreateIconAnimation(std::string const& textureName, float spriteSize);

@@ -2,6 +2,7 @@
 #define GAME_STATE_H
 
 #include "QueuedVector.h"
+#include "FlowTile.h"
 
 #include <DynamicBehaviour.h>
 #include <sigslot.h>
@@ -10,7 +11,6 @@
 
 class SidebarBahaviour;
 class ITurnClient;
-class FlowTile;
 class TargetPower;
 class BoardMap;
 
@@ -32,18 +32,18 @@ public:
 
 	void ReportTileActivity(FlowTile* tile);
 
-	void SolidifyTileGroup(int group);
+	void SolidifyTileType(FlowTile::FlowTileType type);
 	
 	void OnPowerSelected(TargetPower* power);
 
 private:
-	void GetTileGroups(std::vector<int>& groups);
+	void GetTileTypes(std::vector<FlowTile::FlowTileType>& types);
 	void TriggerGameOver();
 
 	void CheckAndSolidifyTiles();
 	void ExecuteTurn();
 
-	std::vector<int> m_GroupMovedThisTurn;
+	std::vector<FlowTile::FlowTileType> m_TypesMovedThisTurn;
 
 	BoardMap* m_Board;
 

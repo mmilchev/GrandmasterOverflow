@@ -1,4 +1,4 @@
-<level width="1408" height="1280" Single="0" SingleDestroy="0" OShape="0" TShape="1" IShapeSmall="0" IShapeBig="0" CornerSmall="1" CornerBig="0">
+<level width="1408" height="1280" Single="0" SingleDestroy="0" OShape="0" TShape="1" IShapeSmall="0" IShapeBig="0" CornerSmall="1" CornerBig="0" Messages="">
   <camera x="0" y="0" />
   <Tiles tileset="Main" exportMode="XML">
     <tile x="0" y="3" id="0" />
@@ -32,10 +32,10 @@
     <tile x="9" y="8" id="0" />
   </Tiles>
   <Entities>
-    <Flow id="0" x="192" y="192" Type="0" Turns="-1" />
-    <Flow id="1" x="192" y="704" Type="1" Turns="9" />
-    <Flow id="2" x="704" y="192" Type="2" Turns="9" />
-    <Flow id="3" x="832" y="832" Type="3" Turns="-1" />
-    <Flow id="4" x="1088" y="960" Type="4" Turns="-1" />
+    <Flow id="0" x="192" y="192" Turns="-1" />
+    <Flow id="1" x="192" y="704" Turns="9" />
+    <Flow id="2" x="704" y="192" Turns="9" />
+    <Flow id="3" x="832" y="832" Turns="-1" />
+    <Flow id="4" x="1088" y="960" Turns="-1" />
   </Entities>
 </level>

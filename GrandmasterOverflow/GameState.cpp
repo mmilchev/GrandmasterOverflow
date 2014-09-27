@@ -2,7 +2,6 @@
 #include "BoardMap.h"
 #include "Constants.h"
 #include "ITurnClient.h"
-#include "FlowTile.h"
 #include "TargetPower.h"
 #include "Prefabs.h"
 #include "ButtonBehaviour.h"
@@ -47,28 +46,28 @@ void GameState::Update()
 
 		if (m_TurnNum % ConfigManager::GetInt("[Flow Gameplay]iSpreadTurnTime") == 0)
 		{
-			std::vector<int> groups;
-			GetTileGroups(groups);
+			std::vector<FlowTile::FlowTileType> types;
+			GetTileTypes(types);
 
-			if (groups.size() == 0)
+			if (types.size() == 0)
 			{
 				TriggerGameOver();
 				return;
 			}
 
-			std::sort(groups.begin(), groups.end());
-			std::sort(m_GroupMovedThisTurn.begin(), m_GroupMovedThisTurn.end());
+			std::sort(types.begin(), types.end());
+			std::sort(m_TypesMovedThisTurn.begin(), m_TypesMovedThisTurn.end());
 
-			std::vector<int> diff;
-			std::set_difference(groups.begin(), groups.end(), m_GroupMovedThisTurn.begin(), m_GroupMovedThisTurn.end(), std::back_inserter(diff));
+			std::vector<FlowTile::FlowTileType> diff;
+			std::set_difference(types.begin(), types.end(), m_TypesMovedThisTurn.begin(), m_TypesMovedThisTurn.end(), std::back_inserter(diff));
 
 			for (unsigned int i = 0; i < diff.size(); i++)
 			{
-				SolidifyTileGroup(diff[i]);
+				SolidifyTileType(diff[i]);
 			}
 			m_FlowTiles.ProcessQueued();
 
-			m_GroupMovedThisTurn.clear();
+			m_TypesMovedThisTurn.clear();
 		}
 	}
 }
@@ -91,27 +90,27 @@ void GameState::ReportFlowTileDestroyed(FlowTile* tile)
 
 void GameState::ReportTileActivity(FlowTile* tile)
 {
-	if (std::find(m_GroupMovedThisTurn.begin(), m_GroupMovedThisTurn.end(), tile->GetFlowGroup()) == m_GroupMovedThisTurn.end())
-		m_GroupMovedThisTurn.push_back(tile->GetFlowGroup());
+	if (std::find(m_TypesMovedThisTurn.begin(), m_TypesMovedThisTurn.end(), tile->GetTileType()) == m_TypesMovedThisTurn.end())
+		m_TypesMovedThisTurn.push_back(tile->GetTileType());
 }
 
-void GameState::GetTileGroups(std::vector<int>& groups)
+void GameState::GetTileTypes(std::vector<FlowTile::FlowTileType>& types)
 {
-	int group;
+	FlowTile::FlowTileType type;
 	for (int i = 0; i < m_FlowTiles.Size(); ++i)
 	{
-		group = m_FlowTiles[i]->GetFlowGroup();
-		if (std::find(groups.begin(), groups.end(), group) == groups.end())
-			groups.push_back(group);
+		type = m_FlowTiles[i]->GetTileType();
+		if (std::find(types.begin(), types.end(), type) == types.end())
+			types.push_back(type);
 	}
 }
 
-void GameState::SolidifyTileGroup(int group)
+void GameState::SolidifyTileType(FlowTile::FlowTileType type)
 {
 	for (int i = 0; i < m_FlowTiles.Size(); ++i)
 	{
 		auto tile = m_FlowTiles[i];
-		if (tile->GetFlowGroup() == group)
+		if (tile->GetTileType() == type)
 			tile->Solidify();
 	}
 }
@@ -124,20 +123,20 @@ void GameState::TriggerGameOver()
 
 void GameState::CheckAndSolidifyTiles()
 {
-	std::vector<int> groupsForSolidifying;
+	std::vector<FlowTile::FlowTileType> typesForSolidifying;
 
 	for (int i = 0; i < m_FlowTiles.Size(); ++i)
 	{
 		auto tile = m_FlowTiles[i];
 		if (tile->CheckCollision() != nullptr || tile->IsOutOfMoves())
 		{
-			groupsForSolidifying.push_back(tile->GetFlowGroup());
+			typesForSolidifying.push_back(tile->GetTileType());
 		}
 	}
 
-	for (auto group : groupsForSolidifying)
+	for (auto type : typesForSolidifying)
 	{
-		SolidifyTileGroup(group);
+		SolidifyTileType(type);
 	}
 
 	m_FlowTiles.ProcessQueued();
