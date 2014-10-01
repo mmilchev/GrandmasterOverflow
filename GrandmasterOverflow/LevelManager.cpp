@@ -52,3 +52,8 @@ bool LevelManager::ShouldShowMessages()
 	auto found = std::find(sMessagesShown.begin(), sMessagesShown.end(), sCurrentLevelNum);
 	return found == sMessagesShown.end();
 }
+
+int LevelManager::GetCurrentLevelNum()
+{
+	return sCurrentLevelNum;
+}

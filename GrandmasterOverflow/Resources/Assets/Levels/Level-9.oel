@@ -1,15 +1,11 @@
-<level width="1152" height="896" Single="0" SingleDestroy="0" OShape="0" TShape="0" IShapeSmall="4" IShapeBig="0" CornerSmall="0" CornerBig="0" Messages="">
+<level width="896" height="896" Single="0" SingleDestroy="0" OShape="0" TShape="0" IShapeSmall="0" IShapeBig="0" CornerSmall="1" CornerBig="1">
   <camera x="0" y="0" />
   <Tiles tileset="Main" exportMode="XML" />
   <Entities>
-    <Flow id="0" x="64" y="64" Turns="-1" />
-    <Flow id="1" x="576" y="64" Turns="-1" />
-    <Flow id="2" x="1088" y="64" Turns="-1" />
-    <Flow id="3" x="1088" y="448" Turns="-1" />
-    <Flow id="4" x="576" y="448" Turns="-1" />
-    <Flow id="5" x="64" y="448" Turns="-1" />
-    <Flow id="6" x="64" y="832" Turns="-1" />
-    <Flow id="7" x="576" y="832" Turns="-1" />
-    <Flow id="8" x="1088" y="832" Turns="-1" />
+    <Flow id="0" x="448" y="64" Type="4" Turns="-1" />
+    <Flow id="1" x="448" y="832" Type="2" Turns="-1" />
+    <Flow id="2" x="64" y="448" Type="3" Turns="-1" />
+    <Flow id="3" x="832" y="448" Type="1" Turns="-1" />
+    <Flow id="4" x="448" y="448" Type="0" Turns="-1" />
   </Entities>
 </level>

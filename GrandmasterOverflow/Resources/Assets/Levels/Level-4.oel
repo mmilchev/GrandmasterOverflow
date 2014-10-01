@@ -1,17 +1,19 @@
-<level width="896" height="640" Single="2" SingleDestroy="0" OShape="0" TShape="0" IShapeSmall="0" IShapeBig="0" CornerSmall="0" CornerBig="0">
+<level width="1024" height="640" Single="0" SingleDestroy="1" OShape="1" TShape="0" IShapeSmall="0" IShapeBig="0" CornerSmall="0" CornerBig="0" Messages="You can go back and &#xD;&#xA;forth between levels &#xD;&#xA;with the first two &#xD;&#xA;buttons in the menu">
   <camera x="0" y="0" />
   <Tiles tileset="Main" exportMode="XML">
-    <tile x="1" y="1" id="0" />
+    <tile x="0" y="2" id="0" />
     <tile x="1" y="2" id="0" />
-    <tile x="2" y="1" id="0" />
+    <tile x="2" y="0" id="0" />
+    <tile x="3" y="3" id="0" />
+    <tile x="3" y="4" id="0" />
     <tile x="4" y="1" id="0" />
     <tile x="5" y="1" id="0" />
-    <tile x="5" y="2" id="0" />
+    <tile x="6" y="1" id="0" />
+    <tile x="7" y="1" id="0" />
   </Tiles>
   <Entities>
-    <Flow id="0" x="64" y="64" Type="0" Turns="-1" />
-    <Flow id="1" x="832" y="64" Type="1" Turns="-1" />
-    <Flow id="2" x="832" y="576" Type="2" Turns="-1" />
-    <Flow id="3" x="64" y="576" Type="3" Turns="-1" />
+    <Flow id="0" x="832" y="64" Turns="-1" />
+    <Flow id="1" x="64" y="64" Turns="-1" />
+    <Flow id="2" x="64" y="576" Turns="-1" />
   </Entities>
 </level>

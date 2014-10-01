@@ -1,24 +1,22 @@
-<level width="896" height="768" Single="0" SingleDestroy="0" OShape="0" TShape="0" IShapeSmall="1" IShapeBig="0" CornerSmall="0" CornerBig="0" Messages="">
+<level width="896" height="1280" Single="0" SingleDestroy="0" OShape="0" TShape="0" IShapeSmall="1" IShapeBig="0" CornerSmall="0" CornerBig="1" Messages="Is that a person?&#xD;&#xA;   Could be...">
   <camera x="0" y="0" />
   <Tiles tileset="Main" exportMode="XML">
-    <tile x="0" y="4" id="0" />
-    <tile x="0" y="5" id="4" />
-    <tile x="1" y="0" id="0" />
-    <tile x="1" y="1" id="0" />
-    <tile x="1" y="4" id="0" />
-    <tile x="2" y="1" id="0" />
-    <tile x="3" y="0" id="4" />
-    <tile x="3" y="5" id="0" />
-    <tile x="4" y="1" id="0" />
-    <tile x="5" y="0" id="0" />
-    <tile x="5" y="1" id="0" />
-    <tile x="5" y="4" id="0" />
-    <tile x="6" y="4" id="0" />
-    <tile x="6" y="5" id="4" />
+    <tile x="0" y="2" id="0" />
+    <tile x="1" y="2" id="0" />
+    <tile x="1" y="5" id="0" />
+    <tile x="1" y="6" id="0" />
+    <tile x="3" y="8" id="0" />
+    <tile x="3" y="9" id="0" />
+    <tile x="5" y="2" id="0" />
+    <tile x="6" y="2" id="0" />
+    <tile x="6" y="6" id="0" />
   </Tiles>
   <Entities>
-    <Flow id="0" x="64" y="704" Type="0" Turns="-1" />
-    <Flow id="1" x="448" y="64" Type="0" Turns="-1" />
-    <Flow id="2" x="832" y="704" Type="0" Turns="-1" />
+    <Flow id="0" x="64" y="448" Turns="-1" />
+    <Flow id="1" x="448" y="448" Turns="-1" />
+    <Flow id="2" x="448" y="192" Turns="-1" />
+    <Flow id="3" x="832" y="448" Turns="-1" />
+    <Flow id="4" x="192" y="1216" Turns="-1" />
+    <Flow id="5" x="704" y="1216" Turns="-1" />
   </Entities>
 </level>

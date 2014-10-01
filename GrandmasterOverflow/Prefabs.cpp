@@ -382,19 +382,20 @@ namespace prefabs
 		{
 			//Setup level messages
 			auto messagesRaw = std::string(levelNode.attribute("Messages").as_string());
+			std::vector<std::string> messages =
+			{
+				"Level " + std::to_string(LevelManager::GetCurrentLevelNum())
+			};
+
 			if (messagesRaw.length() > 0)
 			{
 				auto messagesBunched = ReplaceAll(messagesRaw, "\r\n", "\n");
 
-				std::vector<std::string> messages;
-				SplitString(messagesBunched, "\n;\n", messages);
-
-				if (messages.size() > 0)
-				{
-					CreateMessageChain(messages, 0);
-				}
-
+				std::vector<std::string> messagesSplit;
+				SplitString(messagesBunched, "\n;\n", messagesSplit);
+				messages.insert(messages.end(), messagesSplit.begin(), messagesSplit.end());
 			}
+			CreateMessageChain(messages, 0);
 		}
 
 		Application::OnNewLevelLoaded();
@@ -558,7 +559,7 @@ namespace prefabs
 		else if (percentComplete < 100)
 			label += "Too hard?";
 		else
-			label += "Stop cheating!";
+			label += "Not too bad";
 		label += "\nOverflow:" + std::to_string(percentComplete) + "%";
 
 		return CreateMessageAnimation(label, [percentComplete]() {
@@ -597,7 +598,9 @@ namespace prefabs
 
 
 		auto wSize = ToVecf(Application::GetWindow().getSize());
-		auto animation = new ScreenPositionAnimation(sf::Vector2f(-wSize.x, 0), sf::Vector2f(wSize.x, 0));
+		auto time = max(message.length() * ConfigManager::GetFloat("[GUI]fPositionAnimationStayLengthCoef"),
+			ConfigManager::GetFloat("[GUI]fPositionAnimationMinStay"));
+		auto animation = new ScreenPositionAnimation(sf::Vector2f(-wSize.x, 0), sf::Vector2f(wSize.x, 0), time);
 		animation->SetOnAnimationFinishedAction(msgEndPred);
 		gObject->AddComponent(animation);
 

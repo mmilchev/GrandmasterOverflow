@@ -16,6 +16,8 @@ public:
 
 	static bool IsFinalLevel();
 
+	static int GetCurrentLevelNum();
+
 private:
 	static int sCurrentLevelNum;
 	static std::vector<int> sMessagesShown;

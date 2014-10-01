@@ -6,8 +6,8 @@
 #include <GameObject.h>
 #include <TransformComponent.h>
 
-ScreenPositionAnimation::ScreenPositionAnimation(sf::Vector2f const& startPos, sf::Vector2f const& endPos)
-	:m_Clicked(false), m_OnAnimationFinished([]() {})
+ScreenPositionAnimation::ScreenPositionAnimation( sf::Vector2f const& startPos, sf::Vector2f const& endPos, float timeToStay ) 
+	:m_Clicked(false), m_OnAnimationFinished([]() {}), m_TimeToStay(timeToStay)
 {
 	auto midPos = startPos + (endPos - startPos) * 0.5f;
 	float halfAnimTime = ConfigManager::GetFloat("[GUI]fPositionAnimationTime") / 2;
@@ -21,15 +21,20 @@ void ScreenPositionAnimation::Update()
 {
 	Tween2* posTween;
 
-	if (m_EaseOutPosition.Done() && m_Clicked)
+	if (m_EaseOutPosition.Done())
 	{
-		m_EaseInPosition.Update(GameTime::DeltaTimeUnscaled());
+		m_TimeToStay -= GameTime::DeltaTimeUnscaled();
 
-		if (m_EaseInPosition.Done())
+		if (m_TimeToStay <= 0 || m_Clicked)
 		{
-			GameObject::Destroy(m_GameObject);
+			m_EaseInPosition.Update(GameTime::DeltaTimeUnscaled());
 
-			m_OnAnimationFinished();
+			if (m_EaseInPosition.Done())
+			{
+				GameObject::Destroy(m_GameObject);
+
+				m_OnAnimationFinished();
+			}
 		}
 		
 		posTween = &m_EaseInPosition;

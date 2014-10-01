@@ -9,7 +9,7 @@ class ScreenPositionAnimation
 	: public DynamicBehaviour
 {
 public:
-	ScreenPositionAnimation(sf::Vector2f const& startPos, sf::Vector2f const& endPos);
+	ScreenPositionAnimation(sf::Vector2f const& startPos, sf::Vector2f const& endPos, float timeToStay);
 
 	void SetOnAnimationFinishedAction(std::function<void()> action);
 
@@ -19,6 +19,8 @@ public:
 
 private:
 	bool m_Clicked;
+
+	float m_TimeToStay;
 	
 	Tween2 m_EaseOutPosition;
 	Tween2 m_EaseInPosition;
