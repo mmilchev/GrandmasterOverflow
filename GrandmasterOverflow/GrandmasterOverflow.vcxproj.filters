@@ -63,9 +63,6 @@
     <ClInclude Include="pugixml.hpp">
       <Filter>Header\XmlLib</Filter>
     </ClInclude>
-    <ClInclude Include="CameraControl.h">
-      <Filter>Header\Behaviors</Filter>
-    </ClInclude>
     <ClInclude Include="FlowTile.h">
       <Filter>Header\Entities</Filter>
     </ClInclude>
@@ -91,6 +88,9 @@
       <Filter>Header\Behaviors</Filter>
     </ClInclude>
     <ClInclude Include="TimeControl.h">
+      <Filter>Header\Behaviors</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraControl.h">
       <Filter>Header\Behaviors</Filter>
     </ClInclude>
   </ItemGroup>
@@ -125,9 +125,6 @@
     <ClCompile Include="pugixml.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="CameraControl.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="FlowTile.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -150,6 +147,9 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="TimeControl.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraControl.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>

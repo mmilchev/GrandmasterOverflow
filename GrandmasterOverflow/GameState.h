@@ -5,7 +5,6 @@
 #include "FlowTile.h"
 
 #include <DynamicBehaviour.h>
-#include <sigslot.h>
 #include <vector>
 
 

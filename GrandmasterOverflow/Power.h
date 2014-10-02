@@ -3,7 +3,6 @@
 
 #include <SFML/Window.hpp>
 #include <DynamicBehaviour.h>
-#include <sigslot.h>
 #include <Tween.h>
 
 class Power

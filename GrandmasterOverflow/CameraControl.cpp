@@ -20,19 +20,6 @@ void CameraControl::Start()
 
 void CameraControl::Update()
 {
-	float speed = ConfigManager::GetFloat("[Camera]fCameraMoveSpeed");
-	sf::Vector2f dir = sf::Vector2f(0, 0);
-	if (Input::GetKey(sf::Keyboard::W))
-		dir.y += -1;
-	if (Input::GetKey(sf::Keyboard::S))
-		dir.y += 1;
-	if (Input::GetKey(sf::Keyboard::A))
-		dir.x += -1;
-	if (Input::GetKey(sf::Keyboard::D))
-		dir.x += 1;
-
-	m_GameObject->Transform()->Translate(dir * speed * GameTime::DeltaTime());
-
 	if (Input::GetKeyDown(sf::Keyboard::Z))
 		m_Camera->Zoom(0.9f);
 	else if (Input::GetKeyDown(sf::Keyboard::X))

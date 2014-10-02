@@ -30,7 +30,7 @@
 #include <TextRenderer.h>
 #include <Application.h>
 #include <BoxInteractionComponent.h>
-#include <sigslot.h>
+#include <algorithm>
 
 namespace prefabs
 {
@@ -564,7 +564,7 @@ namespace prefabs
 		else if (percentComplete < 100)
 			label += "Too hard?";
 		else
-			label += "Not too bad";
+			label += "Dusted!";
 		label += "\nOverflow:" + std::to_string(percentComplete) + "%";
 
 		return CreateMessageAnimation(label, [percentComplete]() {
@@ -592,18 +592,22 @@ namespace prefabs
 		text->SetAlignment(TextRenderer::TextAlign::Center);
 
 		auto localTextRect = text->Text().getLocalBounds();
-		sf::Vector2f bgSize = sf::Vector2f(max(MESSAGE_BORDER + localTextRect.width, MIN_MESSAGE_LABEL.x),
-										max(MESSAGE_BORDER + localTextRect.height, MIN_MESSAGE_LABEL.y));
+		sf::Vector2f bgSize = sf::Vector2f(std::max(MESSAGE_BORDER + localTextRect.width, MIN_MESSAGE_LABEL.x),
+										std::max(MESSAGE_BORDER + localTextRect.height, MIN_MESSAGE_LABEL.y));
 
 		auto bgRenderer = new SpriteRenderer("messageBg.png");
 		bgRenderer->SetSpriteSize(bgSize);
 		gObject->AddComponent(bgRenderer);
 
+		//Text over the background
+		bgRenderer->SetOrder(1);
+		text->SetOrder(2);
+
 		gObject->AddComponent(text);
 
 
 		auto wSize = ToVecf(Application::GetWindow().getSize());
-		auto time = max(message.length() * ConfigManager::GetFloat("[GUI]fPositionAnimationStayLengthCoef"),
+		auto time = std::max(message.length() * ConfigManager::GetFloat("[GUI]fPositionAnimationStayLengthCoef"),
 			ConfigManager::GetFloat("[GUI]fPositionAnimationMinStay"));
 		auto animation = new ScreenPositionAnimation(sf::Vector2f(-wSize.x, 0), sf::Vector2f(wSize.x, 0), time);
 		animation->SetOnAnimationFinishedAction(msgEndPred);
