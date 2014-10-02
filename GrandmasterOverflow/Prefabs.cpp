@@ -200,6 +200,8 @@ namespace prefabs
 		renderer->SetSpriteColor(sf::Color::Green);
 		gObject->AddComponent(renderer);
 
+		renderer->SetOrder(1);
+
 		gObject->AddComponent(new FlowTile(type, turns));
 
 		if (turns != -1)
@@ -210,6 +212,9 @@ namespace prefabs
 			text->Text().setString(std::to_string(turns));
 			text->Text().setCharacterSize(static_cast<unsigned int>(TILE_SIZE / 2));
 			text->SetAlignment(TextRenderer::TextAlign::Center);
+
+			//Place text over flow
+			text->SetOrder(2);
 
 			gObject->AddComponent(text);
 		}

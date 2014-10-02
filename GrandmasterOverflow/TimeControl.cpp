@@ -6,6 +6,7 @@
 #include "LevelManager.h"
 
 #include <GameObject.h>
+#include <Application.h>
 
 void TimeControl::Awake()
 {
@@ -19,7 +20,11 @@ void TimeControl::Awake()
 
 void TimeControl::Update()
 {
-	if (Input::GetKeyDown(sf::Keyboard::Space))
+	if (Input::GetKeyDown(sf::Keyboard::Escape))
+	{
+		Application::Close();
+	}
+	else if (Input::GetKeyDown(sf::Keyboard::Space))
 	{
 		if (GameTime::GetScale() < 0.1)
 			m_NormalSpeedButton->TriggerButton();

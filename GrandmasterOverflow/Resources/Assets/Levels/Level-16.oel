@@ -9,6 +9,6 @@
     <tile x="3" y="5" id="0" />
   </Tiles>
   <Entities>
-    <Flow id="0" x="192" y="192" Type="0" Turns="10" />
+    <Flow id="0" x="192" y="192" Turns="10" />
   </Entities>
 </level>

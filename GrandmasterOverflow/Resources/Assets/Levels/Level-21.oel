@@ -1,0 +1,18 @@
+<level width="768" height="896" Single="0" SingleDestroy="1" OShape="0" TShape="0" IShapeSmall="0" IShapeBig="0" CornerSmall="1" CornerBig="0" Messages="">
+  <camera x="0" y="0" />
+  <Tiles tileset="Main" exportMode="XML">
+    <tile x="0" y="3" id="0" />
+    <tile x="1" y="1" id="0" />
+    <tile x="1" y="4" id="0" />
+    <tile x="3" y="2" id="0" />
+    <tile x="3" y="4" id="0" />
+    <tile x="4" y="2" id="0" />
+    <tile x="4" y="4" id="0" />
+    <tile x="5" y="2" id="0" />
+  </Tiles>
+  <Entities>
+    <Flow id="0" x="448" y="448" Turns="6" />
+    <Flow id="1" x="192" y="320" Turns="-1" />
+    <Flow id="2" x="448" y="192" Turns="-1" />
+  </Entities>
+</level>
