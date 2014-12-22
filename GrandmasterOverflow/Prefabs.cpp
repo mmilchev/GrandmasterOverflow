@@ -564,7 +564,7 @@ namespace prefabs
 		else if (percentComplete < 100)
 			label += "Too hard?";
 		else
-			label += "Dusted!";
+			label += "Done & Dusted!";
 		label += "\nOverflow:" + std::to_string(percentComplete) + "%";
 
 		return CreateMessageAnimation(label, [percentComplete]() {
