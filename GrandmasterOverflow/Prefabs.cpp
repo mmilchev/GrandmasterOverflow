@@ -556,19 +556,19 @@ namespace prefabs
 	{
 		std::string label = "";
 		if (percentComplete < 70)
-			label += "You failed!";
+			label += "Total failure!";
 		else if (percentComplete < 80)
-			label += "Barely made it.";
+			label += "Nope.";
 		else if (percentComplete < 90)
 			label += "Try harder.";
 		else if (percentComplete < 100)
 			label += "Too hard?";
 		else
-			label += "Dusted!";
+			label += "Done & Dusted!";
 		label += "\nOverflow:" + std::to_string(percentComplete) + "%";
 
 		return CreateMessageAnimation(label, [percentComplete]() {
-			if (percentComplete >= 70)
+			if (percentComplete >= 100)
 				LevelManager::LoadNextLevel();
 			else
 				LevelManager::ReloadCurrentLevel();
