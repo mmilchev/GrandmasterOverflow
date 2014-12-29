@@ -1,6 +1,8 @@
 #include "LevelManager.h"
 #include "Prefabs.h"
-#include "ConfigManager.h"
+
+#include <ConfigManager.h>
+#include <GameObject.h>
 
 int LevelManager::sCurrentLevelNum = 0;
 std::vector<int> LevelManager::sMessagesShown;
@@ -56,4 +58,9 @@ bool LevelManager::ShouldShowMessages()
 int LevelManager::GetCurrentLevelNum()
 {
 	return sCurrentLevelNum;
+}
+
+void LevelManager::InitBgMusic()
+{
+	GameObject::Instantiate(prefabs::CreateMusicController());
 }

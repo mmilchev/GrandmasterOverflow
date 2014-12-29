@@ -14,6 +14,7 @@
 #include "ScreenPositionAnimation.h"
 #include "TimeControl.h"
 #include "LevelManager.h"
+#include "BgEffectTile.h"
 
 #include <GameObject.h>
 #include <SpriteRenderer.h>
@@ -30,8 +31,9 @@
 #include <TextRenderer.h>
 #include <Application.h>
 #include <BoxInteractionComponent.h>
+#include <SoundComponent.h>
 #include <algorithm>
-#include "BgEffectTile.h"
+#include "MusicController.h"
 
 namespace prefabs
 {
@@ -68,6 +70,7 @@ namespace prefabs
 			gameStateObject->SetTag(TAG_GAME_STATE);
 			gameStateObject->SetName(NAME_GAME_STATE);
 			gameStateObject->AddComponent(new GameState());
+			gameStateObject->AddComponent(new SoundComponent());
 			gameStateObject->SetParent(gObject);
 		}
 		return gObject;
@@ -637,4 +640,15 @@ namespace prefabs
 
 		return gObject;
 	}
+
+	GameObject* CreateMusicController()
+	{
+		GameObject* gObject = new GameObject();
+		gObject->SetShouldDestroyOnSceneChange(false);
+
+		gObject->AddComponent(new MusicController());
+
+		return gObject;
+	}
+
 }

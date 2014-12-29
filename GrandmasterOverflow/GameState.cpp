@@ -15,6 +15,7 @@
 #include <SFML/Window.hpp>
 #include <SpriteRenderer.h>
 #include <Application.h>
+#include <SoundComponent.h>
 
 GameState::GameState()
 	:m_TurnNum(0), m_GameOver(false)
@@ -24,6 +25,8 @@ GameState::GameState()
 void GameState::Start()
 {
 	m_Board = GameObject::FindByTag(TAG_GAME_BOARD)->GetComponent<BoardMap>();
+	m_SoundComp = m_GameObject->GetComponent<SoundComponent>();
+	m_SoundComp->LoadSound("Laser Fire.ogg");
 
 	SetTurnTime(ConfigManager::GetFloat("[Gameplay]fTurnTime"));
 }
@@ -68,6 +71,8 @@ void GameState::Update()
 			m_FlowTiles.ProcessQueued();
 
 			m_TypesMovedThisTurn.clear();
+
+			m_SoundComp->Play();
 		}
 	}
 }

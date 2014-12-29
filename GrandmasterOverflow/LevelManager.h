@@ -18,6 +18,7 @@ public:
 
 	static int GetCurrentLevelNum();
 
+	static void InitBgMusic();
 private:
 	static int sCurrentLevelNum;
 	static std::vector<int> sMessagesShown;

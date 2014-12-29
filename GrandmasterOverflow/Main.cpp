@@ -36,6 +36,7 @@ int main()
 
 	//Load game objects in scene
 	LevelManager::LoadLevel(ConfigManager::GetInt("[Level Progression]iStartLevel"));
+	LevelManager::InitBgMusic();
 
 	//Run game loop
 	application.Run();

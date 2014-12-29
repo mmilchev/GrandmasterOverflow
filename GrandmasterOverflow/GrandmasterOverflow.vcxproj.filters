@@ -96,6 +96,9 @@
     <ClInclude Include="BgEffectTile.h">
       <Filter>Header\Behaviors</Filter>
     </ClInclude>
+    <ClInclude Include="MusicController.h">
+      <Filter>Header\Behaviors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -156,6 +159,9 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="BgEffectTile.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MusicController.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>

@@ -12,6 +12,7 @@ class SidebarBahaviour;
 class ITurnClient;
 class TargetPower;
 class BoardMap;
+class SoundComponent;
 
 class GameState
 	: public DynamicBehaviour
@@ -45,6 +46,7 @@ private:
 	std::vector<FlowTile::FlowTileType> m_TypesMovedThisTurn;
 
 	BoardMap* m_Board;
+	SoundComponent* m_SoundComp;
 
 	QueuedVector<FlowTile*> m_FlowTiles;
 	std::vector<TargetPower*> m_TargetPowers;
