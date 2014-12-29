@@ -31,6 +31,7 @@
 #include <Application.h>
 #include <BoxInteractionComponent.h>
 #include <algorithm>
+#include "BgEffectTile.h"
 
 namespace prefabs
 {
@@ -224,6 +225,25 @@ namespace prefabs
 		return gObject;
 
 	}
+
+	GameObject* CreateBgEffectTile(sf::Vector2f const& pos, sf::Vector2i const& dir, sf::Color const& color, int power, float branchChance)
+{
+		GameObject* gObject = new GameObject();
+		gObject->SetLayer(Layer::Game);
+
+		auto renderer = new SpriteRenderer("solidGridTile.png");
+		renderer->SetSpriteColor(color);
+		gObject->AddComponent(renderer);
+
+		renderer->SetOrder(-200);
+
+		gObject->AddComponent(new BgEffectTile(dir, power, branchChance));
+
+		gObject->Transform()->SetPosition(pos);
+
+		return gObject;
+	}
+
 
 	GameObject* CreateTileDestroyer(sf::Vector2f const& pos)
 	{
@@ -617,5 +637,4 @@ namespace prefabs
 
 		return gObject;
 	}
-
 }

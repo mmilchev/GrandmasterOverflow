@@ -25,7 +25,8 @@ public:
 		Green,
 		Pink,
 		Gray,
-		LightBlue
+		LightBlue,
+		Count
 	};
 	FlowTile(FlowTileType type, int turns);
 
@@ -43,6 +44,8 @@ public:
 	inline FlowTileType GetTileType() const { return kType; }
 	inline void SetShouldScale(bool shouldScale) { m_ShoudScale = shouldScale; }
 
+	static const std::vector<sf::Vector2i> skSpreadDirections;
+	static std::map<FlowTileType, sf::Color> sTileColours;
 private:
 	void ResetTurns();
 	void Spread();
@@ -59,9 +62,6 @@ private:
 	bool m_ShoudScale;
 
 	Tween2 m_ScaleTween;
-
-	static std::map<FlowTileType, sf::Color> sTileColours;
-	static const std::vector<sf::Vector2i> skSpreadDirections;
 };
 
 #endif

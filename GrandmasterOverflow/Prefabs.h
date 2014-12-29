@@ -36,6 +36,8 @@ namespace prefabs
 
 	GameObject* CreateTileDestroyer(sf::Vector2f const & pos);
 
+	GameObject* CreateBgEffectTile(sf::Vector2f const& pos, sf::Vector2i const& dir, sf::Color const& color, int power, float branchChance);
+
 	GameObject* CreateEmptyBoard(int width, int height);
 	void		LoadLevel(std::string const& name);
 }

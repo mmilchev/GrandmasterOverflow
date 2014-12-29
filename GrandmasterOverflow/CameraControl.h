@@ -12,8 +12,12 @@ public:
 	void Start() override;
 
 	void Update() override;
+
 private:
+	void SetSpawnTimer();
+
 	CameraComponent* m_Camera;
+	float m_BgEffectSpawnTimer;
 };
 
 #endif

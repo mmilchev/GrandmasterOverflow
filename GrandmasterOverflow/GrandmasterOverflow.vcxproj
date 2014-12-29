@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BgEffectTile.cpp" />
     <ClCompile Include="BoardMap.cpp" />
     <ClCompile Include="ButtonBehaviour.cpp" />
     <ClCompile Include="CameraControl.cpp" />
@@ -32,6 +33,7 @@
     <ClCompile Include="TimeControl.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BgEffectTile.h" />
     <ClInclude Include="BoardMap.h" />
     <ClInclude Include="ButtonBehaviour.h" />
     <ClInclude Include="CameraControl.h" />
