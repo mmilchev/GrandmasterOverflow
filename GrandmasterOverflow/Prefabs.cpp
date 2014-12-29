@@ -234,7 +234,7 @@ namespace prefabs
 		GameObject* gObject = new GameObject();
 		gObject->SetLayer(Layer::Game);
 
-		auto renderer = new SpriteRenderer("solidGridTile.png");
+		auto renderer = new SpriteRenderer("bgSolidTile.png");
 		renderer->SetSpriteColor(color);
 		gObject->AddComponent(renderer);
 
