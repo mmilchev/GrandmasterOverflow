@@ -166,7 +166,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Resources\Configs\MainConfig.ini">
+    <Text Include="Resources\Configs\Settings.ini">
+      <Filter>Configs</Filter>
+    </Text>
+    <Text Include="Resources\Configs\Advanced.ini">
       <Filter>Configs</Filter>
     </Text>
   </ItemGroup>

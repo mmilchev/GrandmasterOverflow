@@ -5,7 +5,8 @@
 
 void LoadConfigs()
 {
-	ConfigManager::LoadFile("MainConfig.ini");
+	ConfigManager::LoadFile("Settings.ini");
+	ConfigManager::LoadFile("Advanced.ini");
 }
 
 int main()

@@ -32,7 +32,7 @@ void CameraControl::Update()
 		m_Camera->Zoom(1.1f);
 
 	m_BgEffectSpawnTimer -= GameTime::DeltaTimeUnscaled();
-	if (m_BgEffectSpawnTimer <= 0)
+	if (m_BgEffectSpawnTimer <= 0 && ConfigManager::GetBool("[Bg Effect]bEnabled"))
 	{
 		auto& dir = FlowTile::skSpreadDirections[RandInt(0, FlowTile::skSpreadDirections.size())];
 		auto wSize = static_cast<sf::Vector2f>(Application::GetWindow().getSize());
