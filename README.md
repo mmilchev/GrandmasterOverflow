@@ -28,7 +28,7 @@ Open the GrandmasterOverflow.exe file. You can change some settings from the Mai
   
 Gameplay instructions:
 ---------------------
-The game has a build-in tutorial. I recommend jumping straight into the game, rather than continue reading here. Nevertheless, I will explain what the game is about and how to play it here.  
+The game has a build-in tutorial. I recommend jumping straight into the game, rather than reading the instructions below. Nevertheless, I will explain what the game is about and how to play it here.  
 
-Grandmaster Overflow is a puzzle game, in which you need to fill the board with tiles as much as you can. Mainly, that happens through navigating the path of 'flows'. A 'flow' is a tile, which spreads in 4 direction every turn and will destroy itself when there isn't anywhere to go. Furthermore, if 2 or more 'flows' meet, they will self destruct as well. You can place and remove blocks to control 'flow' movement. There are currently 23 levels to explore.  
+Grandmaster Overflow is a puzzle game, in which you need to fill the board with tiles as much as you can. Mainly, that happens through navigating the path of 'flows'. A 'flow' is a tile, which spreads in 4 direction every turn and will destroy itself when there isn't anywhere to go. Furthermore, if 2 or more 'flows' meet, they will self destruct as well. You can place and remove blocks to control the 'flow' movement. Currently, there are 23 levels to explore.  
 
