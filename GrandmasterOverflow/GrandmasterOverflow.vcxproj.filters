@@ -172,5 +172,8 @@
     <Text Include="Resources\Configs\Advanced.ini">
       <Filter>Configs</Filter>
     </Text>
+    <Text Include="Resources\Configs\Readme.txt">
+      <Filter>Configs</Filter>
+    </Text>
   </ItemGroup>
 </Project>

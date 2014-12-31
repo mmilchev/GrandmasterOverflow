@@ -1,1 +1,3 @@
 To create (or edit) a level you need to download and install the Ogmo editor from here: http://www.ogmoeditor.com/. Once this is done, open the OgmoProject using the editor. Next, you will need to open a level. I recommend starting from Level-1.oel. To add solid (white) blocks use the "Tiles" layer with the white tile selected. To add or edit flows, use the "Entities" layer. You need to also open the "Level Properties" menu from the "Level" tab to specify the size and available tools for the level. Keep in mind that each tile is 128x128 and you will need to calculate exactly how big the level should be depending on the number of tiles.
+
+To change the maximum level to something else than 23, look inside the "Advanced.ini" config file for the iNumLevels property.
