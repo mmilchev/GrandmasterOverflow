@@ -1,4 +1,4 @@
-<level width="768" height="1280" Single="0" SingleDestroy="0" OShape="1" TShape="0" IShapeSmall="0" IShapeBig="0" CornerSmall="0" CornerBig="1" Messages="">
+<level width="768" height="1280" Single="0" SingleDestroy="0" OShape="0" TShape="0" IShapeSmall="0" IShapeBig="0" CornerSmall="1" CornerBig="1" Messages="Final level!">
   <camera x="0" y="0" />
   <Tiles tileset="Main" exportMode="XML">
     <tile x="0" y="4" id="0" />

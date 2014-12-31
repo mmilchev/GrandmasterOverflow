@@ -1,19 +1,17 @@
 <level width="1152" height="768" Single="0" SingleDestroy="0" OShape="0" TShape="0" IShapeSmall="1" IShapeBig="0" CornerSmall="0" CornerBig="0" Messages="Shapes can be rotated.&#xD;&#xA;Once selected, use the&#xD;&#xA;right mouse button to&#xD;&#xA;    rotate a shape.">
   <camera x="0" y="0" />
   <Tiles tileset="Main" exportMode="XML">
-    <tile x="1" y="4" id="0" />
-    <tile x="1" y="5" id="0" />
     <tile x="2" y="0" id="0" />
     <tile x="2" y="1" id="0" />
     <tile x="2" y="4" id="0" />
     <tile x="3" y="1" id="0" />
+    <tile x="3" y="5" id="0" />
     <tile x="4" y="5" id="0" />
     <tile x="5" y="1" id="0" />
+    <tile x="5" y="5" id="0" />
     <tile x="6" y="0" id="0" />
     <tile x="6" y="1" id="0" />
     <tile x="6" y="4" id="0" />
-    <tile x="7" y="4" id="0" />
-    <tile x="7" y="5" id="0" />
   </Tiles>
   <Entities>
     <Flow id="0" x="320" y="704" Turns="-1" />

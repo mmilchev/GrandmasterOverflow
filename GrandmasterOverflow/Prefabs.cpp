@@ -296,7 +296,7 @@ namespace prefabs
 				CreateMessageChain(msgs, current + 1);
 			else
 				LevelManager::SignalMessagesViewed();
-		});
+		}, /* maxWaitTime= */true);
 
 		GameObject::Instantiate(msg);
 	}
@@ -361,6 +361,7 @@ namespace prefabs
 		auto grid = prefabs::CreateEmptyBoard(lWidth, lHeight);
 		auto board = grid->GetComponent<BoardMap>();
 
+		//Populate the board with solid tiles
 		auto tilesXML = levelNode.child("Tiles");
 		for (auto& tileXML : tilesXML)
 		{
@@ -372,9 +373,6 @@ namespace prefabs
 			if (id == 0)
 			{
 				board->CreateSolidTile(sf::Vector2i(x, y));
-			}
-			else if (id <= 9)
-			{
 			}
 		}
 
@@ -410,20 +408,23 @@ namespace prefabs
 		{
 			//Setup level messages
 			auto messagesRaw = std::string(levelNode.attribute("Messages").as_string());
-			std::vector<std::string> messages =
-			{
-				"Level " + std::to_string(LevelManager::GetCurrentLevelNum())
-			};
-
+			
+			auto levelMsg = "Level " + std::to_string(LevelManager::GetCurrentLevelNum());
+			std::function<void()> pred = [](){};
 			if (messagesRaw.length() > 0)
 			{
+				std::vector<std::string> messages;
 				auto messagesBunched = ReplaceAll(messagesRaw, "\r\n", "\n");
 
 				std::vector<std::string> messagesSplit;
 				SplitString(messagesBunched, "\n;\n", messagesSplit);
 				messages.insert(messages.end(), messagesSplit.begin(), messagesSplit.end());
+				pred = [messages](){
+					CreateMessageChain(messages, 0);
+				};
 			}
-			CreateMessageChain(messages, 0);
+
+			GameObject::Instantiate(CreateMessageAnimation(levelMsg, pred));
 		}
 
 		Application::OnNewLevelLoaded();
@@ -598,8 +599,8 @@ namespace prefabs
 		});
 	}
 
-	GameObject* CreateMessageAnimation(std::string const& message, std::function<void()> msgEndPred)
-	{
+	GameObject* CreateMessageAnimation(std::string const& message, std::function<void()> msgEndPred, bool maxWaitTime)
+{
 		GameObject* gObject = new GameObject();
 		gObject->SetLayer(Layer::GUI);
 
@@ -630,8 +631,9 @@ namespace prefabs
 
 
 		auto wSize = ToVecf(Application::GetWindow().getSize());
-		auto time = std::max(message.length() * ConfigManager::GetFloat("[GUI]fPositionAnimationStayLengthCoef"),
-			ConfigManager::GetFloat("[GUI]fPositionAnimationMinStay"));
+		auto time = maxWaitTime ? ConfigManager::GetFloat("[GUI]fPositionAnimationMaxWaitTime") : 
+			(std::max(message.length() * ConfigManager::GetFloat("[GUI]fPositionAnimationStayLengthCoef"),
+			ConfigManager::GetFloat("[GUI]fPositionAnimationMinStay")));
 		auto animation = new ScreenPositionAnimation(sf::Vector2f(-wSize.x, 0), sf::Vector2f(wSize.x, 0), time);
 		animation->SetOnAnimationFinishedAction(msgEndPred);
 		gObject->AddComponent(animation);

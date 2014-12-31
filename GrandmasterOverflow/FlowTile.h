@@ -58,7 +58,7 @@ private:
 	int m_SpreadTurnsLeft;
 
 	int	m_TurnsLeft;
-	bool m_ShouldSpread;
+	int m_TrunsAlive;
 	bool m_ShoudScale;
 
 	Tween2 m_ScaleTween;

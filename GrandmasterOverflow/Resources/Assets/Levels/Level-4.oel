@@ -1,4 +1,4 @@
-<level width="1024" height="640" Single="0" SingleDestroy="1" OShape="1" TShape="0" IShapeSmall="0" IShapeBig="0" CornerSmall="0" CornerBig="0" Messages="You can go back and &#xD;&#xA;forth between levels &#xD;&#xA;with the first two &#xD;&#xA;buttons in the menu">
+<level width="1024" height="640" Single="0" SingleDestroy="1" OShape="1" TShape="0" IShapeSmall="0" IShapeBig="0" CornerSmall="0" CornerBig="0" Messages="You can go back and &#xD;&#xA;forth between levels &#xD;&#xA;with the first two &#xD;&#xA;buttons in the time panel">
   <camera x="0" y="0" />
   <Tiles tileset="Main" exportMode="XML">
     <tile x="0" y="2" id="0" />

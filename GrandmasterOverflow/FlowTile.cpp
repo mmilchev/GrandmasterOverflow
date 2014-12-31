@@ -31,8 +31,8 @@ std::vector<sf::Vector2i> const FlowTile::skSpreadDirections = {
 	sf::Vector2i(0, -1)
 };
 
-FlowTile::FlowTile(FlowTileType type, int turns) : kType(type), m_ShouldSpread(true),
-m_GameState(nullptr), m_Board(nullptr), m_SpreadTurnsLeft(turns), m_ShoudScale(true)
+FlowTile::FlowTile(FlowTileType type, int turns) : kType(type), m_GameState(nullptr), 
+	m_Board(nullptr), m_SpreadTurnsLeft(turns), m_ShoudScale(true), m_TrunsAlive(0)
 {
 }
 
@@ -76,11 +76,11 @@ void FlowTile::Update()
 void FlowTile::OnTurnTime()
 {
 	m_TurnsLeft--;
-	if (m_ShouldSpread && m_TurnsLeft <= 0)
+	if (m_TurnsLeft <= 0)
 	{
 		Spread();
 		ResetTurns();
-		m_ShouldSpread = true;
+		m_TrunsAlive++;
 	}
 }
 
@@ -113,7 +113,7 @@ void FlowTile::Spread()
 			{
 				auto gObject = prefabs::CreateFlow(m_Board->GetWorldPos(pos), kType, -1);
 				GameObject::Instantiate(gObject);
-				m_Board->SetOccupation(gObject->GetComponent<FlowTile>(), pos);
+				//m_Board->SetOccupation(gObject->GetComponent<FlowTile>(), pos);
 				m_GameState->ReportTileActivity(this);
 			}
 		}
