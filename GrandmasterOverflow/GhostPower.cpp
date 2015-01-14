@@ -20,13 +20,16 @@ void GhostPower::Awake()
 
 void GhostPower::Update()
 {
+	//Get the current board position
 	auto mPos = m_Origin + GameObject::FindByTag(TAG_GAME_CAMERA)->GetComponent<CameraComponent>()->ScreenToWorldSpace(Input::GetMousePos());
 	auto boardPos = m_Board->GetGridPos(mPos);
 
 	if (m_Board->IsInBounds(boardPos))
 	{
+		//Move the ghost object to the current mouse position (if it's inside the board)
 		m_GameObject->Transform()->SetPosition(-m_Origin + m_Board->GetWorldPos(boardPos));
 
+		//Place the object if the left mouse button is pressed and if the board allows it
 		if (Input::GetButtonDown(sf::Mouse::Button::Left) &&
 			m_Power->CanBePlaced(boardPos))
 		{
@@ -34,6 +37,7 @@ void GhostPower::Update()
 		}
 	}
 
+	//Rotating the ghost object
 	if (Input::GetKeyDown(sf::Keyboard::Q)
 		|| Input::GetButtonDown(sf::Mouse::Button::Right))
 	{

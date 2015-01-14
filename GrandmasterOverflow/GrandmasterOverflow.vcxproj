@@ -17,7 +17,6 @@
     <ClCompile Include="CameraControl.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="GhostPower.cpp" />
-    <ClCompile Include="GlobalPower.cpp" />
     <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="MusicController.cpp" />
     <ClCompile Include="ScreenPositionAnimation.cpp" />
@@ -40,7 +39,6 @@
     <ClInclude Include="CameraControl.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GhostPower.h" />
-    <ClInclude Include="GlobalPower.h" />
     <ClInclude Include="ITurnClient.h" />
     <ClInclude Include="LevelManager.h" />
     <ClInclude Include="MusicController.h" />

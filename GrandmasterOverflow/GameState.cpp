@@ -18,7 +18,7 @@
 #include <SoundComponent.h>
 
 GameState::GameState()
-	:m_TurnNum(0), m_GameOver(false)
+:m_TurnNum(0), m_GameOver(false)
 {
 }
 
@@ -26,7 +26,8 @@ void GameState::Start()
 {
 	m_Board = GameObject::FindByTag(TAG_GAME_BOARD)->GetComponent<BoardMap>();
 	m_SoundComp = m_GameObject->GetComponent<SoundComponent>();
-	m_SoundComp->LoadSound("Laser Fire.ogg");
+
+	m_SoundComp->GetSound().setVolume(ConfigManager::GetFloat("[Audio]fSoundEffectsVolume"));
 
 	SetTurnTime(ConfigManager::GetFloat("[Gameplay]fTurnTime"));
 }
@@ -42,37 +43,52 @@ void GameState::Update()
 		m_TurnNum++;
 		m_TimeToNextTurn += m_TurnTime;
 
+		//Remove/Add any pending tiles
 		m_FlowTiles.ProcessQueued();
 
+		//Check for tile collisions and solidify the flows
 		CheckAndSolidifyTiles();
+
+		//Go through each tile and execute the logic of the turn
 		ExecuteTurn();
 
-		if (m_TurnNum % ConfigManager::GetInt("[Flow Gameplay]iSpreadTurnTime") == 0)
+		//If the tiles should spread on this turn
+		int spreadPerTurns = ConfigManager::GetInt("[Flow Gameplay]iSpreadTurnTime");
+		int logicTurns = m_TurnNum / spreadPerTurns;
+		if (m_TurnNum % spreadPerTurns == 0)
 		{
 			std::vector<FlowTile::FlowTileType> types;
 			GetTileTypes(types);
 
+			//Check for remaining tile groups
 			if (types.size() == 0)
 			{
+				//Game over if none left
 				TriggerGameOver();
 				return;
 			}
 
+			//Find the difference of what has moved this turn and any tiles currently remaining
 			std::sort(types.begin(), types.end());
 			std::sort(m_TypesMovedThisTurn.begin(), m_TypesMovedThisTurn.end());
 
 			std::vector<FlowTile::FlowTileType> diff;
 			std::set_difference(types.begin(), types.end(), m_TypesMovedThisTurn.begin(), m_TypesMovedThisTurn.end(), std::back_inserter(diff));
 
+			//Solidify the difference (That means that a certain tile group cannot move any more)
 			for (unsigned int i = 0; i < diff.size(); i++)
 			{
 				SolidifyTileType(diff[i]);
 			}
+
+			//Remove any tiles from the vector
 			m_FlowTiles.ProcessQueued();
 
 			m_TypesMovedThisTurn.clear();
 
-			m_SoundComp->Play();
+			//Every note can be played multiple times
+			int sample = std::min((logicTurns + 1) / ConfigManager::GetInt("[Audio]iPlaySameTurnSampleTimes"), ConfigManager::GetInt("[Audio]iMaxTurnSamples"));
+			GameObject::Instantiate(prefabs::CreateNoteSample(sample));
 		}
 	}
 }
@@ -122,7 +138,9 @@ void GameState::SolidifyTileType(FlowTile::FlowTileType type)
 
 void GameState::TriggerGameOver()
 {
-	GameObject::Instantiate(prefabs::CreateLevelCompleteAnimation(static_cast<int>(m_Board->GetPercentFilled())));
+	auto filled_prc = static_cast<int>(m_Board->GetPercentFilled());
+	GameObject::Instantiate(prefabs::CreateLevelCompleteAnimation(filled_prc));
+	m_SoundComp->PlayOneShot(filled_prc == 100 ? "success.ogg" : "failure.ogg");
 	m_GameOver = true;
 }
 

@@ -78,6 +78,7 @@ void FlowTile::OnTurnTime()
 	m_TurnsLeft--;
 	if (m_TurnsLeft <= 0)
 	{
+		//Try to spread in 4 directions
 		Spread();
 		ResetTurns();
 		m_TrunsAlive++;
@@ -109,11 +110,13 @@ void FlowTile::Spread()
 		auto state = m_Board->GetTileState(pos);
 		if (state != nullptr)
 		{
+			//Only spread if the tile is passible
 			if (state->IsPassable() && !state->Occupied())
 			{
 				auto gObject = prefabs::CreateFlow(m_Board->GetWorldPos(pos), kType, -1);
 				GameObject::Instantiate(gObject);
-				//m_Board->SetOccupation(gObject->GetComponent<FlowTile>(), pos);
+
+				//Report to the game state that this flow group has moved this turn
 				m_GameState->ReportTileActivity(this);
 			}
 		}
@@ -121,6 +124,8 @@ void FlowTile::Spread()
 
 	if (m_SpreadTurnsLeft > 0)
 		m_SpreadTurnsLeft--;
+
+	//When m_SpreadTurnsLeft is different than -1, the flow has a limited spread
 	if (m_SpreadTurnsLeft != -1)
 	{
 		m_GameObject->GetComponent<TextRenderer>()->Text().setString(std::to_string(m_SpreadTurnsLeft));

@@ -72,9 +72,6 @@
     <ClInclude Include="TileDestroyer.h">
       <Filter>Header\Behaviors</Filter>
     </ClInclude>
-    <ClInclude Include="GlobalPower.h">
-      <Filter>Header\GUI\Powers</Filter>
-    </ClInclude>
     <ClInclude Include="ButtonBehaviour.h">
       <Filter>Header\GUI</Filter>
     </ClInclude>
@@ -135,9 +132,6 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="TileDestroyer.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="GlobalPower.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="ButtonBehaviour.cpp">

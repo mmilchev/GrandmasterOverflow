@@ -39,6 +39,7 @@ namespace prefabs
 	GameObject* CreateBgEffectTile(sf::Vector2f const& pos, sf::Vector2i const& dir, sf::Color const& color, int power, float branchChance);
 	
 	GameObject* CreateMusicController();
+	GameObject* CreateNoteSample(int note);
 
 	GameObject* CreateEmptyBoard(int width, int height);
 	void		LoadLevel(std::string const& name);

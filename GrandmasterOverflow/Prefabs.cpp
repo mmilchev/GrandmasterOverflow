@@ -15,6 +15,7 @@
 #include "TimeControl.h"
 #include "LevelManager.h"
 #include "BgEffectTile.h"
+#include "MusicController.h"
 
 #include <GameObject.h>
 #include <SpriteRenderer.h>
@@ -32,8 +33,8 @@
 #include <Application.h>
 #include <BoxInteractionComponent.h>
 #include <SoundComponent.h>
+#include <DestroyOnSoundEnd.h>
 #include <algorithm>
-#include "MusicController.h"
 
 namespace prefabs
 {
@@ -649,6 +650,19 @@ namespace prefabs
 		gObject->SetShouldDestroyOnSceneChange(false);
 
 		gObject->AddComponent(new MusicController());
+
+		return gObject;
+	}
+
+	GameObject* CreateNoteSample(int note)
+	{
+		GameObject* gObject = new GameObject();
+
+		auto soundComponent = new SoundComponent();
+		soundComponent->PlayOneShot("note" + std::to_string(note) + ".ogg");
+		soundComponent->GetSound().setVolume(ConfigManager::GetFloat("[Audio]fSoundEffectsVolume"));
+		gObject->AddComponent(soundComponent);
+		gObject->AddComponent(new DestroyOnSoundEnd());
 
 		return gObject;
 	}
