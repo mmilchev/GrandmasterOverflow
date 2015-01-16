@@ -42,6 +42,7 @@
     <ClInclude Include="ITurnClient.h" />
     <ClInclude Include="LevelManager.h" />
     <ClInclude Include="MusicController.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="ScreenPositionAnimation.h" />
     <ClInclude Include="ScreenScaleAnimation.h" />
     <ClInclude Include="PlaceTilePower.h" />
@@ -85,6 +86,12 @@
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
       <FileType>Document</FileType>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GrandmasterOverflow.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C8F72A62-2CE2-49B4-97BA-B6FD1C17B5FD}</ProjectGuid>
@@ -163,7 +170,7 @@ xcopy "$(ProjectDir)Resources\Configs\*" "$(TargetDir)" /s /i /d /y
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>

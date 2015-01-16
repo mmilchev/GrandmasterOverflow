@@ -96,6 +96,7 @@
     <ClInclude Include="MusicController.h">
       <Filter>Header\Behaviors</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -169,5 +170,11 @@
     <Text Include="Resources\Configs\Readme.txt">
       <Filter>Configs</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GrandmasterOverflow.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
   </ItemGroup>
 </Project>

@@ -23,7 +23,7 @@ int main()
 	{
 		//Get desktop resolution
 		mode = sf::VideoMode().getDesktopMode();
-		style = sf::Style::None;
+		style = sf::Style::Fullscreen;
 	}
 	else
 	{
