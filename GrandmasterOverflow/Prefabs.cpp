@@ -231,7 +231,7 @@ namespace prefabs
 	}
 
 	GameObject* CreateBgEffectTile(sf::Vector2f const& pos, sf::Vector2i const& dir, sf::Color const& color, int power, float branchChance)
-{
+	{
 		GameObject* gObject = new GameObject();
 		gObject->SetLayer(Layer::Game);
 
@@ -409,7 +409,7 @@ namespace prefabs
 		{
 			//Setup level messages
 			auto messagesRaw = std::string(levelNode.attribute("Messages").as_string());
-			
+
 			auto levelMsg = "Level " + std::to_string(LevelManager::GetCurrentLevelNum());
 			std::function<void()> pred = [](){};
 			if (messagesRaw.length() > 0)
@@ -601,9 +601,14 @@ namespace prefabs
 	}
 
 	GameObject* CreateMessageAnimation(std::string const& message, std::function<void()> msgEndPred, bool maxWaitTime)
-{
+	{
 		GameObject* gObject = new GameObject();
 		gObject->SetLayer(Layer::GUI);
+		
+		//Add global mouse intersection
+// 		auto size = 2.f * static_cast<sf::Vector2f>(Application::GetWindow().getSize());
+// 		auto box = new BoxInteractionComponent(size.x, size.y);
+// 		gObject->AddComponent(box);
 
 		auto text = new TextRenderer();
 		text->SetShadowSize(3);
@@ -618,7 +623,7 @@ namespace prefabs
 
 		auto localTextRect = text->Text().getLocalBounds();
 		sf::Vector2f bgSize = sf::Vector2f(std::max(MESSAGE_BORDER + localTextRect.width, MIN_MESSAGE_LABEL.x),
-										std::max(MESSAGE_BORDER + localTextRect.height, MIN_MESSAGE_LABEL.y));
+			std::max(MESSAGE_BORDER + localTextRect.height, MIN_MESSAGE_LABEL.y));
 
 		auto bgRenderer = new SpriteRenderer("messageBg.png");
 		bgRenderer->SetSpriteSize(bgSize);
@@ -632,7 +637,7 @@ namespace prefabs
 
 
 		auto wSize = ToVecf(Application::GetWindow().getSize());
-		auto time = maxWaitTime ? ConfigManager::GetFloat("[GUI]fPositionAnimationMaxWaitTime") : 
+		auto time = maxWaitTime ? ConfigManager::GetFloat("[GUI]fPositionAnimationMaxWaitTime") :
 			(std::max(message.length() * ConfigManager::GetFloat("[GUI]fPositionAnimationStayLengthCoef"),
 			ConfigManager::GetFloat("[GUI]fPositionAnimationMinStay")));
 		auto animation = new ScreenPositionAnimation(sf::Vector2f(-wSize.x, 0), sf::Vector2f(wSize.x, 0), time);

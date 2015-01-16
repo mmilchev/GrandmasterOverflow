@@ -2,6 +2,7 @@
 #define TILE_DESTROYER_H
 
 #include <DynamicBehaviour.h>
+#include "Tween.h"
 
 class GameObject;
 
@@ -13,6 +14,7 @@ public:
 	void Update() override;
 
 private:
+	Tween m_ScaleTween;
 };
 
 #endif
